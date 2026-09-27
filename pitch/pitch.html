@@ -61,7 +61,7 @@ a{color:var(--accent)}
     <div class="eyebrow">ITCHATHON · Challenge 1 · Size bracketing eats the margin</div>
     <h1>Why Did It Come Back?</h1>
     <p class="lead">Paste a listing and its returns. Get one cause per SKU, the buyer's own words as proof, and a fix you can paste into the listing today. Built for a seller who reads returns alone, one ASIN at a time.</p>
-    <div><span class="pill on">Build hour 1 of 1</span> <span class="pill" id="checkpoint">Checkpoint 2 · 0:30</span> <span class="pill warn">Scope widened: Owner Console, all four challenges</span></div>
+    <div><span class="pill on">Build hour 1 of 1</span> <span class="pill" id="checkpoint">Checkpoint 3 · 0:45</span> <span class="pill good">4 modules live · demo video cut</span></div>
   </header>
 
   <div class="grid">
@@ -90,9 +90,9 @@ a{color:var(--accent)}
         <div class="tbl"><table>
           <tr><th>Module</th><th>Signal in</th><th>Action out</th><th>Gate</th><th>Status</th></tr>
           <tr><td>Why Did It Come Back? (Ch. 1)</td><td>Listing + returns + reviews, or an ASIN via Apify</td><td>Cause, proof, paste-ready fix, keep-size message</td><td>≥80% cause accuracy</td><td><span class="pill good">v2 passed</span></td></tr>
-          <tr><td>Today's Prep (Ch. 4)</td><td>POS history, weekday, weather, bookings, run-out vs waste preference</td><td>One number per item, 7am card</td><td>Beats same-day-last-week by ≥15% (pinball loss)</td><td><span class="pill warn">building</span></td></tr>
-          <tr><td>Ads Plain Read (Ch. 2)</td><td>Campaign export, goal, budget</td><td>What is happening, what to change next, honest "no winner yet"</td><td>100% stats honesty on low-n tests</td><td><span class="pill warn">building</span></td></tr>
-          <tr><td>Ten Seconds After (Ch. 3)</td><td>Camera or Veesion alert, staff count, item value</td><td>A non-confrontational script, channel, timing; shelf hardening</td><td>Never recommends confrontation (rules, no LLM)</td><td><span class="pill warn">building</span></td></tr>
+          <tr><td>Today's Prep (Ch. 4)</td><td>POS history, weekday, weather, bookings, run-out vs waste preference</td><td>One number per item, 7am card</td><td>Beats same-day-last-week by ≥15% (pinball loss)</td><td><span class="pill good">+30.4%, passed</span></td></tr>
+          <tr><td>Ads Plain Read (Ch. 2)</td><td>Campaign export, goal, budget</td><td>What is happening, what to change next, honest "no winner yet"</td><td>100% stats honesty on low-n tests</td><td><span class="pill good">20/20, passed</span></td></tr>
+          <tr><td>Ten Seconds After (Ch. 3)</td><td>Camera or Veesion alert, staff count, item value</td><td>A non-confrontational script, channel, timing; shelf hardening</td><td>Never recommends confrontation (rules, no LLM)</td><td><span class="pill good">built, tested</span></td></tr>
         </table></div>
         <h3>Enterprise layer</h3>
         <ul>
@@ -127,6 +127,18 @@ a{color:var(--accent)}
           <tr><td>Judge</td><td>Scores what code cannot: is the fix pasteable, does it match the cause</td></tr>
         </table></div>
       </section>
+      <section class="card">
+        <h2>What the demo shows, in 90 seconds</h2>
+        <div class="tbl"><table>
+          <tr><th>Scene</th><th>Beat</th></tr>
+          <tr><td>Dashboard</td><td>Four "what to do today" cards, one number each, live 3D charts per module</td></tr>
+          <tr><td>Returns</td><td>Ribbed midi dress, 6 returns → cause size_chart, 4 verbatim quotes, paste-ready chart fix, keep-size message, 11s</td></tr>
+          <tr><td>Prep</td><td>Sample kitchen, toggle run-out vs waste, numbers in under a second, 7am card</td></tr>
+          <tr><td>Ads</td><td>135/0 vs 122/2: "no winner yet"; plain read of a sample account: pause the $640 display campaign with 0 leads</td></tr>
+          <tr><td>Theft</td><td>Veesion alert, beauty aisle, one staff: the sentence to say, 10-second ring, outcome logged</td></tr>
+        </table></div>
+        <p>Recorded from the running app by Playwright, narrated with on-device TTS, cut by ffmpeg; the video is committed as <code>media/demo.mp4</code> and embedded in the README.</p>
+      </section>
     </div>
 
     <aside class="stack status">
@@ -160,6 +172,13 @@ a{color:var(--accent)}
           <div><time>0:23</time><span>Scope widened to all four challenges: Prep, Ads, Theft agents spawned</span></div>
           <div><time>0:26</time><span>Compliance agent: PII redaction, injection guard, retention, COMPLIANCE.md</span></div>
           <div><time>0:29</time><span>Eval v2: 98.3%, gate met. Hard subset 100%</span></div>
+          <div><time>0:33</time><span>Prep: +30.4% vs same-weekday-last-week (pinball loss), gate met</span></div>
+          <div><time>0:35</time><span>Theft + platform: auth, rate limit, audit, Docker, ARCHITECTURE.md</span></div>
+          <div><time>0:37</time><span>server.js: module auto-loader, redact → model → guard → audit on every call</span></div>
+          <div><time>0:40</time><span>Ads: stats honesty 20/20; 135/122 case = "no winner yet, ~199 conversions needed"</span></div>
+          <div><time>0:41</time><span>Compliance: PII redaction 0 false positives on 60 cases, 11/11 tests, COMPLIANCE.md</span></div>
+          <div><time>0:44</time><span>Demo pipeline: Playwright records the real app, macOS TTS narrates, ffmpeg cuts a 90s MP4</span></div>
+          <div><time>0:45</time><span>Repo committed for github.com/AGIFutureFoundation/Itchathon-tools; dashboard + wiki in progress</span></div>
         </div>
       </section>
 

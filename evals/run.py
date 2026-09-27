@@ -10,7 +10,7 @@ import argparse, json, os, re, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CASES = os.path.join(ROOT, "evals", "returns", "cases.jsonl")
+CASES = os.environ.get("CASES", os.path.join(ROOT, "evals", "returns", "cases.jsonl"))
 RESULTS = os.path.join(ROOT, "evals", "returns", "results")
 LABELS = {"photos", "size_chart", "garment", "expectation", "fulfilment", "not_enough_data"}
 MODEL = os.environ.get("EVAL_MODEL", "sonnet")

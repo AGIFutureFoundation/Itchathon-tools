@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Console</title>
+<meta name="description" content="What to do today across returns, prep, ads and theft — live charts from your own data.">
+<link rel="stylesheet" href="/console.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--oc-bg); color: var(--oc-ink); font: 15px/1.45 var(--oc-font);
+    background-image: radial-gradient(1200px 500px at 15% -10%, color-mix(in srgb, var(--oc-ads) 14%, transparent), transparent 60%),
+                      radial-gradient(900px 500px at 100% 0%, color-mix(in srgb, var(--oc-theft) 12%, transparent), transparent 60%);
+    overflow-x: hidden;
+  }
+  main { max-width: var(--oc-max); margin: 0 auto; padding: 18px var(--oc-gutter) 48px; }
+  .head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .head h1 { margin: 0; font-size: 26px; letter-spacing: -.01em; }
+  .head p { margin: 4px 0 0; color: var(--oc-muted); }
+  .status { display: flex; align-items: center; gap: 10px; color: var(--oc-muted); font-size: 13px; flex-wrap: wrap; }
+
+  /* --- what to do today --- */
+  .todo { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-bottom: 22px; }
+  .card {
+    position: relative; overflow: hidden; border-radius: var(--oc-radius); padding: 18px 18px 16px;
+    background: linear-gradient(160deg, color-mix(in srgb, var(--hue) 22%, var(--oc-panel)), var(--oc-panel) 70%);
+    border: 1px solid color-mix(in srgb, var(--hue) 35%, var(--oc-line)); box-shadow: var(--oc-shadow);
+    display: flex; flex-direction: column; gap: 6px; min-height: 176px;
+  }
+  .card::after { content: ""; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--hue-lt) 80%, white), var(--hue) 45%, var(--hue-dk) 100%);
+    opacity: .55; filter: blur(2px); box-shadow: 0 12px 30px color-mix(in srgb, var(--hue) 40%, transparent); }
+  .card .mod { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--hue); position: relative; z-index: 1; }
+  .card .num { font-size: 52px; line-height: 1; font-weight: 900; letter-spacing: -.03em; position: relative; z-index: 1;
+    background: linear-gradient(180deg, var(--hue-lt), var(--hue)); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 4px 10px color-mix(in srgb, var(--hue) 40%, transparent)); }
+  .card .say { font-size: 16px; font-weight: 600; margin-top: 2px; position: relative; z-index: 1; min-height: 44px; }
+  .card .go { margin-top: auto; align-self: flex-start; position: relative; z-index: 1;
+    background: linear-gradient(180deg, var(--hue-lt), var(--hue) 55%, var(--hue-dk)); color: #0B1220; border: none;
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--hue) 45%, transparent), 0 1px 0 rgba(255,255,255,.35) inset; }
+  .card .go:hover { filter: brightness(1.06); }
+  .card.returns { --hue: var(--oc-returns); --hue-lt: var(--oc-returns-lt); --hue-dk: var(--oc-returns-dk); }
+  .card.prep    { --hue: var(--oc-prep);    --hue-lt: var(--oc-prep-lt);    --hue-dk: var(--oc-prep-dk); }
+  .card.ads     { --hue: var(--oc-ads);     --hue-lt: var(--oc-ads-lt);     --hue-dk: var(--oc-ads-dk); }
+  .card.theft   { --hue: var(--oc-theft);   --hue-lt: var(--oc-theft-lt);   --hue-dk: var(--oc-theft-dk); }
+
+  /* --- charts --- */
+  .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 1000px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .panel { background: var(--oc-panel); border: 1px solid var(--oc-line); border-radius: var(--oc-radius); box-shadow: var(--oc-shadow); padding: 14px 14px 10px; min-width: 0; position: relative; }
+  .panel::before { content: ""; position: absolute; left: 14px; right: 14px; top: 0; height: 3px; border-radius: 0 0 4px 4px; background: linear-gradient(90deg, var(--hue-lt), var(--hue), var(--hue-dk)); }
+  .panel.returns { --hue: var(--oc-returns); --hue-lt: var(--oc-returns-lt); --hue-dk: var(--oc-returns-dk); }
+  .panel.prep    { --hue: var(--oc-prep);    --hue-lt: var(--oc-prep-lt);    --hue-dk: var(--oc-prep-dk); }
+  .panel.ads     { --hue: var(--oc-ads);     --hue-lt: var(--oc-ads-lt);     --hue-dk: var(--oc-ads-dk); }
+  .panel.theft   { --hue: var(--oc-theft);   --hue-lt: var(--oc-theft-lt);   --hue-dk: var(--oc-theft-dk); }
+  .panel h2 { margin: 6px 0 2px; font-size: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .panel h2 .oc-chip { margin-left: auto; }
+  .panel .cap { margin: 0 0 6px; color: var(--oc-muted); font-size: 13px; }
+  .chart { width: 100%; height: 320px; }
+  .chart.tall { height: 380px; }
+  .chart .nochart { color: var(--oc-muted); font-size: 13px; padding: 24px 8px; text-align: center; }
+
+  /* --- platform strip --- */
+  .strip { margin-top: 22px; }
+  .strip h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--oc-muted); margin: 0 0 10px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .tile { background: var(--oc-panel); border: 1px solid var(--oc-line); border-radius: 12px; padding: 12px 14px; box-shadow: var(--oc-shadow); }
+  .tile .k { color: var(--oc-muted); font-size: 12px; font-weight: 600; }
+  .tile .v { font-size: 22px; font-weight: 800; margin-top: 2px; display: flex; align-items: center; gap: 8px; }
+  .tile .s { color: var(--oc-muted); font-size: 12px; margin-top: 2px; }
+  .ok { color: var(--oc-ok); } .bad { color: var(--oc-err); }
+  .foot { margin-top: 18px; color: var(--oc-muted); font-size: 12px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  @media (prefers-reduced-motion: reduce) { .card .go:hover { filter: none; } }
+</style>
+</head>
+<body>
+<nav class="oc-nav" aria-label="Owner Console">
+  <div class="oc-nav-inner">
+    <a class="oc-brand" href="/dashboard.html">Owner Console</a>
+    <div class="oc-links">
+      <a href="/dashboard.html" aria-current="page">Dashboard</a>
+      <a href="/index.html">Returns</a>
+      <a href="/prep.html">Prep</a>
+      <a href="/ads.html">Ads</a>
+      <a href="/theft.html">Theft</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="head">
+    <div>
+      <h1>Today</h1>
+      <p>Four things worth doing, then the numbers behind them.</p>
+    </div>
+    <div class="status" aria-live="polite">
+      <span class="oc-dot" id="dot" aria-hidden="true"></span>
+      <span id="updated">connecting…</span>
+      <span class="oc-chip demo" id="anydemo" hidden>some demo data</span>
+    </div>
+  </div>
+
+  <section class="todo" aria-label="What to do today">
+    <article class="card returns">
+      <div class="mod">Returns</div>
+      <div class="num" id="n-returns">–</div>
+      <div class="say" id="s-returns">Loading…</div>
+      <a class="oc-btn go" href="/index.html">Diagnose a SKU</a>
+    </article>
+    <article class="card prep">
+      <div class="mod">Prep</div>
+      <div class="num" id="n-prep">–</div>
+      <div class="say" id="s-prep">Loading…</div>
+      <a class="oc-btn go" href="/prep.html">Open today's prep</a>
+    </article>
+    <article class="card ads">
+      <div class="mod">Ads</div>
+      <div class="num" id="n-ads">–</div>
+      <div class="say" id="s-ads">Loading…</div>
+      <a class="oc-btn go" href="/ads.html">Check the test</a>
+    </article>
+    <article class="card theft">
+      <div class="mod">Theft</div>
+      <div class="num" id="n-theft">–</div>
+      <div class="say" id="s-theft">Loading…</div>
+      <a class="oc-btn go" href="/theft.html">Open the playbook</a>
+    </article>
+  </section>
+
+  <section class="grid" aria-label="Charts">
+    <div class="panel returns">
+      <h2>Returns by cause × week <span class="oc-chip" data-src="returns_causes"></span></h2>
+      <p class="cap">Look for the tallest row: that cause is where this month's returns come from.</p>
+      <div class="chart tall" id="c-returns3d" role="img" aria-label="3D bars: returns per cause per week"></div>
+    </div>
+    <div class="panel returns">
+      <h2>Which cause, how often <span class="oc-chip" data-src="returns_causes"></span></h2>
+      <p class="cap">Bigger petal = more SKUs with that cause. Size chart and photos are the fixable ones.</p>
+      <div class="chart" id="c-rose" role="img" aria-label="Rose chart of return causes"></div>
+    </div>
+    <div class="panel returns">
+      <h2>Eval gate <span class="oc-chip" data-src="returns_eval"></span></h2>
+      <p class="cap">The share of test cases the served prompt got right. Below 90% and it would not be serving.</p>
+      <div class="chart" id="c-gauge" role="img" aria-label="Gauge of eval accuracy"></div>
+    </div>
+    <div class="panel prep">
+      <h2>Prep: prepared vs sold, by item × day <span class="oc-chip" data-src="prep_series"></span></h2>
+      <p class="cap">Pale bar = prepared, solid = sold. A pale bar much taller than its neighbour is waste.</p>
+      <div class="chart tall" id="c-prep3d" role="img" aria-label="3D bars: prepared and sold per item per day"></div>
+    </div>
+    <div class="panel prep">
+      <h2>Forecast error: last week's number vs our model <span class="oc-chip" data-src="prep_eval"></span></h2>
+      <p class="cap">Shorter is better. The gold bar should be shorter than the grey one for every item.</p>
+      <div class="chart" id="c-prepeval" role="img" aria-label="Bars: naive vs model forecast error per item"></div>
+    </div>
+    <div class="panel ads">
+      <h2>Ad spend vs conversions <span class="oc-chip" data-src="ads_campaigns"></span></h2>
+      <p class="cap">Stacked purple is money out per campaign; the bright line is sales in. They should move together.</p>
+      <div class="chart" id="c-ads" role="img" aria-label="Stacked area of spend with a conversions line"></div>
+    </div>
+    <div class="panel theft">
+      <h2>Theft alerts by zone × weekday <span class="oc-chip" data-src="theft"></span></h2>
+      <p class="cap">Hot cells say where and when to have someone standing. One hot cell a week is a shelf to move.</p>
+      <div class="chart" id="c-heat" role="img" aria-label="Heatmap of alerts per zone per weekday"></div>
+    </div>
+    <div class="panel theft">
+      <h2>Alerts per week and what happened <span class="oc-chip" data-src="theft"></span></h2>
+      <p class="cap">Teal = deterred, red = took it. The red slice is the number that should shrink.</p>
+      <div class="chart" id="c-weeks" role="img" aria-label="Stacked bars of outcomes per week"></div>
+    </div>
+  </section>
+
+  <section class="strip" aria-label="Platform health">
+    <h2>Platform</h2>
+    <div class="tiles">
+      <div class="tile"><div class="k">Eval gate</div><div class="v" id="t-gate">–</div><div class="s" id="t-gate-s"></div></div>
+      <div class="tile"><div class="k">Prompt serving</div><div class="v" id="t-prompt">–</div><div class="s" id="t-prompt-s"></div></div>
+      <div class="tile"><div class="k">Audit rows today</div><div class="v" id="t-audit">–</div><div class="s" id="t-audit-s"></div></div>
+      <div class="tile"><div class="k">Latency</div><div class="v" id="t-lat">–</div><div class="s" id="t-lat-s"></div></div>
+      <div class="tile"><div class="k">Ads stats honesty</div><div class="v" id="t-honest">–</div><div class="s" id="t-honest-s"></div></div>
+      <div class="tile"><div class="k">Tenants</div><div class="v" id="t-tenants">–</div><div class="s" id="t-tenants-s"></div></div>
+    </div>
+    <p class="foot" id="foot">Numbers marked <span class="oc-chip demo">demo</span> are stand-ins until that data source has rows. Everything else is read from disk on every refresh.</p>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.6.0/echarts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts-gl/2.0.8/echarts-gl.min.js" onload="window.__GL=true"></script>
+<script>
+(function () {
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const POLL_MS = 5000;
+
+  // ---- inline fallback: page is never blank ----
+  const WEEKS = ['W34', 'W35', 'W36', 'W37', 'W38', 'W39'].map(w => '2026-' + w);
+  const DAYS = (() => { const o = []; for (let i = 6; i >= 0; i--) o.push(new Date(Date.now() - i * 864e5).toISOString().slice(0, 10)); return o; })();
+  const FALLBACK = {
+    generated_at: null,
+    sources: { returns_eval: 'demo', returns_causes: 'demo', prep_eval: 'demo', prep_series: 'demo', ads_honesty: 'demo', ads_campaigns: 'demo', theft: 'demo', tenants: 'demo', audit: 'demo' },
+    returns: {
+      eval: { version: 'v2', model: 'sonnet', cases: 60, accuracy: 0.983, grounded: 0.95, parsed: 0.983, latency_s: 15.1, gate_met: true },
+      diagnoses_total: 59, demo: true,
+      by_cause: { photos: 12, size_chart: 11, garment: 12, expectation: 10, fulfilment: 8, not_enough_data: 6 },
+      by_cause_week: { causes: ['photos', 'size_chart', 'garment', 'expectation', 'fulfilment', 'not_enough_data'], weeks: WEEKS, demo: true,
+        matrix: [[2, 1, 3, 2, 1, 3], [1, 2, 1, 3, 3, 1], [3, 2, 1, 2, 2, 2], [1, 2, 2, 1, 3, 1], [1, 1, 2, 1, 1, 2], [1, 1, 1, 1, 1, 1]] },
+      headline: { number: 3, text: '3 SKUs need a new size chart' },
+    },
+    prep: {
+      eval: { improvement_pct: 30.35, naive_pinball: 4.1372, model_pinball: 2.8815, gate_met: true, gate_threshold_pct: 15, items: 6, days: 84 },
+      by_item: [
+        { name: 'Croissant', naive: 9.3, model: 5.0 }, { name: 'Sourdough loaf', naive: 2.4, model: 1.6 }, { name: 'Cinnamon roll', naive: 5.8, model: 4.7 },
+        { name: 'Quiche slice', naive: 2.8, model: 2.2 }, { name: 'Soup (portions)', naive: 3.6, model: 2.4 }, { name: 'Baguette', naive: 4.1, model: 2.9 }],
+      series: { days: DAYS, demo: true, items: [
+        { item: 'Croissant', prepared: [47, 52, 50, 52, 46, 65, 60], sold: [39, 39, 50, 50, 45, 53, 55] },
+        { item: 'Sourdough loaf', prepared: [22, 24, 21, 23, 22, 29, 28], sold: [20, 19, 21, 18, 22, 27, 24] },
+        { item: 'Cinnamon roll', prepared: [30, 31, 29, 32, 30, 39, 37], sold: [26, 24, 29, 27, 30, 36, 31] },
+        { item: 'Quiche slice', prepared: [18, 19, 17, 19, 18, 23, 22], sold: [15, 17, 16, 14, 18, 22, 19] },
+        { item: 'Soup (portions)', prepared: [26, 27, 25, 27, 26, 33, 31], sold: [21, 24, 25, 22, 26, 28, 27] },
+        { item: 'Baguette', prepared: [34, 36, 33, 35, 34, 44, 42], sold: [30, 31, 33, 29, 34, 40, 36] }] },
+      headline: { number: 42, text: 'Prep 42 croissants, not 55' },
+    },
+    ads: {
+      honesty: { cases: 20, correct: 20, rate: 1, no_winner_cases: 11 },
+      campaigns: { days: DAYS, demo: true, items: [
+        { name: 'Headline A', spend: [35, 34, 40, 35, 36, 40, 31], conversions: [2, 3, 2, 3, 2, 2, 1] },
+        { name: 'Headline B', spend: [38, 41, 37, 44, 40, 39, 42], conversions: [3, 3, 4, 3, 4, 3, 4] },
+        { name: 'Retargeting', spend: [20, 22, 19, 24, 21, 23, 22], conversions: [5, 4, 6, 5, 6, 7, 6] }] },
+      headline: { number: 0, text: 'No winner yet: keep both ads running' },
+    },
+    theft: {
+      totals: { alerts: 39, deterred: 27, took_it: 8, unsure: 4, estimated_loss: 96, deterrence_rate: 0.69 },
+      heat: { zones: ['beauty aisle', 'spirits', 'electronics', 'till area', 'entrance', 'back wall'], weekdays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], demo: true,
+        matrix: [[1, 0, 1, 1, 4, 5, 1], [0, 1, 1, 0, 2, 2, 1], [1, 0, 0, 1, 1, 2, 0], [0, 0, 1, 0, 1, 1, 0], [0, 1, 0, 0, 1, 0, 1], [0, 0, 0, 1, 0, 1, 0]] },
+      by_week: { weeks: WEEKS, alerts: [4, 6, 5, 8, 7, 9], rows: [
+        { events: 4, took_it: 1, deterred: 2, unsure: 1 }, { events: 6, took_it: 2, deterred: 3, unsure: 1 }, { events: 5, took_it: 1, deterred: 3, unsure: 1 },
+        { events: 8, took_it: 2, deterred: 5, unsure: 1 }, { events: 7, took_it: 1, deterred: 5, unsure: 1 }, { events: 9, took_it: 2, deterred: 6, unsure: 1 }] },
+      decision_hint: 'beauty aisle lost 3 items this period; worth moving that shelf within sight of the till.',
+      demo: true, headline: { number: 2, text: '2 alerts in beauty aisle this week' },
+    },
+    platform: {
+      audit_rows_today: 0, audit_rows_total: 0, tenants: 2, prompt_served: 'v2',
+      prompt_versions: [{ version: 'v1', accuracy: 0.783, gate_met: false }, { version: 'v2', accuracy: 0.983, gate_met: true }],
+      eval_gate: { met: true, accuracy: 0.983, version: 'v2' }, latency_ms_today_p50: null, latency_s_eval: 15.1, retention_days: 90,
+    },
+  };
+
+  // ---- theme ----
+  function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function theme() {
+    return {
+      ink: cssVar('--oc-ink'), muted: cssVar('--oc-muted'), line: cssVar('--oc-line'), panel: cssVar('--oc-panel'), bg: cssVar('--oc-bg'),
+      returns: [cssVar('--oc-returns-lt'), cssVar('--oc-returns'), cssVar('--oc-returns-dk')],
+      prep: [cssVar('--oc-prep-lt'), cssVar('--oc-prep'), cssVar('--oc-prep-dk')],
+      ads: [cssVar('--oc-ads-lt'), cssVar('--oc-ads'), cssVar('--oc-ads-dk')],
+      theft: [cssVar('--oc-theft-lt'), cssVar('--oc-theft'), cssVar('--oc-theft-dk')],
+      ok: cssVar('--oc-ok'), err: cssVar('--oc-err'),
+      dark: matchMedia('(prefers-color-scheme: dark)').matches || document.documentElement.dataset.theme === 'dark',
+    };
+  }
+  function vGrad(lt, dk) { return { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: lt }, { offset: 1, color: dk }] }; }
+  function shadow(color) { return { shadowBlur: 14, shadowColor: color, shadowOffsetY: 6 }; }
+  function shade(hex, f) { // lighten (f>0) or darken (f<0) a #rrggbb
+    const n = parseInt(hex.replace('#', ''), 16); if (Number.isNaN(n)) return hex;
+    const mix = (c) => Math.max(0, Math.min(255, Math.round(f > 0 ? c + (255 - c) * f : c * (1 + f))));
+    return '#' + [16, 8, 0].map(s => mix((n >> s) & 255).toString(16).padStart(2, '0')).join('');
+  }
+  const CAUSE_LABEL = { photos: 'Photos', size_chart: 'Size chart', garment: 'Garment', expectation: 'Expectation', fulfilment: 'Fulfilment', not_enough_data: 'Not enough data' };
+
+  // ---- chart options ----
+  function base(t) {
+    return {
+      animation: !REDUCED, animationDuration: 700, animationDurationUpdate: 600,
+      textStyle: { color: t.ink, fontFamily: cssVar('--oc-font') },
+      tooltip: { backgroundColor: t.panel, borderColor: t.line, textStyle: { color: t.ink } },
+    };
+  }
+  function axis(t, extra) {
+    return Object.assign({ axisLine: { lineStyle: { color: t.line } }, axisTick: { show: false }, axisLabel: { color: t.muted },
+      splitLine: { lineStyle: { color: t.line, type: 'dashed' } } }, extra || {});
+  }
+
+  function optReturns3D(d, t) {
+    const m = d.returns.by_cause_week; const data = [];
+    m.causes.forEach((c, ci) => m.weeks.forEach((w, wi) => data.push([wi, ci, m.matrix[ci][wi]])));
+    const max = Math.max(1, ...data.map(x => x[2]));
+    if (!window.__GL) { // 2D stand-in if echarts-gl did not load
+      return Object.assign(base(t), { grid: { left: 110, right: 16, top: 16, bottom: 36 },
+        xAxis: axis(t, { type: 'category', data: m.weeks.map(w => w.slice(5)) }), yAxis: axis(t, { type: 'category', data: m.causes.map(c => CAUSE_LABEL[c] || c) }),
+        visualMap: { show: false, min: 0, max, inRange: { color: [t.returns[2], t.returns[1], t.returns[0]] } },
+        series: [{ type: 'heatmap', data, itemStyle: { borderRadius: 6, borderColor: t.panel, borderWidth: 2 }, label: { show: true, color: '#0B1220', fontWeight: 700 } }] });
+    }
+    return Object.assign(base(t), {
+      tooltip: Object.assign(base(t).tooltip, { formatter: p => `${CAUSE_LABEL[m.causes[p.value[1]]] || ''}<br>${m.weeks[p.value[0]]}: <b>${p.value[2]}</b>` }),
+      visualMap: { show: false, min: 0, max, inRange: { color: [t.returns[2], t.returns[1], t.returns[0]] } },
+      xAxis3D: { type: 'category', data: m.weeks.map(w => w.slice(5)), name: '' },
+      yAxis3D: { type: 'category', data: m.causes.map(c => CAUSE_LABEL[c] || c), name: '' },
+      zAxis3D: { type: 'value', name: '' },
+      grid3D: { boxWidth: 130, boxDepth: 110, boxHeight: 60, environment: 'auto',
+        light: { main: { intensity: 1.3, shadow: true, alpha: 40, beta: 30 }, ambient: { intensity: .35 } },
+        viewControl: { autoRotate: !REDUCED, autoRotateSpeed: 5, distance: 190, alpha: 24, beta: 40, projection: 'perspective' },
+        axisLabel: { textStyle: { color: t.muted, fontSize: 11 } }, axisLine: { lineStyle: { color: t.line } },
+        splitLine: { lineStyle: { color: t.line, opacity: .5 } }, axisPointer: { lineStyle: { color: t.ink } } },
+      series: [{ type: 'bar3D', data, shading: 'lambert', bevelSize: .35, bevelSmoothness: 4, barSize: 8, itemStyle: { opacity: .96 },
+        emphasis: { label: { show: true, textStyle: { color: t.ink } }, itemStyle: { color: t.returns[0] } } }],
+    });
+  }
+
+  function optRose(d, t) {
+    const bc = d.returns.by_cause; const keys = Object.keys(bc);
+    const pal = [t.returns[1], t.returns[0], shade(t.returns[1], -.25), t.prep[1], shade(t.returns[2], -.1), t.muted];
+    return Object.assign(base(t), {
+      series: [{ type: 'pie', roseType: 'area', radius: ['24%', '72%'], center: ['50%', '52%'], padAngle: 2,
+        itemStyle: Object.assign({ borderRadius: 8, borderColor: t.panel, borderWidth: 2 }, shadow('rgba(0,0,0,.45)')),
+        label: { color: t.ink, formatter: p => `${p.name}\n${p.value}`, fontSize: 12 }, labelLine: { lineStyle: { color: t.line } },
+        data: keys.map((k, i) => ({ name: CAUSE_LABEL[k] || k, value: bc[k],
+          itemStyle: { color: { type: 'radial', x: .5, y: .5, r: .9, colorStops: [{ offset: 0, color: shade(pal[i], .35) }, { offset: 1, color: pal[i] }] } } })) }],
+    });
+  }
+
+  function optGauge(d, t) {
+    const e = d.returns.eval; const pct = Math.round((e.accuracy || 0) * 1000) / 10;
+    const ok = pct >= 90;
+    const col = ok ? [t.ok, shade(t.ok, -.35)] : [t.err, shade(t.err, -.35)];
+    return Object.assign(base(t), {
+      series: [{ type: 'gauge', startAngle: 210, endAngle: -30, min: 0, max: 100, radius: '95%', center: ['50%', '58%'],
+        progress: { show: true, width: 22, roundCap: true, itemStyle: Object.assign({ color: { type: 'linear', x: 0, y: 0, x2: 1, y2: 0, colorStops: [{ offset: 0, color: col[1] }, { offset: 1, color: col[0] }] } }, shadow(col[0])) },
+        axisLine: { roundCap: true, lineStyle: { width: 22, color: [[1, t.dark ? 'rgba(255,255,255,.07)' : 'rgba(0,0,0,.07)']] } },
+        pointer: { show: false }, axisTick: { show: false }, splitLine: { show: false }, axisLabel: { show: false },
+        anchor: { show: false },
+        detail: { valueAnimation: !REDUCED, formatter: v => v.toFixed(1) + '%', color: t.ink, fontSize: 40, fontWeight: 900, offsetCenter: [0, '-8%'] },
+        title: { offsetCenter: [0, '28%'], color: t.muted, fontSize: 13 },
+        data: [{ value: pct, name: `${e.version} · ${e.cases} cases · gate ${ok ? 'met' : 'NOT met'} · grounded ${Math.round((e.grounded || 0) * 100)}%` }] },
+      { type: 'gauge', startAngle: 210, endAngle: -30, min: 0, max: 100, radius: '95%', center: ['50%', '58%'], // thin pointer marking the 90% gate
+        axisLine: { show: false }, axisTick: { show: false }, splitLine: { show: false }, axisLabel: { show: false }, detail: { show: false }, title: { show: false },
+        pointer: { show: true, length: '100%', width: 2, itemStyle: { color: t.ink, opacity: .35 } }, anchor: { show: false },
+        data: [{ value: 90 }] }],
+      graphic: [{ type: 'text', left: 'center', bottom: 6, style: { text: 'gate = 90%', fill: t.muted, fontSize: 11 } }],
+    });
+  }
+
+  function optPrep3D(d, t) {
+    const s = d.prep.series; const rows = []; const data = [];
+    s.items.forEach((it, ii) => {
+      rows.push(it.item + ' · prepped', it.item + ' · sold');
+      s.days.forEach((day, di) => { data.push({ value: [di, ii * 2, it.prepared[di]], kind: 'prepared' }); data.push({ value: [di, ii * 2 + 1, it.sold[di]], kind: 'sold' }); });
+    });
+    const days = s.days.map(x => x.slice(5));
+    if (!window.__GL) {
+      return Object.assign(base(t), { grid: { left: 40, right: 16, top: 30, bottom: 36 }, legend: { top: 0, textStyle: { color: t.muted } },
+        xAxis: axis(t, { type: 'category', data: days }), yAxis: axis(t, { type: 'value' }),
+        series: [
+          { name: 'Prepared (all items)', type: 'bar', data: s.days.map((_, di) => s.items.reduce((a, it) => a + it.prepared[di], 0)), itemStyle: Object.assign({ color: vGrad(shade(t.prep[0], .2), t.prep[2]), borderRadius: [6, 6, 0, 0], opacity: .55 }, shadow(t.prep[2])) },
+          { name: 'Sold (all items)', type: 'bar', data: s.days.map((_, di) => s.items.reduce((a, it) => a + it.sold[di], 0)), itemStyle: Object.assign({ color: vGrad(t.prep[0], t.prep[2]), borderRadius: [6, 6, 0, 0] }, shadow(t.prep[2])) }] });
+    }
+    return Object.assign(base(t), {
+      tooltip: Object.assign(base(t).tooltip, { formatter: p => `${rows[p.value[1]]}<br>${s.days[p.value[0]]}: <b>${p.value[2]}</b>` }),
+      xAxis3D: { type: 'category', data: days }, yAxis3D: { type: 'category', data: rows }, zAxis3D: { type: 'value' },
+      grid3D: { boxWidth: 110, boxDepth: 170, boxHeight: 60, environment: 'auto',
+        light: { main: { intensity: 1.3, shadow: true, alpha: 45, beta: 20 }, ambient: { intensity: .4 } },
+        viewControl: { autoRotate: !REDUCED, autoRotateSpeed: 4, distance: 220, alpha: 22, beta: -35 },
+        axisLabel: { textStyle: { color: t.muted, fontSize: 10 } }, axisLine: { lineStyle: { color: t.line } }, splitLine: { lineStyle: { color: t.line, opacity: .5 } } },
+      series: [{ type: 'bar3D', data, shading: 'lambert', bevelSize: .3, bevelSmoothness: 4, barSize: 6,
+        itemStyle: { color: p => p.data.kind === 'prepared' ? shade(t.prep[0], .25) : t.prep[1], opacity: .95 },
+        emphasis: { label: { show: true, textStyle: { color: t.ink } } } }],
+    });
+  }
+
+  function optPrepEval(d, t) {
+    const items = d.prep.by_item;
+    return Object.assign(base(t), {
+      grid: { left: 110, right: 24, top: 30, bottom: 24 }, legend: { top: 0, textStyle: { color: t.muted } },
+      tooltip: Object.assign(base(t).tooltip, { trigger: 'axis', axisPointer: { type: 'shadow' } }),
+      xAxis: axis(t, { type: 'value', name: 'error (pinball)', nameTextStyle: { color: t.muted } }),
+      yAxis: axis(t, { type: 'category', data: items.map(i => i.name), splitLine: { show: false } }),
+      series: [
+        { name: 'Same weekday last week', type: 'bar', data: items.map(i => i.naive), barGap: '10%',
+          itemStyle: Object.assign({ color: { type: 'linear', x: 0, y: 0, x2: 1, y2: 0, colorStops: [{ offset: 0, color: t.dark ? '#5A6A88' : '#B8C2D6' }, { offset: 1, color: t.dark ? '#3A465E' : '#8F9BB3' }] }, borderRadius: [0, 8, 8, 0] }, shadow('rgba(0,0,0,.35)')) },
+        { name: 'Our forecast', type: 'bar', data: items.map(i => i.model),
+          itemStyle: Object.assign({ color: { type: 'linear', x: 0, y: 0, x2: 1, y2: 0, colorStops: [{ offset: 0, color: t.prep[0] }, { offset: 1, color: t.prep[2] }] }, borderRadius: [0, 8, 8, 0] }, shadow(t.prep[2])),
+          label: { show: true, position: 'right', color: t.ink, formatter: p => `−${Math.round((1 - p.value / items[p.dataIndex].naive) * 100)}%` } }],
+    });
+  }
+
+  function optAds(d, t) {
+    const c = d.ads.campaigns; const days = c.days.map(x => x.slice(5));
+    const shades = [t.ads[2], t.ads[1], t.ads[0]];
+    const conv = c.days.map((_, di) => c.items.reduce((a, it) => a + (it.conversions[di] || 0), 0));
+    return Object.assign(base(t), {
+      grid: { left: 44, right: 48, top: 36, bottom: 28 }, legend: { top: 0, textStyle: { color: t.muted } },
+      tooltip: Object.assign(base(t).tooltip, { trigger: 'axis' }),
+      xAxis: axis(t, { type: 'category', data: days, boundaryGap: false }),
+      yAxis: [axis(t, { type: 'value', name: 'spend $', nameTextStyle: { color: t.muted } }), axis(t, { type: 'value', name: 'sales', splitLine: { show: false }, nameTextStyle: { color: t.muted } })],
+      series: c.items.map((it, i) => ({ name: it.name, type: 'line', stack: 'spend', smooth: true, symbol: 'none', data: it.spend,
+        lineStyle: { width: 1, color: shade(shades[i % 3], .2) },
+        areaStyle: Object.assign({ color: vGrad(shade(shades[i % 3], .15), shade(shades[i % 3], -.35)), opacity: .85 }, shadow(t.ads[2])) }))
+        .concat([{ name: 'Conversions', type: 'line', yAxisIndex: 1, smooth: true, data: conv, symbol: 'circle', symbolSize: 9,
+          lineStyle: { width: 4, color: '#fff', shadowBlur: 12, shadowColor: t.ads[0] }, itemStyle: { color: t.ads[0], borderColor: '#fff', borderWidth: 2 } }]),
+    });
+  }
+
+  function optHeat(d, t) {
+    const h = d.theft.heat; const data = [];
+    h.zones.forEach((z, zi) => h.weekdays.forEach((w, wi) => data.push([wi, zi, h.matrix[zi][wi]])));
+    const max = Math.max(1, ...data.map(x => x[2]));
+    return Object.assign(base(t), {
+      grid: { left: 96, right: 16, top: 12, bottom: 56 },
+      tooltip: Object.assign(base(t).tooltip, { formatter: p => `${h.zones[p.value[1]]} · ${h.weekdays[p.value[0]]}: <b>${p.value[2]}</b> alert${p.value[2] === 1 ? '' : 's'}` }),
+      xAxis: axis(t, { type: 'category', data: h.weekdays, splitArea: { show: false } }),
+      yAxis: axis(t, { type: 'category', data: h.zones, splitLine: { show: false } }),
+      visualMap: { min: 0, max, calculable: false, orient: 'horizontal', left: 'center', bottom: 0, textStyle: { color: t.muted }, itemHeight: 140, itemWidth: 12,
+        inRange: { color: [t.dark ? '#14243D' : '#E6F3F2', t.theft[2], t.theft[1], t.theft[0]] } },
+      series: [{ type: 'heatmap', data, label: { show: true, color: t.ink, fontWeight: 700, formatter: p => p.value[2] || '' },
+        itemStyle: Object.assign({ borderRadius: 7, borderColor: t.panel, borderWidth: 3 }, shadow('rgba(0,0,0,.35)')),
+        emphasis: { itemStyle: { shadowBlur: 20, shadowColor: t.theft[0] } } }],
+    });
+  }
+
+  function optWeeks(d, t) {
+    const w = d.theft.by_week; const weeks = w.weeks.map(x => x.slice(5));
+    const bar = (name, key, lt, dk) => ({ name, type: 'bar', stack: 'o', data: w.rows.map(r => r[key] || 0), barWidth: '46%',
+      itemStyle: Object.assign({ color: vGrad(lt, dk), borderRadius: key === 'unsure' ? [7, 7, 0, 0] : 0 }, shadow(dk)) });
+    return Object.assign(base(t), {
+      grid: { left: 36, right: 16, top: 36, bottom: 28 }, legend: { top: 0, textStyle: { color: t.muted } },
+      tooltip: Object.assign(base(t).tooltip, { trigger: 'axis', axisPointer: { type: 'shadow' } }),
+      xAxis: axis(t, { type: 'category', data: weeks }), yAxis: axis(t, { type: 'value', minInterval: 1 }),
+      series: [bar('Deterred', 'deterred', t.theft[0], t.theft[2]), bar('Took it', 'took_it', shade(t.err, .2), shade(t.err, -.35)), bar('Unsure', 'unsure', t.dark ? '#6B7A99' : '#B8C2D6', t.dark ? '#3A465E' : '#8F9BB3'),
+        { name: 'Alerts', type: 'line', data: w.alerts || w.rows.map(r => r.events), smooth: true, symbol: 'circle', symbolSize: 8,
+          lineStyle: { width: 3, color: t.theft[0], shadowBlur: 10, shadowColor: t.theft[1] }, itemStyle: { color: t.theft[0], borderColor: t.panel, borderWidth: 2 } }],
+    });
+  }
+
+  const CHARTS = [
+    ['c-returns3d', optReturns3D], ['c-rose', optRose], ['c-gauge', optGauge], ['c-prep3d', optPrep3D],
+    ['c-prepeval', optPrepEval], ['c-ads', optAds], ['c-heat', optHeat], ['c-weeks', optWeeks],
+  ];
+  const inst = new Map();
+  let last = null;
+
+  function initCharts() {
+    inst.forEach(ch => ch.dispose()); inst.clear();
+    if (typeof echarts === 'undefined') {
+      CHARTS.forEach(([id]) => { $(id).innerHTML = '<div class="nochart">Charts need echarts from cdnjs; the numbers above still work.</div>'; });
+      return;
+    }
+    CHARTS.forEach(([id]) => inst.set(id, echarts.init($(id), null, { renderer: 'canvas' })));
+  }
+  function render(d, first) {
+    const t = theme();
+    CHARTS.forEach(([id, fn]) => {
+      const ch = inst.get(id); if (!ch) return;
+      try { ch.setOption(fn(d, t), { notMerge: !!first, lazyUpdate: true }); } catch (e) { console.warn('chart', id, e); }
+    });
+  }
+
+  // ---- text bits ----
+  function text(id, v) { const el = $(id); if (el && el.textContent !== String(v)) el.textContent = v; }
+  function pct(x) { return x == null ? '–' : Math.round(x * 1000) / 10 + '%'; }
+  function fillText(d) {
+    const r = d.returns, p = d.prep, a = d.ads, th = d.theft, pf = d.platform;
+    text('n-returns', r.headline.number); text('s-returns', r.headline.text);
+    text('n-prep', p.headline.number); text('s-prep', p.headline.text);
+    text('n-ads', a.headline.number); text('s-ads', a.headline.text);
+    text('n-theft', th.headline.number); text('s-theft', th.headline.text);
+
+    const gate = pf.eval_gate || {};
+    const g = $('t-gate'); g.textContent = ''; const gi = document.createElement('span'); gi.className = gate.met ? 'ok' : 'bad'; gi.textContent = gate.met ? 'PASS' : 'FAIL'; g.appendChild(gi);
+    text('t-gate-s', `${pct(gate.accuracy)} accuracy on ${gate.version || '–'}`);
+    text('t-prompt', pf.prompt_served || '–');
+    const pv = (pf.prompt_versions || []).map(v => `${v.version} ${v.accuracy != null ? pct(v.accuracy) : '–'}`).join(' → ');
+    text('t-prompt-s', pv || 'prompts/returns');
+    text('t-audit', pf.audit_rows_today ?? 0);
+    text('t-audit-s', `${pf.audit_rows_total ?? 0} total · ${pf.retention_days || 90}-day retention`);
+    text('t-lat', pf.latency_ms_today_p50 ? (pf.latency_ms_today_p50 / 1000).toFixed(1) + 's' : (pf.latency_s_eval ? pf.latency_s_eval + 's' : '–'));
+    text('t-lat-s', pf.latency_ms_today_p50 ? 'p50 today' : 'mean, last eval');
+    text('t-honest', a.honesty ? `${a.honesty.correct}/${a.honesty.cases}` : '–');
+    text('t-honest-s', a.honesty ? `${a.honesty.no_winner_cases} cases correctly say "no winner yet"` : '');
+    text('t-tenants', pf.tenants ?? '–');
+    text('t-tenants-s', (pf.tenant_plans || []).map(x => `${x.tenant} · ${x.plan}`).join(', ') || 'config/tenants.json');
+
+    const src = d.sources || {}; let any = false;
+    document.querySelectorAll('[data-src]').forEach(ch => {
+      const s = src[ch.dataset.src]; const demo = s === 'demo';
+      any = any || demo;
+      ch.textContent = demo ? 'demo data' : 'live';
+      ch.className = 'oc-chip ' + (demo ? 'demo' : 'live');
+    });
+    $('anydemo').hidden = !any;
+  }
+
+  // ---- polling ----
+  let lastOk = 0, offline = false;
+  async function poll() {
+    try {
+      const res = await fetch('/api/dashboard/summary', { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const d = await res.json();
+      const first = !last; last = d; offline = false; lastOk = Date.now();
+      fillText(d); render(d, first);
+    } catch (e) {
+      if (!last) { last = FALLBACK; fillText(FALLBACK); render(FALLBACK, true); }
+      offline = true;
+    }
+    tick();
+  }
+  function tick() {
+    const el = $('updated'); const dot = $('dot');
+    if (offline) { el.textContent = 'offline · showing demo data'; dot.style.background = 'var(--oc-warn)'; }
+    else { const s = Math.round((Date.now() - lastOk) / 1000); el.textContent = s < 2 ? 'live · just updated' : `live · updated ${s}s ago`; dot.style.background = ''; }
+  }
+
+  initCharts();
+  poll();
+  setInterval(poll, POLL_MS);
+  setInterval(tick, 1000);
+  addEventListener('resize', () => inst.forEach(ch => ch.resize()));
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { initCharts(); if (last) render(last, true); });
+})();
+</script>
+</body>
+</html>

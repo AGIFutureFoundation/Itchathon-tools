@@ -11,7 +11,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const TENANTS_FILE = path.join(__dirname, '..', '..', 'config', 'tenants.json');
-const ALL_MODULES = ['returns', 'prep', 'ads', 'theft'];
+const ALL_MODULES = ['returns', 'prep', 'ads', 'theft', 'apify', 'dashboard'];
 const DEFAULT_TENANT = Object.freeze({ tenant: 'default', plan: 'demo', modules: ALL_MODULES });
 
 let cache = { mtime: 0, byKey: new Map() };
