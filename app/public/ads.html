@@ -60,8 +60,21 @@
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   @media (max-width: 640px) { .row { grid-template-columns: 1fr; } .two { grid-template-columns: 1fr; } }
 </style>
+<link rel="stylesheet" href="console.css">
 </head>
 <body>
+<nav class="oc-nav" aria-label="Owner Console">
+  <div class="oc-nav-inner">
+    <a class="oc-brand" href="/dashboard.html">Owner Console</a>
+    <div class="oc-links">
+      <a href="/dashboard.html" aria-current="page">Dashboard</a>
+      <a href="/index.html">Returns</a>
+      <a href="/prep.html">Prep</a>
+      <a href="/ads.html">Ads</a>
+      <a href="/theft.html">Theft</a>
+    </div>
+  </div>
+</nav>
 <header>
   <h1>Ads Plain Read</h1>
   <p>What your ad money is doing, in plain English. Never calls a winner the maths cannot back. <a href="/">Back to console</a></p>

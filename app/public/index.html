@@ -51,8 +51,21 @@
   .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -2px; margin-right: 6px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>
+<link rel="stylesheet" href="console.css">
 </head>
 <body>
+<nav class="oc-nav" aria-label="Owner Console">
+  <div class="oc-nav-inner">
+    <a class="oc-brand" href="/dashboard.html">Owner Console</a>
+    <div class="oc-links">
+      <a href="/dashboard.html" aria-current="page">Dashboard</a>
+      <a href="/index.html">Returns</a>
+      <a href="/prep.html">Prep</a>
+      <a href="/ads.html">Ads</a>
+      <a href="/theft.html">Theft</a>
+    </div>
+  </div>
+</nav>
 <header>
   <h1>Why Did It Come Back?</h1>
   <p>Paste a listing, its size chart and the returns. Get one cause, verbatim evidence and a paste-ready fix.</p>

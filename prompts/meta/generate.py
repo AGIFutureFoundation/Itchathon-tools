@@ -11,7 +11,7 @@ brief = open(P("README.md")).read().split("\n\n")[1] + "\nCause labels: " + vars
 existing = sorted([f for f in glob.glob(P("prompts/returns/v*.md")) if re.search(r"/v\d+\.md$", f)], key=lambda p: int(re.search(r"v(\d+)", p).group(1)))
 n = len(existing) + 1
 fails = sorted(glob.glob(P("evals/returns/results/v*.failures.md")), key=lambda p: int(re.search(r"v(\d+)", p).group(1)))
-failure_report = open(fails[-1]).read()[:14000] if fails else "First version: no failures yet."
+failure_report = open(os.environ["FAILURES"]).read()[:14000] if os.environ.get("FAILURES") else (open(fails[-1]).read()[:14000] if fails else "First version: no failures yet.")
 prev = ("\n\nPrevious prompt version (improve it, keep what works):\n" + open(existing[-1]).read()) if existing else ""
 compliance = open(P("prompts/meta/compliance_clause.md")).read().strip()  # must appear verbatim in every generated prompt
 filled = (master.replace("{{CHALLENGE_BRIEF}}", brief).replace("{{CURRENT_HABIT}}", vars_["CURRENT_HABIT"])
