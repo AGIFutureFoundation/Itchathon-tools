@@ -25,13 +25,14 @@ Synthetic cases score much higher than real ones because real Amazon listings ar
 | v3 | 90.0% | 56.7% | served | Fixed the garment↔size_chart confusion from v1 and lifted real-30 accuracy to 56.7%; currently pinned as `prompts/returns/SERVED`. |
 | v4 | 90.0% (gate met) | 46.7% | archived: real regression | Grounding and JSON parsing improved on real data, but real cause-accuracy fell below v3's 56.7%, so the release rule blocked it and v3 stayed served. |
 | v5 | 95.0% | — (never real-tested) | rejected: synthetic gate failed | Grounded rate fell to 83.3% (below the ≥95% gate, a regression from v3's 96.7%), so it was rejected automatically before any real-data run. |
+| v6 | 90.0% (matched v3), grounded 96.7% (matched v3) | — (never real-tested) | rejected: synthetic gate failed | A minimal one-sentence patch to v3 (not a rewrite) improved garment accuracy slightly (7→8 of 12) without hurting grounding, but low-data honesty dropped to 5/6 on a single malformed-JSON output that actually said the right thing — a parser-fragility false negative, not a real judgment error. Still rejected by the strict gate rule. |
 
 ## 4. What went wrong, and how we know
 
 ![v2 confusion matrix](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/charts/confusion-v2.png)
 ![v3 confusion matrix](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/charts/confusion-v3.png)
 
-v3's real-30 failure report surfaced a garment-vs-fulfilment confusion pattern: a `garment` cause (a quality failure discovered through use) getting mixed up with `fulfilment` (a shipping/logistics failure discovered at unboxing). v5 was a hand-written targeted attempt to fix exactly that confusion, and it did raise synthetic accuracy to 95% — but the fix cost it evidence grounding, which fell below the gate, so v5 never even reached a real-data test.
+v3's real-30 failure report surfaced a garment-vs-fulfilment confusion pattern: a `garment` cause (a quality failure discovered through use) getting mixed up with `fulfilment` (a shipping/logistics failure discovered at unboxing). v5 was a hand-written targeted attempt to fix exactly that confusion, and it did raise synthetic accuracy to 95% — but the fix cost it evidence grounding, which fell below the gate, so v5 never even reached a real-data test. v6 tried the opposite lesson — the smallest possible one-sentence patch to v3 instead of a rewrite — and it worked exactly as intended on accuracy and grounding, but was still rejected on a single flaky JSON output. Three attempts, three different failure modes: this gap does not close in one loop, and that is reported plainly rather than smoothed over.
 
 ## 5. Beyond accuracy: does a human agree, and would the owner use it
 

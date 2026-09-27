@@ -41,6 +41,12 @@ A version passing the synthetic gate is necessary, not sufficient. Every served 
 
 v4 was generated specifically from v3's real-30 failure report (confusion between `garment` — a quality failure discovered through use — and `fulfilment` — a shipping/logistics failure discovered at unboxing) and from v3's synthetic gate scores. v4 improved grounding (83.3%→96.7%) and JSON parsing (96.7%→100%) on real data but its real cause-accuracy fell to 46.7%, below v3's 56.7%. Per the release rule above, **v4 was archived and v3 stays served** — passing the synthetic gate does not earn a release on its own; the real-data score is checked every time and a regression there blocks the switch even though the synthetic gate passed.
 
+Two more attempts at the same garment/fulfilment fix both failed for different reasons before ever reaching a real-data test:
+- **v5** (a full rewrite targeting the confusion) raised synthetic accuracy to 95% but dropped grounding to 83.3%, below the ≥95% gate — rejected automatically.
+- **v6** (the smallest possible one-sentence patch to v3, not a rewrite) matched v3's accuracy and grounding exactly and improved garment accuracy slightly (7→8 of 12), but low-data honesty fell to 5/6 on one malformed-JSON output — the model said `not_enough_data` correctly but a stray `"}},"` broke the JSON parser. Still rejected by the strict rule, even though it was arguably a parser problem rather than a judgment problem.
+
+The honest conclusion: three attempts, three distinct failure modes (real-world regression, grounding regression, parser fragility), and v3 still serves. Closing the synthetic-to-real gap is not a one-loop fix.
+
 The failure report is the only thing that changes between versions, so every improvement is traceable to a case that failed.
 
 ## The meta-prompt
