@@ -1,6 +1,8 @@
 # FAQ
 
-## What is Owner Console in one sentence?
+*Powered by AGI Corp*
+
+## What is Sapient.X in one sentence?
 
 Four small-business modules (returns root-cause, prep forecasting, ads plain read, theft de-escalation) behind one platform layer, each taking a signal the business already has and returning one action, with every model-backed answer gated by an eval before it ships.
 

@@ -1,6 +1,8 @@
-# Owner Console wiki
+# Sapient.X wiki
 
-Owner Console is the AGI Future Foundation entry to ITCHATHON (27 Sep 2026): four small-business modules behind one platform layer, built with a meta-prompt → agent team → eval gate loop. This wiki is the long-form documentation; the [README](../../README.md) is the short version.
+*Powered by AGI Corp*
+
+Sapient.X is the AGI Future Foundation entry to ITCHATHON (27 Sep 2026): four small-business modules behind one platform layer, built with a meta-prompt → agent team → eval gate loop. This wiki is the long-form documentation; the [README](../../README.md) is the short version.
 
 > Thesis: detection is solved; the next step is not. Every small shop already has data that says what went wrong. Nobody has told the one person standing there what to do next.
 

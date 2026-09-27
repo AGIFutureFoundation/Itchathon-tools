@@ -7,7 +7,7 @@ RAW=media/raw; mkdir -p "$RAW"
 
 # 1. Narration: one line per scene, macOS `say` (no external service, no cost).
 typeset -A NARR; NARR=(
- dashboard "This is Owner Console. Four things a small business already detects, turned into one action each, for an owner working alone. The dashboard says what to do today: which listing needs a new size chart, how much to prep, whether an ad test is real, where stock is walking out."
+ dashboard "This is Sapient.X. Four things a small business already detects, turned into one action each, for an owner working alone. The dashboard says what to do today: which listing needs a new size chart, how much to prep, whether an ad test is real, where stock is walking out."
  returns "Why did it come back. Paste a listing, its size chart and the returns. Claude reads the buyers' own words and names one cause: photos, size chart, garment, expectation or fulfilment. Every quote is checked by code against the input. The fix is ready to paste, and the keep-size message replaces the phone calls Ben used to make. On sixty labelled cases, prompt version two scored ninety-eight percent, up from seventy-eight, after one loop of the meta-prompt."
  prep "Today's prep. Same-weekday median over eight weeks, adjusted for trend, weather and bookings. The owner picks which way they would rather be wrong. One number per item, in under a second, and a seven a.m. card. It beats same-day-last-week by thirty percent on pinball loss."
  ads "Ads plain read. One thirty-five impressions and zero conversions against one twenty-two and two: a significance calculator called a winner. We do not. No winner yet, two hundred conversions per variant needed, and then, what to change anyway, in plain words."
@@ -32,8 +32,9 @@ done
 # 2. Title card (3s): an HTML card screenshotted with Playwright (this ffmpeg build has no drawtext).
 cat > "$RAW/title.html" <<'HTML'
 <body style="margin:0;width:1280px;height:800px;background:#0B1220;display:grid;place-content:center;text-align:center;font-family:-apple-system,Helvetica,Arial,sans-serif;color:#fff">
-<div style="font-size:78px;font-weight:700;letter-spacing:-1px">Owner Console</div>
+<div style="font-size:78px;font-weight:700;letter-spacing:-1px">Sapient.X</div>
 <div style="font-size:30px;color:#9FB3C8;margin-top:18px">Detection is solved. The next step is not.</div>
+<div style="font-size:22px;color:#9FB3C8;margin-top:6px">Powered by AGI Corp</div>
 <div style="font-size:20px;color:#5E7186;margin-top:40px">ITCHATHON 2026 · AGI Future Foundation</div></body>
 HTML
 node -e "const {chromium}=require('./tools/node_modules/playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1280,height:800}});await p.goto('file://'+process.cwd()+'/$RAW/title.html');await p.screenshot({path:'$RAW/title.png'});await b.close();})()"

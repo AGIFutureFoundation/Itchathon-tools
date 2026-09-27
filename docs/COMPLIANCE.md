@@ -1,4 +1,6 @@
-# Compliance — Owner Console (ITCHATHON)
+# Compliance — Sapient.X (ITCHATHON)
+
+*Powered by AGI Corp*
 
 Practical obligations per module and the control that meets each one. Code references: `app/platform/redact.js`, `guard.js`, `retention.js`, `audit.js`, `auth.js`, `ratelimit.js`; prompt clause `prompts/meta/compliance_clause.md`. Where a threshold varies by jurisdiction it says "varies; check" — do not fill in a number from memory.
 

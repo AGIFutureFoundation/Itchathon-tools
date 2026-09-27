@@ -1,8 +1,8 @@
-# Owner Console — Whitepaper
+# Sapient.X — Whitepaper
 
 **Four small-business problems. One action each. Every answer tested before it is allowed to appear.**
 
-AGI Future Foundation · ITCHATHON entry · As of 27 Sep 2026 · https://github.com/AGIFutureFoundation/Itchathon-tools
+Powered by AGI Corp · ITCHATHON entry · As of 27 Sep 2026 · https://github.com/AGIFutureFoundation/Itchathon-tools
 
 Every number here comes from a repository file or from the ITCHATHON Challenges brief. Anything else is marked "assumption" and lives in one table in section 9.
 
@@ -10,7 +10,7 @@ Every number here comes from a repository file or from the ITCHATHON Challenges 
 
 Small shops already have the data that says what went wrong: the return rate, the camera alert, the ad dashboard's "winner", last week's sales. What nobody gives the owner is the next step: one thing to do, in plain words, in under a minute, alone.
 
-Owner Console is four modules on one platform. Each takes a signal the business already has and returns one action:
+Sapient.X is four modules on one platform. Each takes a signal the business already has and returns one action:
 
 - **Returns** — one cause per SKU, the buyer's own words as proof, a fix to paste into the listing.
 - **Prep** — one prep number per item for 7am.
@@ -56,7 +56,7 @@ The real competitor for each module is not a vendor. It is the habit. For return
 
 So each module is scored against the habit. Prep must beat last week's number by at least 15% or it does not ship. Returns must name the right cause on 80% of labelled cases, quote evidence verbatim on 95%, and say "not enough data" whenever the data is thin. Four returns are four sentences, not a statistic.
 
-## 5. Product: Owner Console
+## 5. Product: Sapient.X
 
 One Node process, no framework, no npm dependencies. Four modules behind one platform layer.
 

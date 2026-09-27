@@ -1,4 +1,4 @@
-# Owner Console — single container. Node 24, no npm dependencies for the app
+# Sapient.X — single container. Node 24, no npm dependencies for the app
 # itself; only the Claude Code CLI is installed globally so `claude -p` works.
 FROM node:24-alpine
 

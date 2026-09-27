@@ -1,6 +1,8 @@
 # Contributing
 
-Owner Console is a Node 24 app with no npm dependencies, a Python 3 eval suite, and prompts that are generated, not written. Keep it that way.
+*Powered by AGI Corp*
+
+Sapient.X is a Node 24 app with no npm dependencies, a Python 3 eval suite, and prompts that are generated, not written. Keep it that way.
 
 ## The one rule about prompts
 

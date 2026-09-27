@@ -1,4 +1,6 @@
-# Pitch notes — Owner Console
+# Pitch notes — Sapient.X
+
+*Powered by AGI Corp*
 
 ## Thesis
 Detection is solved; the next step is not. Every small shop already has data that says

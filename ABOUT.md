@@ -1,8 +1,10 @@
 # About this project and the team
 
+*Powered by AGI Corp*
+
 ## AGI Future Foundation
 
-AGI Future Foundation is a foundation building practical AI for small businesses: tools for the person who runs a shop, a kitchen or a marketplace listing alone, and who has under 60 seconds for any answer. Owner Console is the foundation's entry to the ITCHATHON hackathon (27 September 2026). The repository is at https://github.com/AGIFutureFoundation/Itchathon-tools.
+AGI Future Foundation is a foundation building practical AI for small businesses: tools for the person who runs a shop, a kitchen or a marketplace listing alone, and who has under 60 seconds for any answer. Sapient.X is the foundation's entry to the ITCHATHON hackathon (27 September 2026). The repository is at https://github.com/AGIFutureFoundation/Itchathon-tools.
 
 ## Why these four challenges
 

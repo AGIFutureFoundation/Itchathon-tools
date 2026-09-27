@@ -1,4 +1,6 @@
-# STATUS — Owner Console (ITCHATHON build, 27 Sep 2026)
+# STATUS — Sapient.X (ITCHATHON build, 27 Sep 2026)
+
+*Powered by AGI Corp*
 
 Frozen prompt for Returns: `prompts/returns/v2.md` (gate met). All four modules mounted; platform layer active.
 

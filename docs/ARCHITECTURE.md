@@ -1,4 +1,6 @@
-# Owner Console — architecture
+# Sapient.X — architecture
+
+*Powered by AGI Corp*
 
 One Node process, no framework, no npm dependencies in the app. Four modules share one
 build loop and one platform layer. Everything an owner sees is either deterministic or

@@ -1,7 +1,7 @@
-/* Owner Console — shared tokens + top nav. Link from every page:
+/* Sapient.X — shared tokens + top nav. Link from every page:
    <link rel="stylesheet" href="/console.css">
-   <nav class="oc-nav" aria-label="Owner Console">
-     <a class="oc-brand" href="/dashboard.html">Owner Console</a>
+   <nav class="oc-nav" aria-label="Sapient.X">
+     <a class="oc-brand" href="/dashboard.html">Sapient.X</a>
      <div class="oc-links"><a href="/dashboard.html" aria-current="page">Dashboard</a> ... </div>
    </nav>
    Dark-first (deep navy); light variant via prefers-color-scheme or [data-theme="light"]. */

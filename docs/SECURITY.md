@@ -1,4 +1,6 @@
-# Security — Owner Console
+# Security — Sapient.X
+
+*Powered by AGI Corp*
 
 Threat model and the control for each. File references are under `app/platform/`.
 
