@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Owner Console whitepaper: four small-business problems, one action each, every answer tested before it is shown. AGI Future Foundation, ITCHATHON 2026.">
+<title>Owner Console Whitepaper</title>
+<style>
+:root{
+  --bg:#F7F7F5;--surface:#FFFFFF;--ink:#1B1F1E;--muted:#5D6664;--line:#D9DDDB;
+  --accent:#0E6F63;--accent-soft:#E3F1EE;--warn-bg:#FBF1DF;--warn-ink:#7A4E00;--code-bg:#EEF0EF;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){color-scheme:dark;
+    --bg:#111615;--surface:#181F1D;--ink:#E7ECEA;--muted:#9AA7A3;--line:#2B3532;
+    --accent:#5AC7B4;--accent-soft:#1B2E2A;--warn-bg:#3A2C12;--warn-ink:#F0C47A;--code-bg:#1F2826;}
+}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#111615;--surface:#181F1D;--ink:#E7ECEA;--muted:#9AA7A3;--line:#2B3532;
+  --accent:#5AC7B4;--accent-soft:#1B2E2A;--warn-bg:#3A2C12;--warn-ink:#F0C47A;--code-bg:#1F2826;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:17px;line-height:1.55;-webkit-text-size-adjust:100%}
+.page{max-width:1120px;margin:0 auto;padding:32px 16px 72px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px}
+@media (max-width:900px){.page{grid-template-columns:1fr;gap:24px}}
+header.masthead{grid-column:1/-1;border-bottom:1px solid var(--line);padding-bottom:20px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1{font-size:clamp(30px,5vw,44px);line-height:1.1;margin:0 0 10px;letter-spacing:-.01em}
+.tagline{font-size:19px;margin:0 0 12px;max-width:60ch}
+.meta{color:var(--muted);font-size:14px;margin:0}
+.meta a{color:inherit}
+.note{background:var(--accent-soft);border-left:3px solid var(--accent);padding:10px 14px;border-radius:6px;margin:14px 0 0;font-size:15px;max-width:70ch}
+nav.toc{position:sticky;top:20px;align-self:start;font-size:14px}
+nav.toc h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li{margin:0 0 6px}
+nav.toc a{color:var(--ink);text-decoration:none;border-left:2px solid transparent;padding-left:8px;display:block}
+nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+@media (max-width:900px){nav.toc{position:static;border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--surface)}}
+main{min-width:0}
+main h2{font-size:26px;margin:40px 0 12px;line-height:1.2;scroll-margin-top:16px}
+main h2:first-child{margin-top:0}
+main h3{font-size:18px;margin:26px 0 8px}
+main p{margin:0 0 14px;max-width:72ch}
+main ul,main ol{padding-left:22px;margin:0 0 14px;max-width:72ch}
+main li{margin-bottom:6px}
+main a{color:var(--accent)}
+blockquote{margin:0 0 16px;padding:12px 18px;border-left:3px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0;font-style:italic;max-width:72ch}
+blockquote p{margin:0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+pre{background:var(--code-bg);padding:14px 16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.45;margin:0 0 16px}
+pre code{background:none;padding:0;font-size:inherit}
+.tablewrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:560px}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font-weight:600;background:var(--accent-soft);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+#go-to-market .tablewrap{border-color:var(--warn-ink)}
+#go-to-market th{background:var(--warn-bg);color:var(--warn-ink)}
+footer{grid-column:1/-1;border-top:1px solid var(--line);margin-top:40px;padding-top:16px;color:var(--muted);font-size:14px}
+@media print{
+  body{background:#fff;color:#000;font-size:11pt}
+  .page{display:block;max-width:none;padding:0}
+  nav.toc{display:none}
+  .tablewrap{border-color:#999;overflow:visible}
+  table{min-width:0;font-size:10pt}
+  th{background:#eee;color:#000}
+  main h2{break-after:avoid;margin-top:22pt}
+  tr,blockquote,pre{break-inside:avoid}
+  a{color:#000;text-decoration:none}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:9pt;color:#555}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="masthead">
+  <p class="eyebrow">Whitepaper · AGI Future Foundation · ITCHATHON entry</p>
+  <h1>Owner Console</h1>
+  <p class="tagline">Four small-business problems. One action each. Every answer tested before it is allowed to appear.</p>
+  <p class="meta">As of 27 Sep 2026 · <a href="https://github.com/AGIFutureFoundation/Itchathon-tools">github.com/AGIFutureFoundation/Itchathon-tools</a> · MIT licence</p>
+  <p class="note">Every number on this page comes from a repository file or from the ITCHATHON Challenges brief. Anything else is marked "assumption" and lives in one table in section 9. Sources are listed at the end.</p>
+</header>
+<nav class="toc" aria-label="Contents">
+  <h2>Contents</h2>
+  <ol>
+<li><a href="#1-executive-summary">1. Executive summary</a></li>
+<li><a href="#2-the-problem">2. The problem</a></li>
+<li><a href="#3-why-existing-tools-fail">3. Why existing tools fail</a></li>
+<li><a href="#4-the-insight">4. The insight</a></li>
+<li><a href="#5-product-owner-console">5. Product: Owner Console</a></li>
+<li><a href="#6-how-it-is-built">6. How it is built</a></li>
+<li><a href="#7-evidence">7. Evidence</a></li>
+<li><a href="#8-enterprise-and-compliance">8. Enterprise and compliance</a></li>
+<li><a href="#go-to-market">9. Go-to-market</a></li>
+<li><a href="#10-roadmap">10. Roadmap</a></li>
+<li><a href="#11-risks">11. Risks</a></li>
+<li><a href="#12-team-and-contact">12. Team and contact</a></li>
+<li><a href="#appendix-a-eval-methodology">Appendix A. Eval methodology</a></li>
+<li><a href="#appendix-b-cause-labels">Appendix B. Cause labels</a></li>
+<li><a href="#appendix-c-output-contracts">Appendix C. Output contracts</a></li>
+<li><a href="#sources">Sources</a></li>
+  </ol>
+</nav>
+<main>
+<h2 id="1-executive-summary">1. Executive summary</h2>
+<p>Small shops already have the data that says what went wrong: the return rate, the camera alert, the ad dashboard's "winner", last week's sales. What nobody gives the owner is the next step: one thing to do, in plain words, in under a minute, alone.</p>
+<p>Owner Console is four modules on one platform. Each takes a signal the business already has and returns one action:</p>
+<ul>
+<li><strong>Returns</strong> — one cause per SKU, the buyer's own words as proof, a fix to paste into the listing.</li>
+<li><strong>Prep</strong> — one prep number per item for 7am.</li>
+<li><strong>Ads</strong> — the one ad change worth making this week, or an honest "no winner yet".</li>
+<li><strong>Theft</strong> — the sentence to say and where to stand in the ten seconds after an alert. No confrontation. No model.</li>
+</ul>
+<p>Where a model is involved, its prompt was written by a meta-prompt, scored on labelled cases, and shipped only when it beat the previous version. Returns went from 78.3% to 98.3% cause accuracy in one loop. Prep beats "same weekday last week" by 30.4%. Ads scored 20/20 on statistics honesty. On ten cases built from real Amazon reviews without size charts, returns scored 4/10. That gap feeds the next loop, and we report it rather than hide it.</p>
+<h2 id="2-the-problem">2. The problem</h2>
+<p>The brief describes four pains with one shape: detection exists, the step after it does not.</p>
+<p><strong>Returns.</strong> A seller above 20% returns on r/AmazonSeller, quoted in the brief:</p>
+<blockquote>
+<p>the "reason" field customers pick at checkout is useless, everything's either "changed my mind" or "doesn't fit", neither tells me if it's the product, the photos, or the sizing.</p>
+</blockquote>
+<p>Since June 2024 Amazon charges a returns processing fee of 2.9–12.8% above category thresholds. The "Frequently returned item" badge cuts conversion by 25–50%. The only fix the thread found was manual: read your own returns, work out why, rewrite the listing.</p>
+<p><strong>Ads.</strong> The owner pays an agency (about $3,500 a month, per the brief) and does not know what CPA, ROAS, CTR or PMax mean. A calculator told one owner that 135 impressions with 0 conversions versus 122 with 2 had a "winner". Performance Max goes erratic under roughly 30–50 conversions a month.</p>
+<p><strong>Theft.</strong> The camera, or a service like Veesion, already flags the aisle. The person on the floor is alone, the item is worth $10–$20, and nobody has told them what to do in the next ten seconds.</p>
+<p><strong>Prep.</strong> The POS holds every sale. At 7am the shift lead still guesses, usually from last week.</p>
+<h2 id="3-why-existing-tools-fail">3. Why existing tools fail</h2>
+<p>They were built for volume, budget and staff the small operator does not have.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Tool class</th>
+<th>Built for</th>
+<th>What the SMB lacks</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sizing tools (True Fit, Bold Metrics)</td>
+<td>Brand storefronts; ~$1,650/month entry</td>
+<td>Cannot be installed on a marketplace listing</td>
+<td>Brief</td>
+</tr>
+<tr>
+<td>Marketing agencies</td>
+<td>Accounts big enough to test; ~$3,500/month</td>
+<td>Enough conversions for a clean A/B test</td>
+<td>Brief</td>
+</tr>
+<tr>
+<td>Google Performance Max</td>
+<td>30–50+ conversions a month</td>
+<td>The volume that keeps the automation stable</td>
+<td>Brief; <code>ads.js</code></td>
+</tr>
+<tr>
+<td>AI video analytics</td>
+<td>Multi-staff stores; $8–35K installed, or Veesion at a few hundred $/month</td>
+<td>A second person to act on the alert; a safe script</td>
+<td>Brief</td>
+</tr>
+</tbody>
+</table></div>
+<p>None fail at detection. They fail because the owner is one person, the sample is small, and the tool stops at the dashboard.</p>
+<h2 id="4-the-insight">4. The insight</h2>
+<p>Detection is solved; the next step is not.</p>
+<p>The real competitor for each module is not a vendor. It is the habit. For returns it is reading returns one ASIN at a time and phoning buyers to say which size to keep. For prep it is "same weekday last week". For ads it is trusting the word "winner". For theft it is doing nothing, or something unsafe.</p>
+<p>So each module is scored against the habit. Prep must beat last week's number by at least 15% or it does not ship. Returns must name the right cause on 80% of labelled cases, quote evidence verbatim on 95%, and say "not enough data" whenever the data is thin. Four returns are four sentences, not a statistic.</p>
+<h2 id="5-product-owner-console">5. Product: Owner Console</h2>
+<p>One Node process, no framework, no npm dependencies. Four modules behind one platform layer.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Signal in</th>
+<th>Action out</th>
+<th>Measured result</th>
+<th>Model?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why Did It Come Back? (Ch. 1)</td>
+<td>Listing, size chart, returns, reviews, messages; or an ASIN via Apify</td>
+<td>One cause, verbatim quotes checked by code, paste-ready fix, keep-size message</td>
+<td>98.3% cause accuracy on 60 cases; 100% on the hard 20; 15.1 s</td>
+<td>Yes, gated</td>
+</tr>
+<tr>
+<td>Today's Prep (Ch. 4)</td>
+<td>POS history, run-out/neutral/waste preference, bookings, events, weather</td>
+<td>One prep number per item with a range and a reason; 7am card</td>
+<td>Pinball loss 2.88 vs 4.14 for the habit: +30.4%</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Ads Plain Read (Ch. 2)</td>
+<td>Campaign export, goal, budget</td>
+<td>Plain-English read; one to three changes; <code>test_is_valid</code> from a z-test the model cannot flip</td>
+<td>20/20 stats honesty; 135/0 vs 122/2 = "no winner yet"</td>
+<td>Yes, contract enforced</td>
+</tr>
+<tr>
+<td>Ten Seconds After (Ch. 3)</td>
+<td>Alert: zone, item value, staff on floor, repeat visitor</td>
+<td>Primary and secondary action, script, channel, ten-second timer; monthly "move that shelf?" table</td>
+<td>Rules table; same alert, same answer, under a second</td>
+<td>No</td>
+</tr>
+</tbody>
+</table></div>
+<p>Theft is model-free so the answer arrives in under a second, is identical every time, and never contains a sentence a lawyer would not sign. Four fixed lines ride on every response: do not confront or accuse, do not chase, do not touch, do not block the exit.</p>
+<h2 id="6-how-it-is-built">6. How it is built</h2>
+<p>No product prompt in the repository was written by hand.</p>
+<ol>
+<li><strong>Meta-prompt.</strong> <code>prompts/meta/master.md</code> takes the brief, the habit to beat, the I/O contracts, the compliance clause and the last failure report, and writes <code>prompts/&lt;module&gt;/vN.md</code>.</li>
+<li><strong>Agent team.</strong> Seven Claude Code subagents: lead, meta-prompter (the only agent allowed to write product prompts), builder, data-synth (60 labelled cases, 20 deliberately noisy), eval-runner, judge, and persona-ben, the owner who says yes or no.</li>
+<li><strong>Eval gate.</strong> <code>evals/run.py</code> replays every case through the new prompt and scores deterministic checks only. Returns gate: cause accuracy ≥ 0.80, grounded ≥ 0.95, low-data honesty ≥ 0.99. A failing version produces a failure report, the only input that changes the next version.</li>
+<li><strong>Release.</strong> The server loads only the newest version, committed only when it beats the previous one. Every response carries <code>_meta.prompt_source</code>.</li>
+</ol>
+<p>Before any model output reaches an owner, code checks JSON shape, allowed enum values, and that every evidence quote is a character-for-character substring of the input. If the check fails the owner sees an error, not a plausible guess. Each prompt file has a header with version, parent, fixes and the model that wrote it.</p>
+<h2 id="7-evidence">7. Evidence</h2>
+<h3 id="71-returns-v1-to-v2-60-synthetic-cases-sonnet">7.1 Returns, v1 to v2 (60 synthetic cases, Sonnet)</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>v1</th>
+<th>v2</th>
+<th>Gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cause accuracy</td>
+<td>78.3%</td>
+<td><strong>98.3%</strong></td>
+<td>≥ 80%</td>
+</tr>
+<tr>
+<td>Hard subset (c41–c60)</td>
+<td>85%</td>
+<td><strong>100%</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>Evidence grounded</td>
+<td>88.3%</td>
+<td><strong>95%</strong></td>
+<td>≥ 95%</td>
+</tr>
+<tr>
+<td>Low-data honesty</td>
+<td>83.3%</td>
+<td><strong>100%</strong></td>
+<td>≥ 99%</td>
+</tr>
+<tr>
+<td>Mean latency</td>
+<td>25.0 s</td>
+<td>15.1 s</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>v1 confused garment with size_chart (4 of 12 garment cases) and expectation with garment (3). The failure report went back into the meta-prompt; v2 added "count first", made expectation outrank garment, and made size_chart fire only when the chart itself is broken. One loop closed the gap. Remaining misses: one malformed JSON (c08) and two lightly paraphrased quotes (c30, c55), which the live guard would strip.</p>
+<h3 id="72-prep">7.2 Prep</h3>
+<p>6 items, 84 days, 14-day holdout, pinball loss at tau 0.65 (run-out) and 0.5 (neutral). Habit 4.14, model 2.88: +30.4% (run-out +32.6%, neutral +28.0%), gate ≥ 15%. The model won on every item; Node and Python agree on all 18 forecasts. The POS data is synthetic.</p>
+<h3 id="73-ads">7.3 Ads</h3>
+<p>20 cases through the same <code>computeStats</code> the server runs: stats honesty 100%, no failures. The hackathon case returns <code>test_is_valid: false</code> and "no winner yet".</p>
+<h3 id="74-the-honest-real-data-result">7.4 The honest real-data result</h3>
+<p>The data agent pulled 54 critical Amazon reviews for 7 products through Apify (about $0.42) and built 10 cases. The free-tier scraper returned no bullet points and no size chart for any product, so every case has <code>size_chart: null</code>.</p>
+<p>v2 scored <strong>4/10 (40%)</strong>. Grounding stayed at 100% and every output parsed. The misses were garment ↔ size_chart and expectation → size_chart: with no chart present, the rule "chart is null with two or more fit complaints" fires too readily, and thin-fabric complaints get read as fit. Mean latency rose to 48.9 s.</p>
+<p>Next loop: <code>v2_real.failures.md</code> becomes the input to <code>generate.py</code>. v3 must weigh review text over chart signals, treat a missing chart as a weaker cue when the listing has no structured data, and keep the two <code>not_enough_data</code> cases honest. The synthetic score stays the release gate; the real score is reported beside it.</p>
+<h3 id="75-platform">7.5 Platform</h3>
+<p>Redaction, guard and retention tests: 11/11, zero redaction false positives on the 60 golden cases.</p>
+<h2 id="8-enterprise-and-compliance">8. Enterprise and compliance</h2>
+<p><strong>Multi-tenant.</strong> Every request carries a tenant, plan and module list; rate limits (60/min default) and audit are per tenant. A tenant id never comes from the request body; no cross-tenant query exists.</p>
+<p><strong>Audit.</strong> One JSONL row per call: tenant, module, prompt version, model, latency, SHA-256 of the input, result summary. Never the input itself.</p>
+<p><strong>Redaction and guard.</strong> E-mail, phone, order, card, IBAN and address become stable placeholders before any model call or storage; the placeholder map is never written. Buyer text is wrapped as untrusted and scored for injection; the output guard rejects non-verbatim evidence, URLs, off-marketplace contact advice and prompt leaks. Grounding is checked against the redacted input, so a quote containing a real phone number fails.</p>
+<p><strong>Retention.</strong> Audit 90 days, raw imports 30 days, theft log 365 days, <code>person_description</code> blanked after 24 hours.</p>
+<p><strong>Regulation, per module.</strong></p>
+<ul>
+<li>Returns: seller is controller, we are processor (GDPR Art. 28, CCPA service provider); a DPA precedes production. Amazon's Data Protection Policy: no PII past 30 days after fulfilment, purpose-bound, encrypted, access-logged.</li>
+<li>Ads: Google Ads and Meta Marketing API terms forbid pooling across advertisers; none exists. The statistics floor is the FTC/ASA substantiation for any "won" claim.</li>
+<li>Theft: no video, images or biometrics, so the module stays outside BIPA, GDPR Art. 9 and the EU AI Act's biometric categories. Camera signage and lawful basis belong to the store. Scripts follow OSHA guidance on avoiding confrontation.</li>
+<li>Cross-cutting: EU AI Act limited-risk transparency ("Produced by an AI system; check before acting") on every read; zero-data-retention with the model provider before EU buyer text at scale.</li>
+</ul>
+<p>Eval gates are the change-management record: a prompt ships only when the eval passes and the compliance clause is present verbatim.</p>
+<h2 id="go-to-market">9. Go-to-market</h2>
+<p>This is a hackathon build; everything here is a plan. The numbers below are hypotheses and appear nowhere else in this document.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pilot cohort</td>
+<td>5 marketplace sellers (returns, ads) + 3 kitchens (prep; theft where a camera exists)</td>
+<td>Assumption</td>
+</tr>
+<tr>
+<td>Pilot length</td>
+<td>90 days</td>
+<td>Assumption</td>
+</tr>
+<tr>
+<td>Pilot success test</td>
+<td>Each module beats the owner's habit on their own cases at the repo gates; persona-Ben "yes" ≥ 70%</td>
+<td>Gates from repo</td>
+</tr>
+<tr>
+<td>Pricing hypothesis, per module per month</td>
+<td>Returns $49 · Prep $29 · Ads $39 · Theft $29; all four under $120</td>
+<td>Hypothesis</td>
+</tr>
+<tr>
+<td>Pricing anchor</td>
+<td>Incumbents in the brief: $1,650 (sizing), $3,500 (agency) a month</td>
+<td>Brief</td>
+</tr>
+</tbody>
+</table></div>
+<p>We publish no market size. The brief gives none and we will not invent one. The pilot's main output is real cases with real labels: a failing pilot case goes into <code>evals/&lt;module&gt;/cases.jsonl</code>, the runner writes the failure report, the meta-prompter writes the next version, and the gate decides.</p>
+<h2 id="10-roadmap">10. Roadmap</h2>
+<p>Nothing here has a date.</p>
+<ul>
+<li><strong>90-day pilots</strong> with real owners, their cases driving the loop.</li>
+<li><strong>Real-data loops.</strong> v3 for returns from <code>v2_real.failures.md</code>; synthetic and real scores reported side by side.</li>
+<li><strong>Marketplace and platform integrations.</strong> ASIN-only input via Apify; a POS importer; Google Ads and Meta connections with read-only OAuth tokens; a camera-vendor webhook into <code>/api/theft/alert</code>.</li>
+<li><strong>Gate hardening.</strong> Judge calibration (within one point on ≥ 12 of 15 hand-scored outputs) and the persona-Ben yes-rate added to the gate; the ads prompt routed through the same redact, guard and generate path.</li>
+<li><strong>Platform.</strong> Tenants from a table; hash-chained audit lines; DSAR tooling.</li>
+</ul>
+<p>Not planned: any detector, any biometrics, any cross-tenant pooling, any hand-edited prompt.</p>
+<h2 id="11-risks">11. Risks</h2>
+<ul>
+<li><strong>Synthetic-to-real gap.</strong> 98.3% synthetic, 40% on ten real cases with no size charts and labels from one agent. The number will move; closing it is the point of the next loop.</li>
+<li><strong>Prep is backtested on synthetic POS data.</strong> A real feed may behave differently.</li>
+<li><strong>Model dependence.</strong> Latency (15.1 s synthetic, 48.9 s on real reviews) and output format depend on the provider. Prep and ads fall back to templates; returns fails closed.</li>
+<li><strong>Marketplace terms.</strong> The ASIN path via a scraper needs a terms review before production.</li>
+<li><strong>Theft liability.</strong> The module never tells staff to intervene; signage, lawful basis and training remain the store's.</li>
+<li><strong>One build, one hour.</strong> Tests and demo have run. Production has not.</li>
+</ul>
+<h2 id="12-team-and-contact">12. Team and contact</h2>
+<p>Built by AGI Future Foundation with seven Claude Code subagents. Product prompts were written by Opus from the master meta-prompt; evals ran on Sonnet. MIT licence.</p>
+<p>Contact: open an issue at https://github.com/AGIFutureFoundation/Itchathon-tools/issues for bug reports, new eval cases and pilot interest.</p>
+<h2 id="appendix-a-eval-methodology">Appendix A. Eval methodology</h2>
+<p><code>evals/run.py</code> sends each case to <code>claude -p</code> with the prompt under test, extracts the first complete JSON object, and scores: <code>cause_ok</code> (cause matches the label), <code>grounded</code> (every evidence string is an exact substring of the inputs), <code>low_data_ok</code> (cases with under 3 returns say <code>not_enough_data</code>), <code>has_fix</code> (<code>paste_ready</code> non-empty), and <code>hard_subset_accuracy</code> (ids ≥ c41).</p>
+<p>Case mix (60): photos 12, size_chart 12, garment 12, expectation 10, fulfilment 8, not_enough_data 6. Real cases (10): garment 3, expectation 3, not_enough_data 2, size_chart 1, fulfilment 1. Prep: pinball loss at tau 0.65 and 0.5 versus same-weekday-last-week, Node/Python parity required. Ads: 100% agreement on <code>test_is_valid</code>; "winner" never appears when it is false.</p>
+<h2 id="appendix-b-cause-labels">Appendix B. Cause labels</h2>
+<p><code>photos</code>: images misrepresent colour, material or scale. <code>size_chart</code>: chart wrong, missing, or inconsistent with the garment. <code>garment</code>: product runs small or large, or is poor quality versus stated. <code>expectation</code>: listing text overpromises or is vague. <code>fulfilment</code>: wrong item, damaged in transit, late. <code>not_enough_data</code>: fewer than 3 returns and no clear signal.</p>
+<h2 id="appendix-c-output-contracts">Appendix C. Output contracts</h2>
+<p>Returns (<code>POST /api/diagnose</code>), keys in this order:</p>
+<pre><code>{&quot;sku&quot;, &quot;cause&quot;: photos|size_chart|garment|expectation|fulfilment|not_enough_data,
+ &quot;confidence&quot;: 0..1, &quot;evidence&quot;: [verbatim substrings],
+ &quot;fix&quot;: {&quot;what_to_change&quot;, &quot;paste_ready&quot;}, &quot;keep_size_message&quot;, &quot;owner_line&quot;}
+</code></pre>
+<p>Prep: per item <code>prep_qty</code>, <code>range</code>, <code>why</code>. Ads: <code>whats_happening</code> (≤ 60 words), <code>change_next</code> (1–3 actions), <code>test_is_valid</code> (always the code's value), <code>numbers_used</code> (only numbers in the input). Theft: <code>action { primary, secondary, do_not[4], followups }</code>, <code>script</code>, <code>channel</code>, <code>timing_seconds: 10</code>. Model-backed responses carry <code>_meta: { prompt_source, model, latency_ms }</code>.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li>ITCHATHON Challenges brief (27 Sep 2026) and the Reddit threads it cites: the seller quote and all market figures.</li>
+<li>Repo: <code>STATUS.md</code>, <code>docs/ARCHITECTURE.md</code>, <code>docs/PITCH_NOTES.md</code>, <code>docs/COMPLIANCE.md</code>, <code>docs/SECURITY.md</code>, <code>pitch/pitch.html</code>, <code>docs/wiki/</code>.</li>
+<li>Evals: <code>evals/returns/results/v1.log</code>, <code>v2.log</code>, <code>v2_real.failures.md</code>, <code>evals/returns/real/README.md</code>, <code>evals/prep/results.json</code>, <code>evals/ads/results.json</code>.</li>
+</ul>
+</main>
+<footer>
+  Owner Console whitepaper · As of 27 Sep 2026 · AGI Future Foundation · Questions and pilot interest: open an issue on the repository.
+</footer>
+</div>
+</body>
+</html>

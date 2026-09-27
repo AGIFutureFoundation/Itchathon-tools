@@ -1,0 +1,8 @@
+[
+ {
+  "error": "product_not_found",
+  "errorDescription": "Loaded a 404 page. The product does not exist.",
+  "input": "https://www.amazon.com/dp/B000XEUPMY",
+  "url": "https://www.amazon.com/dp/B000XEUPMY"
+ }
+]
