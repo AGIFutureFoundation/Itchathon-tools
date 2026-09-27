@@ -86,7 +86,29 @@ function readAllAudit() {
 }
 
 // ---------- returns ----------
+function servedReturnsVersion() {
+  // Mirrors app/server.js loadSystemPrompt(): a SERVED pin wins over "highest vN".
+  try {
+    const pin = fs.readFileSync(path.join(__dirname, '..', '..', 'prompts', 'returns', 'SERVED'), 'utf8').trim();
+    if (/^v\d+$/.test(pin)) return Number(pin.slice(1));
+  } catch { /* no pin: fall through */ }
+  let best = null;
+  try {
+    for (const f of fs.readdirSync(path.join(__dirname, '..', '..', 'prompts', 'returns'))) {
+      const m = /^v(\d+)\.md$/.exec(f);
+      if (m && (!best || Number(m[1]) > best)) best = Number(m[1]);
+    }
+  } catch { /* none */ }
+  return best;
+}
 function newestReturnsEval() {
+  const servedN = servedReturnsVersion();
+  if (servedN != null) {
+    const f = path.join(EVALS_RETURNS, `v${servedN}.json`);
+    const j = readJson(f);
+    if (j && j.summary) return { ...j.summary, version: j.summary.version || `v${servedN}`, served: true };
+  }
+  // fall back to the highest eval on disk if the served version has no eval file
   let best = null;
   try {
     for (const f of fs.readdirSync(EVALS_RETURNS)) {
@@ -437,7 +459,9 @@ function platformSection(audit, returns, sources) {
   sources.tenants = tenantList.length ? 'live' : 'demo';
   sources.audit = audit.length ? 'live' : 'demo';
   const versions = promptVersions();
-  const served = versions.length ? versions[versions.length - 1].version : returns.eval.version;
+  const servedN = servedReturnsVersion();
+  const served = servedN != null ? `v${servedN}` : (versions.length ? versions[versions.length - 1].version : returns.eval.version);
+  for (const v of versions) v.served = v.version === served;
   const lat = todayRows.map(r => r.latency_ms).filter(Number.isFinite);
   const p50 = lat.length ? lat.sort((a, b) => a - b)[Math.floor(lat.length / 2)] : null;
   return {

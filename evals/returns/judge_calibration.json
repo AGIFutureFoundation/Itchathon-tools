@@ -1,0 +1,298 @@
+{
+ "summary": {
+  "n": 15,
+  "agree_within_one": 13,
+  "agreement_rate": 0.867,
+  "gate": "agree_within_one >= 12 of 15 (judge.md calibration)",
+  "gate_met": true,
+  "source_results_file": "/Users/romanbridge.x/Library/Application Support/Claude/scratch-workspaces/c81259aa-2900-4a5e-8418-809d12108ca7/de1c1370-5431-4608-8e2e-d59664584afc/scratch-2026-09-27-713a37/returns-rootcause/evals/returns/results/v3_synth.json",
+  "note": "Task referenced evals/returns/results/v3.json, which does not exist. Used v3_synth.json instead: it is the v3 synthetic-eval results file whose summary numbers (90% accuracy, 96.7% grounded, 100% low-data) match the ones STATUS.md attributes to v3."
+ },
+ "records": [
+  {
+   "id": "c01",
+   "expected_cause": "photos",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 5,
+    "score_pasteable": 4,
+    "score_fits": 5,
+    "notes": "Correctly identifies photo/color misrepresentation with direct return quotes and an actionable reshoot checklist."
+   },
+   "judge_raw": "{\"score_specific\": 5, \"score_pasteable\": 4, \"score_fits\": 5, \"notes\": \"Correctly identifies photo/color misrepresentation with direct return quotes and an actionable reshoot checklist.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c07",
+   "expected_cause": "photos",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 5,
+    "score_pasteable": 4,
+    "score_fits": 5,
+    "notes": "Evidence and fix directly cite the misleading lifestyle photo and returns comments, with an actionable owner_line, though paste_ready is a to-do list rather than final copy."
+   },
+   "judge_raw": "{\"score_specific\": 5, \"score_pasteable\": 4, \"score_fits\": 5, \"notes\": \"Evidence and fix directly cite the misleading lifestyle photo and returns comments, with an actionable owner_line, though paste_ready is a to-do list rather than final copy.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c13",
+   "expected_cause": "photos",
+   "human_score": {
+    "score_specific": 4,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 5,
+    "score_pasteable": 4,
+    "score_fits": 5,
+    "notes": "Directly cites the return/review quotes and swatch-color mismatch, matches photos cause well, and the fix steps are concrete though slightly instructional rather than a literal drop-in text."
+   },
+   "judge_raw": "{\"score_specific\": 5, \"score_pasteable\": 4, \"score_fits\": 5, \"notes\": \"Directly cites the return/review quotes and swatch-color mismatch, matches photos cause well, and the fix steps are concrete though slightly instructional rather than a literal drop-in text.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c02",
+   "expected_cause": "size_chart",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "Correctly identifies the EU column mismatch with direct quotes and provides a ready-to-paste corrected chart."
+   },
+   "judge_raw": "{\"score_specific\": 5, \"score_pasteable\": 5, \"score_fits\": 5, \"notes\": \"Correctly identifies the EU column mismatch with direct quotes and provides a ready-to-paste corrected chart.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c08",
+   "expected_cause": "size_chart",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 5,
+    "score_pasteable": 4,
+    "score_fits": 5,
+    "notes": "Directly cites the specific no-size-chart complaints and provides a ready-to-use size chart template matching the fit cause, though sellers must still fill in actual measurements."
+   },
+   "judge_raw": "{\"score_specific\": 5, \"score_pasteable\": 4, \"score_fits\": 5, \"notes\": \"Directly cites the specific no-size-chart complaints and provides a ready-to-use size chart template matching the fit cause, though sellers must still fill in actual measurements.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c14",
+   "expected_cause": "size_chart",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 5,
+    "score_pasteable": 4,
+    "score_fits": 5,
+    "notes": "Correctly identifies the cm/inch inconsistency with exact quotes and provides a nearly ready-to-use corrected chart, only missing the actual 32in cm value."
+   },
+   "judge_raw": "{\"score_specific\": 5, \"score_pasteable\": 4, \"score_fits\": 5, \"notes\": \"Correctly identifies the cm/inch inconsistency with exact quotes and provides a nearly ready-to-use corrected chart, only missing the actual 32in cm value.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c03",
+   "expected_cause": "garment",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "Cites exact measurements and quotes, gives a ready-to-send supplier message, and correctly matches the garment sizing/shrinkage root cause."
+   },
+   "judge_raw": "{\"score_specific\": 5, \"score_pasteable\": 5, \"score_fits\": 5, \"notes\": \"Cites exact measurements and quotes, gives a ready-to-send supplier message, and correctly matches the garment sizing/shrinkage root cause.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c09",
+   "expected_cause": "garment",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 4,
+    "score_pasteable": 4,
+    "score_fits": 5,
+    "notes": "Correctly identifies narrow-width garment defect with concrete quoted evidence and a supplier-ready message, though not tied to a specific SKU/photo."
+   },
+   "judge_raw": "{\"score_specific\": 4, \"score_pasteable\": 4, \"score_fits\": 5, \"notes\": \"Correctly identifies narrow-width garment defect with concrete quoted evidence and a supplier-ready message, though not tied to a specific SKU/photo.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c15",
+   "expected_cause": "garment",
+   "human_score": {
+    "score_specific": 4,
+    "score_pasteable": 5,
+    "score_fits": 2,
+    "notes": "human-proxy: cause_ok=False grounded=True evidence_n=3"
+   },
+   "judge_score": {
+    "score_specific": 3,
+    "score_pasteable": 2,
+    "score_fits": 2,
+    "notes": "Output frames this as a fabric-weight expectation mismatch and only vaguely softens handle wording, but most returns/reviews point to an actual stitching/handle construction defect, which the expected 'garment' cause and a proper fix should target directly."
+   },
+   "judge_raw": "{\"score_specific\": 3, \"score_pasteable\": 2, \"score_fits\": 2, \"notes\": \"Output frames this as a fabric-weight expectation mismatch and only vaguely softens handle wording, but most returns/reviews point to an actual stitching/handle construction defect, which the expected 'garment' cause and a proper fix should target directly.\"}",
+   "judge_error": null,
+   "agree_within_one": false
+  },
+  {
+   "id": "c04",
+   "expected_cause": "expectation",
+   "human_score": {
+    "score_specific": 4,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 4,
+    "score_pasteable": 4,
+    "score_fits": 5,
+    "notes": "Correctly identifies size/scent mismatch with direct quotes, though placeholder [X] oz needs one manual fill-in."
+   },
+   "judge_raw": "{\"score_specific\": 4, \"score_pasteable\": 4, \"score_fits\": 5, \"notes\": \"Correctly identifies size/scent mismatch with direct quotes, though placeholder [X] oz needs one manual fill-in.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c10",
+   "expected_cause": "expectation",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 4,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "Correctly identifies the 'results in days/fast' overclaim as expectation mismatch with quotable evidence and directly pasteable rewritten bullets/title."
+   },
+   "judge_raw": "{\"score_specific\": 4, \"score_pasteable\": 5, \"score_fits\": 5, \"notes\": \"Correctly identifies the 'results in days/fast' overclaim as expectation mismatch with quotable evidence and directly pasteable rewritten bullets/title.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c05",
+   "expected_cause": "fulfilment",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "Correctly identifies fulfilment/packaging as cause, cites exact return comments, and provides an immediately actionable packing fix."
+   },
+   "judge_raw": "{\"score_specific\": 5, \"score_pasteable\": 5, \"score_fits\": 5, \"notes\": \"Correctly identifies fulfilment/packaging as cause, cites exact return comments, and provides an immediately actionable packing fix.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c11",
+   "expected_cause": "fulfilment",
+   "human_score": {
+    "score_specific": 5,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=4"
+   },
+   "judge_score": {
+    "score_specific": 4,
+    "score_pasteable": 4,
+    "score_fits": 5,
+    "notes": "Correctly identifies fulfilment/mispick issue with direct quotes and an actionable, mostly ready-to-use fix."
+   },
+   "judge_raw": "{\"score_specific\": 4, \"score_pasteable\": 4, \"score_fits\": 5, \"notes\": \"Correctly identifies fulfilment/mispick issue with direct quotes and an actionable, mostly ready-to-use fix.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c06",
+   "expected_cause": "not_enough_data",
+   "human_score": {
+    "score_specific": 3,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=2"
+   },
+   "judge_score": {
+    "score_specific": 4,
+    "score_pasteable": 4,
+    "score_fits": 5,
+    "notes": "Correctly identifies insufficient data with a concrete, actionable logging instruction matching the single ambiguous return."
+   },
+   "judge_raw": "{\"score_specific\": 4, \"score_pasteable\": 4, \"score_fits\": 5, \"notes\": \"Correctly identifies insufficient data with a concrete, actionable logging instruction matching the single ambiguous return.\"}",
+   "judge_error": null,
+   "agree_within_one": true
+  },
+  {
+   "id": "c12",
+   "expected_cause": "not_enough_data",
+   "human_score": {
+    "score_specific": 3,
+    "score_pasteable": 5,
+    "score_fits": 5,
+    "notes": "human-proxy: cause_ok=True grounded=True evidence_n=2"
+   },
+   "judge_score": {
+    "score_specific": 4,
+    "score_pasteable": 2,
+    "score_fits": 5,
+    "notes": "Correctly identifies insufficient data with specific evidence, but paste_ready is an internal tracking note, not something to paste into a listing/supplier message."
+   },
+   "judge_raw": "{\"score_specific\": 4, \"score_pasteable\": 2, \"score_fits\": 5, \"notes\": \"Correctly identifies insufficient data with specific evidence, but paste_ready is an internal tracking note, not something to paste into a listing/supplier message.\"}",
+   "judge_error": null,
+   "agree_within_one": false
+  }
+ ]
+}

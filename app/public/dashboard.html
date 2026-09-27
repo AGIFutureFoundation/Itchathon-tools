@@ -517,7 +517,7 @@
     const g = $('t-gate'); g.textContent = ''; const gi = document.createElement('span'); gi.className = gate.met ? 'ok' : 'bad'; gi.textContent = gate.met ? 'PASS' : 'FAIL'; g.appendChild(gi);
     text('t-gate-s', `${pct(gate.accuracy)} accuracy on ${gate.version || '–'}`);
     text('t-prompt', pf.prompt_served || '–');
-    const pv = (pf.prompt_versions || []).map(v => `${v.version} ${v.accuracy != null ? pct(v.accuracy) : '–'}`).join(' → ');
+    const pv = (pf.prompt_versions || []).map(v => `${v.version}${v.served ? ' (served)' : ''} ${v.accuracy != null ? pct(v.accuracy) : '–'}`).join(' → ');
     text('t-prompt-s', pv || 'prompts/returns');
     text('t-audit', pf.audit_rows_today ?? 0);
     text('t-audit-s', `${pf.audit_rows_total ?? 0} total · ${pf.retention_days || 90}-day retention`);

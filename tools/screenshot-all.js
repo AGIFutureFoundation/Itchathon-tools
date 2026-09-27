@@ -26,7 +26,7 @@ async function fillDashboard(page) {
   await page.waitForFunction(() => {
     const el = document.getElementById('n-returns');
     return el && el.textContent.trim() !== '' && el.textContent.trim() !== '–';
-  }, { timeout: 20000 }).catch(() => {});
+  }, undefined, { timeout: 20000 }).catch(() => {});
   // Let the echarts panels finish animating in.
   await page.waitForTimeout(1200);
 }
@@ -38,7 +38,7 @@ async function fillIndex(page) {
   await page.waitForFunction(() => {
     const r = document.getElementById('result');
     return r && !r.textContent.includes('Working') && !r.textContent.includes('Result will appear here');
-  }, { timeout: 60000 });
+  }, undefined, { timeout: 60000 });
   await page.waitForTimeout(300);
 }
 
@@ -55,13 +55,13 @@ async function fillAds(page) {
   await page.waitForFunction(() => {
     const el = document.getElementById('readOut');
     return el && el.textContent.trim().length > 0;
-  }, { timeout: 60000 });
+  }, undefined, { timeout: 60000 });
   // Also exercise the A/B test card with its prefilled defaults so it isn't empty.
   await page.click('#abRun');
   await page.waitForFunction(() => {
     const el = document.getElementById('abOut');
     return el && el.textContent.trim().length > 0;
-  }, { timeout: 20000 }).catch(() => {});
+  }, undefined, { timeout: 20000 }).catch(() => {});
   await page.waitForTimeout(300);
 }
 
@@ -71,7 +71,7 @@ async function fillTheft(page) {
   await page.waitForFunction(() => {
     const r = document.getElementById('result');
     return r && r.textContent.includes('What to do now') && !r.textContent.includes('Fire an alert to see');
-  }, { timeout: 20000 });
+  }, undefined, { timeout: 20000 });
   await page.waitForTimeout(300);
 }
 

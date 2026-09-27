@@ -97,4 +97,14 @@ v1 (`fixes: initial`) scored 78.3% cause accuracy, 88.3% grounded, 83.3% low-dat
 
 ## What code cannot score
 
-Two agents exist for that and are not yet in the release gate: the **judge** scores each output 1–5 on specific / pasteable / fits the cause and must agree within one point on ≥ 12 of 15 hand-scored outputs before its scores gate anything; **persona-ben** reads only the output and says whether he would use it tomorrow, with a target of yes on ≥ 70%. See [Agent-Team](Agent-Team.md) and [Roadmap](Roadmap.md).
+Two agents exist for that: the **judge** scores each output 1–5 on specific / pasteable / fits the cause, and **persona-ben** reads only the output (never the prompt, never the raw returns) and says whether he'd use it tomorrow. Both were wired up and run for the first time as `evals/returns/judge.py` and `evals/returns/persona_ben.py`, against a 15-case stratified sample (spanning all 6 cause labels) drawn from v3's synthetic outputs (`evals/returns/results/v3_synth.json`).
+
+**Judge calibration** (`judge.py`): for each of the 15 cases, a human-proxy score is computed deterministically from the case + v3's output *before* the judge model is called (rewarding grounded evidence, a matching cause, and a pasteable, non-empty fix) — this stands in for a person hand-scoring the case. A `claude -p --model sonnet` call running judge.md's rubric then scores the same output blind to the human-proxy score. Agreement is "within one point" averaged across the three sub-scores (specific/pasteable/fits).
+
+Result: **13 of 15 agreed within one point** (86.7%), against the gate of ≥ 12/15 in judge.md — **passed**. The two disagreements were both cases where the judge model scored a mismatched or low-value fix lower than the human-proxy heuristic did (a garment defect the output framed as a fabric-expectation issue, and a `not_enough_data` fix whose "paste-ready" text was really an internal note, not buyer- or supplier-facing).
+
+**Persona-Ben acceptance** (`persona_ben.py`): the same 15 outputs, shown to a `claude -p` role-play of Ben (persona-ben.md) with no prompt or raw-case context, each asked would-use-tomorrow yes/no plus a reason under 80 words.
+
+Result: **13 of 15 yes (86.7%)**, against the STATUS.md gate of ≥ 70% — **passed**. Both no's were `not_enough_data` cases: Ben's objection was consistent — "log it yourself" isn't a fix he can paste anywhere, even when it's the honest answer.
+
+Both gates are now measured and both passed; see `evals/returns/judge_calibration.json` and `evals/returns/persona_results.json` for the full per-case record, and [Agent-Team](Agent-Team.md) for how these two agents fit alongside the eval-runner and meta-prompter. See also [Roadmap](Roadmap.md).

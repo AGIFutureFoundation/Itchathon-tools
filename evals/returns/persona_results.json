@@ -1,0 +1,128 @@
+{
+ "summary": {
+  "n": 15,
+  "n_valid": 15,
+  "n_yes": 13,
+  "yes_rate": 0.867,
+  "gate": "yes_rate >= 0.70 (STATUS.md gate table)",
+  "gate_met": true,
+  "source_results_file": "/Users/romanbridge.x/Library/Application Support/Claude/scratch-workspaces/c81259aa-2900-4a5e-8418-809d12108ca7/de1c1370-5431-4608-8e2e-d59664584afc/scratch-2026-09-27-713a37/returns-rootcause/evals/returns/results/v3_synth.json",
+  "sample_reasons": [
+   "Yeah I'd use this tomorrow. Straight up tells me the pics are lying about the color and gives me the exact shots to take instead - no guessing. The one thing that'd make me say no: if it told me to reshoot but didn't actually name what's wrong with the current photos, just vague 'improve quality' junk.",
+   "Yes, swapping that lifestyle photo today - been burning returns cause people think it's a big area rug. Paste-ready shots are exactly what I need. Only thing that'd make me say no: if the 3ft size claim is wrong and I ship a bunch of size complaints anyway. Otherwise doing this tonight.",
+   "Yes, I'd reshoot that swatch tomorrow \u2014 it's exactly the fix I'd want, paste-ready and specific. Only thing that'd make me say no: if it just told me 'improve photo quality' without the daylight/skin/macro steps. I need instructions I can hand to my photographer, not vague advice.",
+   "Yes, pasting this in tonight. Fixing the EU column is a 30-second edit and I bet it kills half these returns. Only thing that'd make me say no is if I actually measured a different pair and the box didn't match their claim \u2014 then I'd need to check my own stock before trusting it blind.",
+   "Yeah I'd paste that size chart in tonight. Makes sense - if there's no measurements people just guess and send it back. That fix is copy-paste ready, no extra work for me. Only thing that'd make me say no is if the sizes it lists don't actually match what I'm sewing/ordering - I'd still eyeball the numbers against my actual garments first.",
+   "Yeah I'd paste this in tomorrow, the chart's an obvious mess and cm vs inches would absolutely cause bad returns. Only thing stopping me is I still need the real waist number for the 32 in cm since it just left a blank there.",
+   "Yeah I'd use this. Straight to the point, tells me exactly what's wrong (running small, shrinking) and gives me copy-paste text for my supplier and my listing. Only thing that'd make me say no is if the measurements were guessed instead of pulled from actual buyer reviews - I need real numbers, not assumptions.",
+   "Yeah I'd use this. The paste-ready note to my supplier and the sizing warning for my listing are exactly what I need, no fluff. Only thing that'd make me say no is if the evidence was just 2-3 vague reviews instead of a real pattern across sizes - I need to know it's not just one guy with weird feet."
+  ]
+ },
+ "records": [
+  {
+   "id": "c01",
+   "would_use_tomorrow": true,
+   "answer": "Yeah I'd use this tomorrow. Straight up tells me the pics are lying about the color and gives me the exact shots to take instead - no guessing. The one thing that'd make me say no: if it told me to reshoot but didn't actually name what's wrong with the current photos, just vague 'improve quality' junk.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yeah I'd use this tomorrow. Straight up tells me the pics are lying about the color and gives me the exact shots to take instead - no guessing. The one thing that'd make me say no: if it told me to reshoot but didn't actually name what's wrong with the current photos, just vague 'improve quality' junk.\"}",
+   "error": null
+  },
+  {
+   "id": "c07",
+   "would_use_tomorrow": true,
+   "answer": "Yes, swapping that lifestyle photo today - been burning returns cause people think it's a big area rug. Paste-ready shots are exactly what I need. Only thing that'd make me say no: if the 3ft size claim is wrong and I ship a bunch of size complaints anyway. Otherwise doing this tonight.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yes, swapping that lifestyle photo today - been burning returns cause people think it's a big area rug. Paste-ready shots are exactly what I need. Only thing that'd make me say no: if the 3ft size claim is wrong and I ship a bunch of size complaints anyway. Otherwise doing this tonight.\"}",
+   "error": null
+  },
+  {
+   "id": "c13",
+   "would_use_tomorrow": true,
+   "answer": "Yes, I'd reshoot that swatch tomorrow \u2014 it's exactly the fix I'd want, paste-ready and specific. Only thing that'd make me say no: if it just told me 'improve photo quality' without the daylight/skin/macro steps. I need instructions I can hand to my photographer, not vague advice.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yes, I'd reshoot that swatch tomorrow \u2014 it's exactly the fix I'd want, paste-ready and specific. Only thing that'd make me say no: if it just told me 'improve photo quality' without the daylight/skin/macro steps. I need instructions I can hand to my photographer, not vague advice.\"}",
+   "error": null
+  },
+  {
+   "id": "c02",
+   "would_use_tomorrow": true,
+   "answer": "Yes, pasting this in tonight. Fixing the EU column is a 30-second edit and I bet it kills half these returns. Only thing that'd make me say no is if I actually measured a different pair and the box didn't match their claim \u2014 then I'd need to check my own stock before trusting it blind.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yes, pasting this in tonight. Fixing the EU column is a 30-second edit and I bet it kills half these returns. Only thing that'd make me say no is if I actually measured a different pair and the box didn't match their claim \\u2014 then I'd need to check my own stock before trusting it blind.\"}",
+   "error": null
+  },
+  {
+   "id": "c08",
+   "would_use_tomorrow": true,
+   "answer": "Yeah I'd paste that size chart in tonight. Makes sense - if there's no measurements people just guess and send it back. That fix is copy-paste ready, no extra work for me. Only thing that'd make me say no is if the sizes it lists don't actually match what I'm sewing/ordering - I'd still eyeball the numbers against my actual garments first.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yeah I'd paste that size chart in tonight. Makes sense - if there's no measurements people just guess and send it back. That fix is copy-paste ready, no extra work for me. Only thing that'd make me say no is if the sizes it lists don't actually match what I'm sewing/ordering - I'd still eyeball the numbers against my actual garments first.\"}",
+   "error": null
+  },
+  {
+   "id": "c14",
+   "would_use_tomorrow": true,
+   "answer": "Yeah I'd paste this in tomorrow, the chart's an obvious mess and cm vs inches would absolutely cause bad returns. Only thing stopping me is I still need the real waist number for the 32 in cm since it just left a blank there.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yeah I'd paste this in tomorrow, the chart's an obvious mess and cm vs inches would absolutely cause bad returns. Only thing stopping me is I still need the real waist number for the 32 in cm since it just left a blank there.\"}",
+   "error": null
+  },
+  {
+   "id": "c03",
+   "would_use_tomorrow": true,
+   "answer": "Yeah I'd use this. Straight to the point, tells me exactly what's wrong (running small, shrinking) and gives me copy-paste text for my supplier and my listing. Only thing that'd make me say no is if the measurements were guessed instead of pulled from actual buyer reviews - I need real numbers, not assumptions.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yeah I'd use this. Straight to the point, tells me exactly what's wrong (running small, shrinking) and gives me copy-paste text for my supplier and my listing. Only thing that'd make me say no is if the measurements were guessed instead of pulled from actual buyer reviews - I need real numbers, not assumptions.\"}",
+   "error": null
+  },
+  {
+   "id": "c09",
+   "would_use_tomorrow": true,
+   "answer": "Yeah I'd use this. The paste-ready note to my supplier and the sizing warning for my listing are exactly what I need, no fluff. Only thing that'd make me say no is if the evidence was just 2-3 vague reviews instead of a real pattern across sizes - I need to know it's not just one guy with weird feet.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yeah I'd use this. The paste-ready note to my supplier and the sizing warning for my listing are exactly what I need, no fluff. Only thing that'd make me say no is if the evidence was just 2-3 vague reviews instead of a real pattern across sizes - I need to know it's not just one guy with weird feet.\"}",
+   "error": null
+  },
+  {
+   "id": "c15",
+   "would_use_tomorrow": true,
+   "answer": "Yeah I'd paste that fabric line change in tonight, costs me nothing to fix a claim I can't back up. What'd make me say no: if it just told me 'improve quality perception' with no actual bullet text to swap in - I don't have time to translate vague advice into listing copy myself.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yeah I'd paste that fabric line change in tonight, costs me nothing to fix a claim I can't back up. What'd make me say no: if it just told me 'improve quality perception' with no actual bullet text to swap in - I don't have time to translate vague advice into listing copy myself.\"}",
+   "error": null
+  },
+  {
+   "id": "c04",
+   "would_use_tomorrow": true,
+   "answer": "Yeah I'd paste this in tomorrow. It's honest and it's exact numbers, oz and hours, not fluffy nonsense I can't use. Only thing that'd make me say no is if the oz number is wrong or made up - I'd need to actually weigh the candle myself before I trust that figure in my listing.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yeah I'd paste this in tomorrow. It's honest and it's exact numbers, oz and hours, not fluffy nonsense I can't use. Only thing that'd make me say no is if the oz number is wrong or made up - I'd need to actually weigh the candle myself before I trust that figure in my listing.\"}",
+   "error": null
+  },
+  {
+   "id": "c10",
+   "would_use_tomorrow": true,
+   "answer": "Yes, pasting the new title and bullet in tonight \u2014 dropping 'fast/days' makes sense since it's the exact thing customers are calling out. Only thing that'd stop me: if my conversion rate tanks because 'fast results' is what actually sells. I'd need a week of sales data before fully trusting it over gut feel.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yes, pasting the new title and bullet in tonight \u2014 dropping 'fast/days' makes sense since it's the exact thing customers are calling out. Only thing that'd stop me: if my conversion rate tanks because 'fast results' is what actually sells. I'd need a week of sales data before fully trusting it over gut feel.\"}",
+   "error": null
+  },
+  {
+   "id": "c05",
+   "would_use_tomorrow": true,
+   "answer": "Yeah I'd use this tomorrow. Paste-ready packing fix and apology message, no fluff. Only thing that'd make me say no is if it told me to just eat the cost on damaged mugs instead of actually fixing how they're boxed - I need the packaging fixed, not a refund script.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yeah I'd use this tomorrow. Paste-ready packing fix and apology message, no fluff. Only thing that'd make me say no is if it told me to just eat the cost on damaged mugs instead of actually fixing how they're boxed - I need the packaging fixed, not a refund script.\"}",
+   "error": null
+  },
+  {
+   "id": "c11",
+   "would_use_tomorrow": true,
+   "answer": "Yeah I'd use this. It's not guessing at fit or fabric, it just says my pickers are grabbing the wrong colour scarf - and gives me an apology message and a bin/scan fix I can hand to my packer today. What'd make me say no: if it kept blaming customers for 'sizing confusion' when it's actually my warehouse messing up.",
+   "raw": "{\"would_use_tomorrow\": true, \"answer\": \"Yeah I'd use this. It's not guessing at fit or fabric, it just says my pickers are grabbing the wrong colour scarf - and gives me an apology message and a bin/scan fix I can hand to my packer today. What'd make me say no: if it kept blaming customers for 'sizing confusion' when it's actually my warehouse messing up.\"}",
+   "error": null
+  },
+  {
+   "id": "c06",
+   "would_use_tomorrow": false,
+   "answer": "Nah, this tells me nothing. 'Not enough data' isn't a fix I can paste anywhere. If it can't even guess a cause after a return, what's the point? I'd say yes once it actually flags patterns after tracking a few returns instead of just telling me to log stuff myself.",
+   "raw": "{\"would_use_tomorrow\": false, \"answer\": \"Nah, this tells me nothing. 'Not enough data' isn't a fix I can paste anywhere. If it can't even guess a cause after a return, what's the point? I'd say yes once it actually flags patterns after tracking a few returns instead of just telling me to log stuff myself.\"}",
+   "error": null
+  },
+  {
+   "id": "c12",
+   "would_use_tomorrow": false,
+   "answer": "No. This tells me nothing - just says 'not enough data' and to log reasons myself. I don't need a tool to tell me to write notes on returns. Give me an actual pattern or a listing fix I can paste in, otherwise it's just homework with extra steps.",
+   "raw": "{\"would_use_tomorrow\": false, \"answer\": \"No. This tells me nothing - just says 'not enough data' and to log reasons myself. I don't need a tool to tell me to write notes on returns. Give me an actual pattern or a listing fix I can paste in, otherwise it's just homework with extra steps.\"}",
+   "error": null
+  }
+ ]
+}

@@ -52,6 +52,17 @@ Opus for the agents that write (lead, meta-prompter, builder); Sonnet for genera
 
 From the build log on the pitch page: 0:04 repo, seven agent definitions and the master meta-prompt; 0:06 data-synth and builder spawned in parallel; 0:10 eval runner written; 0:13 demo app up; 0:14 prompt v1 written by the meta-prompter; 0:15 an Apify agent fetching real 1–3 star Amazon reviews; 0:19 eval v1 at 78.3%, parser bug fixed (the model emitted two objects), rescored; 0:23 scope widened to all four challenges with prep, ads and theft agents spawned; 0:26 a compliance agent added PII redaction, the injection guard, retention and `COMPLIANCE.md`; 0:29 eval v2 at 98.3%, gate met.
 
+## Running judge and persona-ben
+
+Both agents were referenced in their `.claude/agents/*.md` definitions but had no runnable harness until `evals/returns/judge.py` and `evals/returns/persona_ben.py` were added. Each takes a stratified 15-case sample (all 6 cause labels represented) from a results file, drives the corresponding sub-agent instructions through `claude -p --model sonnet --output-format json --disallowedTools "*" --max-turns 1`, and gates on the number cited in its own `.md` file:
+
+| Agent | Script | What it does | Gate | Measured result |
+|---|---|---|---|---|
+| **judge** | `evals/returns/judge.py` | Computes a human-proxy 1–5 score (specific/pasteable/fits) from the case + output *before* calling the judge model, then compares to the judge model's blind score on the same output | agree within one point on ≥ 12/15 | **13/15 (86.7%)** — passed |
+| **persona-ben** | `evals/returns/persona_ben.py` | Shows Ben only the output JSON (never the prompt or raw case), asks would-use-tomorrow yes/no + reason, under 80 words | yes on ≥ 70% | **13/15 = 86.7% yes** — passed |
+
+Full per-case records: `evals/returns/judge_calibration.json`, `evals/returns/persona_results.json`. Both runs used `evals/returns/results/v3_synth.json` (the v3 synthetic-eval output set) as the source of outputs to score — see [Eval-Loop-and-Meta-Prompting](Eval-Loop-and-Meta-Prompting.md) for the full breakdown, including where the two disagreements and two no's came from.
+
 ## Adding an agent
 
 Create `.claude/agents/<name>.md` with `name`, `description`, `model`, `tools` frontmatter and a paragraph of instructions that states what the agent owns and what it must never touch. Keep the tool list minimal: an agent that only needs to read should not have Write.
