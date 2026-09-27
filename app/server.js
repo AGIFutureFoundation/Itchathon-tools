@@ -51,6 +51,11 @@ function loadSystemPrompt() {
       }
     }
   } catch { /* directory missing: fall back */ }
+  // prompts/returns/SERVED pins a version (e.g. "v2") when a newer candidate has not won on all eval sets.
+  try {
+    const pin = fs.readFileSync(path.join(PROMPTS_DIR, 'SERVED'), 'utf8').trim();
+    if (/^v\d+$/.test(pin) && fs.existsSync(path.join(PROMPTS_DIR, pin + '.md'))) best = { n: Number(pin.slice(1)), file: path.join(PROMPTS_DIR, pin + '.md') };
+  } catch { /* no pin */ }
   if (!best) return { text: FALLBACK_PROMPT, source: 'built-in fallback' };
   let text = fs.readFileSync(best.file, 'utf8');
   text = stripHeader(text);

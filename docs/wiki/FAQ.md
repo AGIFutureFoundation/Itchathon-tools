@@ -24,6 +24,10 @@ The meta-prompt did. `prompts/meta/master.md` is filled with the contract and th
 
 For returns: `cause_accuracy ≥ 0.80`, `grounded_rate ≥ 0.95`, `low_data_ok_rate ≥ 0.99` on the 60 golden cases. v2 scored 0.983 / 0.95 / 1.0. For prep: pinball-loss improvement ≥ 15% over "same weekday last week" (30.35%). For ads: 100% agreement on `test_is_valid` and never a winner below the floor (20/20). The exact thresholds are in `evals/run.py`, `evals/prep/backtest.py` and `evals/ads/run.py`.
 
+## 98.3% sounds high. Does it hold on real data?
+
+Not yet. On 10 cases built from real Amazon reviews (`evals/returns/cases_real.jsonl`, no size charts, hand-assigned labels) v2 scored 4/10 on cause with 100% grounding. `STATUS.md` calls this the honest headline for the next loop: the failure report exists (`v2_real.failures.md`) and `generate.py` can consume it. The synthetic number says the loop works; the real number says what it has to work on next.
+
 ## How does the server know which prompt to use?
 
 It scans `prompts/returns/` for `v(\d+).md` and takes the highest number on each request. A version that failed its eval is never committed, so it never becomes the newest file. The version is stamped into every response as `_meta.prompt_source` and into the audit row.

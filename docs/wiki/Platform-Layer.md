@@ -19,7 +19,7 @@ function authenticate(req) {
 }
 ```
 
-`REQUIRE_AUTH=1` makes a key mandatory. With it off (the demo default), anonymous requests run as tenant `default`, plan `demo`, all four modules. The server then checks `tenant.modules.includes(module)` and answers `403 module <name> not enabled for tenant` otherwise. `ALL_MODULES = ['returns', 'prep', 'ads', 'theft']`.
+`REQUIRE_AUTH=1` makes a key mandatory. With it off (the demo default), anonymous requests run as tenant `default`, plan `demo`, all four modules. The server then checks `tenant.modules.includes(module)` and answers `403 module <name> not enabled for tenant` otherwise. `ALL_MODULES = ['returns', 'prep', 'ads', 'theft', 'apify', 'dashboard']`; module names are the file names in `app/modules/`.
 
 ## ratelimit.js — token bucket per tenant
 

@@ -11,6 +11,7 @@ One Node 24 process, no framework, no npm dependencies in the app. Four modules 
 | Ads ("Ads Plain Read") | `/api/ads/*` | Which listing/ad change is worth making this week? | stats: no; prose: yes, with enforced contract |
 | Theft ("Ten Seconds After") | `/api/theft/*` | The camera fired. What does one person do in the next ten seconds? | **no**, rules table |
 | Dashboard | `/api/dashboard/summary` | One JSON for the home page | no |
+| ASIN import | `/api/import-asin` | Turn one ASIN into a diagnose input (critical reviews via Apify) | no |
 
 The rule for where the LLM belongs: messy prose in (returns, reviews, messages, an account read) gets a model behind a deterministic guard; four structured fields in (a camera alert, a sales history, two conversion counts) get code. Theft is deliberately LLM-free because the answer has to arrive in under a second, be identical every time for the same alert, and never contain a sentence a lawyer would not sign off.
 

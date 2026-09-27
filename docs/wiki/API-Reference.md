@@ -9,6 +9,7 @@ Base URL `http://localhost:3141`. All routes take and return JSON (`Content-Type
 | Method | Route | Module | LLM |
 |---|---|---|---|
 | POST | `/api/diagnose` | returns | yes |
+| POST | `/api/import-asin` | apify | no |
 | POST | `/api/prep/forecast` | prep | no |
 | POST | `/api/prep/explain` | prep | optional |
 | POST | `/api/ads/stats` | ads | no |
@@ -43,6 +44,10 @@ Response: the prompt contract plus `_meta` and `_guard`.
 ```bash
 curl -s localhost:3141/api/diagnose -H 'Content-Type: application/json' -d @case.json
 ```
+
+## POST /api/import-asin
+
+Body: `{ asin: "B0XXXXXXXX" }` or `{ url: "https://www.amazon.com/dp/B0XXXXXXXX" }`. Requires `APIFY_TOKEN`. Runs the Apify actor `junglee/amazon-reviews-scraper` for the critical (1–3 star) reviews, capped at 10 on the free tier, and reshapes them into a diagnose input `{ listing, returns, reviews, messages, _meta }` that can be posted straight to `/api/diagnose`. Errors: `400` bad ASIN, `404` no critical reviews found, `502`/`504` Apify failures or timeout (200 s).
 
 ## POST /api/prep/forecast
 

@@ -13,6 +13,7 @@ Frozen prompt for Returns: `prompts/returns/v2.md` (gate met). All four modules 
 | Ads (Ch. 2) | Stats honesty on 20 cases | **20/20** | 100% | passed |
 | Theft (Ch. 3) | Non-confrontation guarantee | rules table, no LLM; tested | never confronts | passed |
 | Returns | **Real** Amazon reviews via Apify, 10 cases (title+description only, no size chart; labels hand-assigned by the data agent) | **4/10 (40%)** — confusions: garment↔size_chart, expectation→size_chart | informational | next loop's failure report (`evals/returns/results/v2_real.failures.md`) |
+| Returns | v3 (meta-prompt fed real + synthetic failures) | synthetic **90%** (hard 85%, grounded 96.7%), real **6/10 (60%)** | synthetic gate met | candidate, not served: v2 stays pinned (`prompts/returns/SERVED`) until round-2 real cases decide |
 | Platform | redact / guard / retention tests | 11/11; 0 false positives on golden set | — | passed |
 
 Real-data gap: synthetic 98% vs real 40% is the honest headline for the next meta-prompt loop (v3): real listings lack size charts, so the prompt must weigh review text more and demand fewer chart signals.

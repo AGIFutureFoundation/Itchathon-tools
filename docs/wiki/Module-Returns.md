@@ -68,6 +68,10 @@ result._guard = { ok: g.ok, issues: g.issues, injection_score: guard.injectionSc
 
 Gate: `cause_accuracy ≥ 0.80 and grounded_rate ≥ 0.95 and low_data_ok_rate ≥ 0.99`.
 
+**Real data.** The same v2 prompt on the 10 Apify-built cases (`evals/returns/results/v2_real.failures.md`): cause accuracy 0.4, grounded 1.0, parsed 1.0, mean latency 48.9 s. Confusions were garment ↔ size_chart and expectation → size_chart. The real listings carry only a title and description, no size chart, so the prompt leans on chart signals that are not there. This is informational, not a gate, and it is the failure report the next loop (v3) should consume: `FAILURES=evals/returns/results/v2_real.failures.md python3 prompts/meta/generate.py`.
+
+**ASIN path.** `POST /api/import-asin` (`app/modules/apify.js`) runs the `junglee/amazon-reviews-scraper` actor for one ASIN, keeps the 1–3 star reviews (10 on the free tier), guesses a `reason_code` per review and returns a diagnose input. The `asin-import.html` page chains it into `/api/diagnose`.
+
 v1 confusion: garment → size_chart 4 times, expectation → garment 3 times. v2 confusion is diagonal except one size_chart case that produced no JSON (c08). The other two v2 failures are grounding: c30 and c55 each contain one quote that paraphrases instead of copying (for example `"24hr protection' is nonsense"` dropped an opening quote mark). Both would be stripped by `guard.checkOutput` in the live server before the owner sees them.
 
 ## Run it

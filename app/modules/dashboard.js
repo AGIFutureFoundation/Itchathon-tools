@@ -43,6 +43,15 @@ function seeded(seed) {
   let s = (seed >>> 0) || 1;
   return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
 }
+// The one pluralisation helper. pl(3, 'SKU') -> "3 SKUs"; pl(1, 'alert') -> "1 alert";
+// pl(2, 'diagnosis', 'diagnoses') -> "2 diagnoses". With count:false it returns just the word,
+// which also covers verb agreement: pl(n, 'needs', 'need', false).
+function pl(n, one, many, count = true) {
+  if (typeof many === 'boolean') { count = many; many = undefined; }
+  const word = n === 1 ? one : (many || one + 's');
+  return count ? `${n} ${word}` : word;
+}
+const SPARSE_MIN = 5; // fewer live rows than this and the chart gets an "early days" note
 function todayIso() { return new Date().toISOString().slice(0, 10); }
 function lastNDays(n) {
   const out = [];

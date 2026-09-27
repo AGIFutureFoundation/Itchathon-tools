@@ -11,7 +11,8 @@ What is built, what the repository already points at as the next step, and what 
 | Ads | stats, plain read and ownership checklist shipped; 20/20 stats honesty | `evals/ads/results.json` |
 | Theft | playbook, log, summary, harden shipped; rules only | `app/modules/theft.js` |
 | Platform | auth, rate limit, audit, redaction, guard, retention; tests pass | `app/platform/`, `tests/` |
-| Dashboard | `/api/dashboard/summary` aggregates live data and labels demo series | `app/modules/dashboard.js` |
+| Dashboard | `/api/dashboard/summary` aggregates live data and labels demo series; `dashboard.html` is the root page | `app/modules/dashboard.js` |
+| ASIN import | `/api/import-asin` pulls critical reviews via Apify; 10 real cases evaluated (4/10, informational) | `app/modules/apify.js`, `STATUS.md` |
 
 ## Next: pilots
 
@@ -19,7 +20,8 @@ The close of the pitch: "We do not sell detection. We sell the next ten seconds,
 
 ## Returns
 
-- **ASIN-only input.** The pitch describes pasting just an ASIN and pulling reviews live through Apify (`APIFY_TOKEN` is already in `.env.example`, raw scrapes are in `evals/returns/real/`). Wire it as an input path on `/api/diagnose`.
+- **Close the real-data gap.** v2 scores 98.3% on synthetic cases and 4/10 on the real Apify cases (`STATUS.md`). Real listings lack size charts, so v3 must weigh review text more and demand fewer chart signals. `generate.py` now accepts `FAILURES=<path>` to point the meta-prompt at `v2_real.failures.md`.
+- **ASIN path beyond the free tier.** `/api/import-asin` exists but is capped at 10 reviews per run by the Apify free tier; a paid actor plan lifts that.
 - **Judge and persona-Ben in the gate.** The judge's 1–5 rubric (specific, pasteable, fits the cause) needs calibration: agree within one point on ≥ 12 of 15 hand-scored outputs. Ben's yes on ≥ 70% of outputs is listed on the pitch page as a gate criterion but is not yet computed by `evals/run.py`.
 - **v3.** The two remaining grounding misses (c30, c55) are lightly paraphrased quotes; the v2 failure report is ready as input to `generate.py`.
 
@@ -45,7 +47,7 @@ The close of the pitch: "We do not sell detection. We sell the next ten seconds,
 - **Hash-chained audit lines.** `docs/COMPLIANCE.md` describes each audit line carrying the previous line's hash; `audit.js` today stores `input_sha256` per row without chaining.
 - **DSAR tooling.** A command that greps a tenant's audit rows for an order id or text fragment and deletes on request (`retention.js` accepts a one-off cutoff).
 - **Zero-data-retention** arrangement with the model provider before processing EU buyer text at scale.
-- `STATUS.md` written by the lead after every loop (in the lead's definition, not yet in the repo).
+- Keep `STATUS.md` (the lead's score table and loop record) updated after every loop.
 
 ## Deliberately not planned
 

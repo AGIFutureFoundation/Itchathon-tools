@@ -10,7 +10,7 @@ Only the meta-prompter writes product prompts. `prompts/<module>/vN.md` files ar
 
 1. Create `app/modules/<name>.js` (CommonJS, Node built-ins only) exporting `register(add)`. Call `add(method, '/api/<name>/<route>', handler)` where `handler(body, req) => Promise<object>`; throw `Object.assign(new Error(msg), { status: 400 })` for bad input. The server mounts every file in `app/modules/` automatically and applies auth, rate limiting and audit to it.
 2. Put `_meta: { prompt_source, model, latency_ms }` on any LLM-backed response so the audit row and the dashboard can see it. Provide a deterministic template fallback for every LLM call (see `fallbackRead` in `ads.js`, `templateCard` in `prep.js`).
-3. Add the module name to `ALL_MODULES` in `app/platform/auth.js` and to the relevant tenants in `config/tenants.json`.
+3. Add the module name (the file name) to `ALL_MODULES` in `app/platform/auth.js` and to the relevant tenants in `config/tenants.json`; `apify` and `dashboard` are already listed alongside the four product modules.
 4. Add `evals/<name>/` with a runner that writes `results.json` containing `gate_met`, and describe the gate in `docs/wiki/Module-<Name>.md`.
 5. Prefer no LLM where the input is a few structured fields (theft, prep forecast, ads stats). Use the LLM only where the input is messy prose.
 

@@ -54,9 +54,11 @@ Links of the form `[Architecture](Architecture.md)` resolve both here in the rep
 
 ```
 app/server.js          HTTP server, module registry, built-in returns route
-app/modules/           ads.js  prep.js  theft.js  dashboard.js
+app/modules/           ads.js  prep.js  theft.js  dashboard.js  apify.js (ASIN import)
 app/platform/          auth.js ratelimit.js audit.js redact.js guard.js retention.js
-app/public/            index.html (returns) prep.html ads.html theft.html
+app/public/            dashboard.html (root) index.html (returns) asin-import.html prep.html ads.html theft.html
+STATUS.md              score table and loop record, written by the lead
+tools/                 demo recorder (record.js) and ffmpeg assembly (make-demo.sh) for media/
 prompts/meta/          master.md variables.md compliance_clause.md generate.py
 prompts/returns/       v1.md v2.md (+ edge_cases)      prompts/ads/v1.md
 evals/run.py           returns eval; evals/prep/backtest.py; evals/ads/run.py

@@ -18,12 +18,12 @@ node app/server.js
 
 `.claude/launch.json` has a matching `owner-console` configuration for the Claude Code browser preview.
 
-Pages: `/` (returns, `index.html`), `/prep.html`, `/ads.html`, `/theft.html`. If `app/public/dashboard.html` exists the root serves it instead; today it does not, so `/` is the returns page and the dashboard JSON is at `/api/dashboard/summary`.
+Pages: `/` serves `dashboard.html` when it exists (it does), otherwise `index.html`; `/index.html` (returns), `/asin-import.html`, `/prep.html`, `/ads.html`, `/theft.html`. The dashboard charts from `/api/dashboard/summary`.
 
 ## Environment (`.env.example`)
 
 ```
-APIFY_TOKEN=            # for the ASIN → live reviews path
+APIFY_TOKEN=            # for POST /api/import-asin (ASIN → critical reviews → diagnose input)
 ANTHROPIC_API_KEY=
 REQUIRE_AUTH=0          # 1 = every /api request needs Authorization: Bearer <key> from config/tenants.json
 RETURNS_MODEL=sonnet    # model alias passed to `claude -p --model`
@@ -71,7 +71,7 @@ docker compose up --build
 ```bash
 curl -s localhost:3141/api/health
 {"ok":true,"prompt_source":"v2.md","model":"sonnet",
- "modules":["ads","dashboard","prep","theft","returns"],
+ "modules":["ads","apify","dashboard","prep","theft","returns"],
  "platform":{"auth":true,"ratelimit":true,"audit":true,"redact":true,"guard":true}}
 ```
 

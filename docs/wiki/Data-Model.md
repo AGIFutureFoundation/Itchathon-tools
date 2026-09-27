@@ -32,6 +32,8 @@ Redaction replaces PII inside any string with `[EMAIL_n] [PHONE_n] [ORDER_n] [CA
 
 `what_to_change` must match `cause`: photos→photos, size_chart→size_chart, expectation→listing_text, garment→garment, fulfilment→fulfilment, not_enough_data→none.
 
+**ASIN import** (`POST /api/import-asin`, `app/modules/apify.js`): in `{ asin: string } | { url: string }`; out the input shape above with `listing.bullets: []`, `listing.size_chart: null`, `photos_note` describing the scrape, `returns` built from 1–3 star reviews with a guessed `reason_code`, plus `_meta`.
+
 **Golden case** (`evals/returns/cases.jsonl`): the input above plus `id: "c01".."c60"`, `category` (apparel, beauty, …) and `expected: { cause, must_quote: [string] }`. Every `must_quote` appears verbatim in the inputs. Ids ≥ `c41` form the hard subset.
 
 ## Prep

@@ -10,7 +10,7 @@ Built by [AGI Future Foundation](ABOUT.md) for the ITCHATHON hackathon (27 Sep 2
 
 [Watch the 90-second demo](media/demo.mp4) · [Live pitch page](https://claude.ai/artifact/ChLDi9GPBXPhhjycapP5Mn) · [Wiki](docs/wiki/Home.md)
 
-`eval gate: met` · `returns prompt: v2 (98.3% cause accuracy)` · `4 modules` · `Node 24, zero npm dependencies` · `MIT`
+`eval gate: met` · `returns prompt: v2 (98.3% cause accuracy)` · `4 modules` · `Node 24, zero npm dependencies in the app` · `MIT`
 
 ---
 
@@ -47,7 +47,9 @@ Paste a listing, its size chart, the returns with reason codes and comments, rev
 | v1 | 78.3% | 85% | 88.3% | 83.3% | 25.0 s | not met |
 | v2 | **98.3%** | **100%** | **95%** | **100%** | 15.1 s | **met** |
 
-v1's confusion was garment ↔ size_chart (4 of 12 garment cases called size_chart). The failure report went back into the meta-prompt and v2 fixed it in one loop. Remaining v2 misses: one malformed JSON (c08), two lightly paraphrased quotes (c30, c55). Details: [Module-Returns](docs/wiki/Module-Returns.md).
+v1's confusion was garment ↔ size_chart (4 of 12 garment cases called size_chart). The failure report went back into the meta-prompt and v2 fixed it in one loop. Remaining v2 misses: one malformed JSON (c08), two lightly paraphrased quotes (c30, c55).
+
+**Real data, honestly:** the same v2 prompt run on 10 cases built from real Amazon reviews pulled through Apify (`evals/returns/cases_real.jsonl`, title and description only, no size chart) scored 4/10 cause accuracy with 100% grounding (`STATUS.md`). That gap is the input to the next meta-prompt loop, not a footnote. You can also paste just an ASIN: `POST /api/import-asin` pulls the critical reviews and reshapes them into the diagnose input. Details: [Module-Returns](docs/wiki/Module-Returns.md).
 
 ### Today's Prep — Challenge 4
 
@@ -106,7 +108,7 @@ cp .env.example .env          # fill in ANTHROPIC_API_KEY; REQUIRE_AUTH=0 for th
 node app/server.js            # → http://localhost:3141
 ```
 
-Pages: `/` (returns), `/prep.html`, `/ads.html`, `/theft.html`. Health: `GET /api/health`.
+Pages: `/` (dashboard), `/index.html` (returns), `/asin-import.html`, `/prep.html`, `/ads.html`, `/theft.html`. Health: `GET /api/health`.
 
 **Docker**
 
@@ -139,6 +141,7 @@ All routes accept and return JSON. Auth: `Authorization: Bearer <key>` (optional
 | Method | Route | Module | LLM | Purpose |
 |---|---|---|---|---|
 | POST | `/api/diagnose` | returns | yes | One cause, verbatim evidence, paste-ready fix, keep-size message for one SKU |
+| POST | `/api/import-asin` | apify | no | Pull critical Amazon reviews for one ASIN via Apify and reshape them into the diagnose input |
 | POST | `/api/prep/forecast` | prep | no | Prep quantity, range and reason per item |
 | POST | `/api/prep/explain` | prep | optional | Three-line 7am card (template fallback) |
 | POST | `/api/ads/stats` | ads | no | Two-proportion z-test, Fisher exact, sample-size floor, verdict |
@@ -191,7 +194,7 @@ Read: [Platform-Layer](docs/wiki/Platform-Layer.md) · [Compliance](docs/wiki/Co
 ## Roadmap
 
 - Pilots with real owners on the four modules, with the eval loop running on their cases.
-- Returns: the ASIN-only path (reviews pulled live through Apify; `evals/returns/cases_real.jsonl` holds 10 real-review cases already).
+- Returns v3: close the synthetic-vs-real gap (98.3% vs 40%) using `evals/returns/results/v2_real.failures.md` as the meta-prompt's failure report; real listings often lack a size chart, so the prompt must weigh review text more.
 - Prep and ads: a POS feed and an ad-account connection to replace the dashboard's deterministic demo series.
 - Judge calibration (agree within one point on ≥ 12 of 15 hand-scored outputs) and the persona-Ben gate (yes on ≥ 70% of outputs) added to the release gate.
 - Tenants from a table instead of `tenants.json`: a one-module change behind `auth.js`.
