@@ -2,6 +2,8 @@
 
 ITCHATHON Challenge 3: theft in a one-person shop. Cameras and video analytics (Veesion and the like) already detect. This module owns the ten seconds **after** the alert: what one person on the floor does, for a $10–$20 item, without confrontation. Deterministic rules table, no LLM, Node built-ins only. Code: `app/modules/theft.js`.
 
+![Theft module: the ten-second script and countdown ring](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/screenshots/dark/theft.png)
+
 ## Why no model
 
 From `docs/ARCHITECTURE.md`: the answer has to arrive in under a second, be identical every time for the same alert, and never contain a sentence a lawyer would not sign off. A rules table gives all three. The LLM belongs where the input is messy prose, not where the input is four fields from a camera.

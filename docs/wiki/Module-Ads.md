@@ -2,6 +2,8 @@
 
 ITCHATHON Challenge 2. The owner pays an agency, does not know what CPA, ROAS, CTR or PMax mean, and should not have to. The module says what is happening with the ad money in plain English and names one to three concrete changes, while refusing to call a "winner" that the numbers cannot support. Code: `app/modules/ads.js`. Prompt: `prompts/ads/v1.md`. Eval: `evals/ads/run.py`.
 
+![Ads module: honest "Not a real test yet" verdict and a plain-English account read](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/screenshots/dark/ads.png)
+
 ## Three routes
 
 | Route | LLM | What it does |

@@ -6,6 +6,8 @@ Sapient.X is the AGI Future Foundation entry to ITCHATHON (27 Sep 2026): four sm
 
 > Thesis: detection is solved; the next step is not. Every small shop already has data that says what went wrong. Nobody has told the one person standing there what to do next.
 
+![Sapient.X dashboard: four modules, live 3D charts, eval gate, platform health](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/screenshots/dark/dashboard.png)
+
 ## Pages
 
 **Overview**
