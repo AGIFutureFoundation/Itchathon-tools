@@ -39,11 +39,11 @@ Built by [AGI Future Foundation](ABOUT.md) for the ITCHATHON hackathon (27 Sep 2
 
 One Node process serves four modules behind one platform layer. Each module answers one owner question and is either deterministic or has passed an eval gate.
 
-![Owner dashboard](media/dashboard.png)
+![Sapient.X dashboard: live 3D charts across all four modules](media/screenshots/dark/dashboard.png)
 
 ### Why Did It Come Back? (returns root-cause) — Challenge 1
 
-![Returns module](media/returns.png)
+![Returns module: cause, evidence and paste-ready fix](media/screenshots/dark/index.png)
 
 Paste a listing, its size chart, the returns with reason codes and comments, reviews and buyer messages. Get back **one cause** per SKU (`photos | size_chart | garment | expectation | fulfilment | not_enough_data`), **verbatim evidence** checked by code against the input, a **paste-ready fix** for the listing, and a **keep-size message** to send buyers before they order. Fewer than three returns and no clear signal returns `not_enough_data`: four returns are four sentences, not a statistic.
 
@@ -60,7 +60,7 @@ v1's confusion was garment ↔ size_chart (4 of 12 garment cases called size_cha
 
 ### Today's Prep — Challenge 4
 
-![Prep module](media/prep.png)
+![Prep module: one number per item, run-out/waste toggle](media/screenshots/dark/prep.png)
 
 POS history per item, the owner's preference (`run_out | neutral | waste`), and today's context (bookings, events, weather) in; **one prep number per item** with a range and a one-sentence reason out, plus an optional three-line 7am card. Pure math, no model: same-weekday quantile over the last 8 weeks, times a 2-week trend clamped to 0.8–1.25, times context multipliers.
 
@@ -68,7 +68,7 @@ POS history per item, the owner's preference (`run_out | neutral | waste`), and 
 
 ### Ads Plain Read — Challenge 2
 
-![Ads module](media/ads.png)
+![Ads module: honest "no winner yet" verdict](media/screenshots/dark/ads.png)
 
 A campaign export, the goal and the budget in; **what is happening in plain English** and **one to three concrete changes** out, with `test_is_valid` computed by a real two-proportion z-test (Yates correction, Fisher exact alongside) that the model is not allowed to flip. No "winner" is ever called when the expected cell counts are below 5 or p ≥ 0.05. Also a no-LLM account-ownership checklist for Google and Meta.
 
@@ -76,7 +76,7 @@ A campaign export, the goal and the budget in; **what is happening in plain Engl
 
 ### Ten Seconds After (theft) — Challenge 3
 
-![Theft module](media/theft.png)
+![Theft module: the ten-second script and countdown](media/screenshots/dark/theft.png)
 
 A camera or Veesion alert (zone, item value, staff on floor, repeat visitor) in; **one primary action, one secondary action, a customer-service script, a channel and a ten-second timer** out. Rules table, **no LLM**: the answer arrives in under a second, is identical every time for the same alert, and every response carries the same four hard rules: do not confront or accuse, do not chase, do not touch, do not block the exit. `person_description` is never written to disk. A monthly summary by zone and week says when it is worth moving a shelf. Details: [Module-Theft](docs/wiki/Module-Theft.md).
 
