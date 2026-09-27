@@ -9,9 +9,15 @@ Built by [AGI Future Foundation](ABOUT.md) for the ITCHATHON hackathon (27 Sep 2
 
 ![Sapient.X demo](media/demo.gif)
 
-[Watch the 90-second demo](media/demo.mp4) · [Live pitch page](https://claude.ai/artifact/ChLDi9GPBXPhhjycapP5Mn) · [Wiki](docs/wiki/Home.md)
+[Watch the 90-second demo](media/demo.mp4) · [Live pitch page](https://claude.ai/artifact/ChLDi9GPBXPhhjycapP5Mn) · [Whitepaper](docs/WHITEPAPER.md) · [Wiki](docs/wiki/Home.md)
 
-`eval gate: met` · `returns prompt: v2 (98.3% cause accuracy)` · `4 modules` · `Node 24, zero npm dependencies in the app` · `MIT`
+<details><summary>Gate performance across all four modules (scaling caveats in the image caption — axes are not directly comparable)</summary>
+
+![Module radar: gate performance across Returns, Prep, Ads, Theft](media/charts/module-radar.png)
+
+</details>
+
+`eval gate: met` · `returns prompt: v3 served (90% synthetic / 56.7% real-30)` · `4 modules` · `Node 24, zero npm dependencies in the app` · `MIT`
 
 ---
 
@@ -93,6 +99,8 @@ flowchart LR
     end
     L -.runs the loop.-> M
 ```
+
+![Architecture: meta-prompt loop, four modules, platform layer](media/charts/architecture-diagram.png)
 
 The build itself ran as one hour with 15-minute checkpoints (the log is on the pitch page): v1 at 0:14, eval v1 at 0:19 (78.3%), scope widened to all four challenges at 0:23, eval v2 at 0:29 (98.3%, gate met). Read more: [Eval-Loop-and-Meta-Prompting](docs/wiki/Eval-Loop-and-Meta-Prompting.md), [Agent-Team](docs/wiki/Agent-Team.md).
 
@@ -176,6 +184,22 @@ node --test tests/
 ```
 
 Gates: returns `cause_accuracy ≥ 0.80`, `grounded_rate ≥ 0.95`, `low_data_ok_rate ≥ 0.99`; prep `improvement ≥ 15%`; ads `stats_honesty_rate == 1.0`; theft is rules-only and has no model to gate. To write the next returns prompt from the newest failure report: `python3 prompts/meta/generate.py`.
+
+**Returns, v1 → v4 on the 60-case synthetic gate:**
+
+![Eval progression v1 to v4](media/charts/eval-progression.png)
+
+**The honest headline — synthetic gate passing is not the same as real-world accuracy:**
+
+![Synthetic vs real-30 accuracy gap](media/charts/synthetic-vs-real.png)
+
+v3's confusion matrix on the 60 synthetic cases (the currently served version):
+
+![v3 confusion matrix](media/charts/confusion-v3.png)
+
+**Prep beats the habit** (same-weekday-last-week) by 30.4% on pinball loss:
+
+![Prep backtest: naive vs model pinball loss](media/charts/prep-backtest.png)
 
 ---
 
