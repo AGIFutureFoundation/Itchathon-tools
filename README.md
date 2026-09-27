@@ -17,7 +17,7 @@ Built by [AGI Future Foundation](ABOUT.md) for the ITCHATHON hackathon (27 Sep 2
 
 </details>
 
-`eval gate: met` · `returns prompt: v3 served (90% synthetic / 56.7% real-30)` · `4 modules` · `Node 24, zero npm dependencies in the app` · `MIT`
+`eval gate: met` · `returns prompt: v6 served (91.7% synthetic / 66.7% real-30)` · `4 modules` · `Node 24, zero npm dependencies in the app` · `MIT`
 
 ---
 

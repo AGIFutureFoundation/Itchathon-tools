@@ -1,6 +1,6 @@
 # Module: Returns ("Why Did It Come Back?")
 
-ITCHATHON Challenge 1. A seller pastes a listing, its size chart, the returns with reason codes and comments, reviews and buyer messages. Output per SKU: one cause, verbatim evidence, a paste-ready fix, a keep-size message. Route: `POST /api/diagnose`. Code: `app/server.js` (`diagnose()`), prompt: `prompts/returns/v3.md` (served; see Eval-Loop-and-Meta-Prompting for why v4 and v5 were rejected), eval: `evals/run.py`.
+ITCHATHON Challenge 1. A seller pastes a listing, its size chart, the returns with reason codes and comments, reviews and buyer messages. Output per SKU: one cause, verbatim evidence, a paste-ready fix, a keep-size message. Route: `POST /api/diagnose`. Code: `app/server.js` (`diagnose()`), prompt: `prompts/returns/v6.md` (served; see Eval-Loop-and-Meta-Prompting for the full v1-v6 history, including v6's own initial rejection and recovery), eval: `evals/run.py`.
 
 ![Returns module: cause SIZE_CHART, 75% confidence, verbatim evidence, paste-ready fix](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/screenshots/dark/index.png)
 

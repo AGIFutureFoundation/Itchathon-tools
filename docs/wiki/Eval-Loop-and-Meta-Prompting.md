@@ -45,7 +45,15 @@ Two more attempts at the same garment/fulfilment fix both failed for different r
 - **v5** (a full rewrite targeting the confusion) raised synthetic accuracy to 95% but dropped grounding to 83.3%, below the ≥95% gate — rejected automatically.
 - **v6** (the smallest possible one-sentence patch to v3, not a rewrite) matched v3's accuracy and grounding exactly and improved garment accuracy slightly (7→8 of 12), but low-data honesty fell to 5/6 on one malformed-JSON output — the model said `not_enough_data` correctly but a stray `"}},"` broke the JSON parser. Still rejected by the strict rule, even though it was arguably a parser problem rather than a judgment problem.
 
-The honest conclusion: three attempts, three distinct failure modes (real-world regression, grounding regression, parser fragility), and v3 still serves. Closing the synthetic-to-real gap is not a one-loop fix.
+The honest conclusion, as of that point: three attempts, three distinct failure modes (real-world regression, grounding regression, parser fragility), and v3 still served.
+
+## Parse-retry: not every malformed JSON is a judgment failure
+
+v6's rejection above (low-data honesty 5/6, one malformed-JSON case) exposed a bug in `evals/run.py` itself, not in the prompt: a single transient JSON-formatting glitch from the model could sink an otherwise-correct answer, because the runner only ever asked once per case. `evals/run.py` now retries a failed parse up to `EVAL_PARSE_RETRIES` (default 2) times, appending a short nudge ("your last response could not be parsed as JSON...") to the system prompt on each retry, before giving up. The summary now reports `cases_needing_parse_retry` and `cases_unparsed_after_retries` so a future gate failure can be told apart from "the model got it wrong" and "the model's formatting glitched."
+
+Re-running the exact same v6 prompt file after this fix, the earlier miss did not reproduce at all (`cases_needing_parse_retry: 0`) — it really was one-off sampling noise. That clean run scored 91.7% synthetic accuracy, 98.3% grounded, 100% low-data, beating v3 on every synthetic metric, and 66.7% real-30 accuracy with 100% grounding, beating v3's 56.7%/83.3%. **v6 is now served** (`prompts/returns/SERVED`).
+
+The lesson: "the gate failed" sometimes means "the eval runner has a bug," not "the prompt is wrong" — worth checking before writing off a candidate version.
 
 The failure report is the only thing that changes between versions, so every improvement is traceable to a case that failed.
 
