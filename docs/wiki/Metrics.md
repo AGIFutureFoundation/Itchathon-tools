@@ -59,4 +59,14 @@ Scaling caveat, repeated verbatim from the chart's own caption: *scaling caveats
 
 ## Closing
 
+## 8. Round 3: testing the leading theory directly
+
+Round 2's data showed real Amazon size charts are almost always rendered as images, never text, and that became the leading theory for why real accuracy trails synthetic accuracy so badly. Round 3 tested it head-on: 9 real cases (shapewear, waist trainers, maternity/nursing bras) where the seller wrote sizing guidance out as plain text, not an image. If the theory were right, accuracy on these cases should be noticeably higher than the 56.7% baseline.
+
+It wasn't. Cause accuracy came back at **33.3% (3/9)**, grounded at **55.6%** — both *lower* than baseline. Giving the model the exact information the theory said it was missing did not help. The failures were the same `garment`-vs-`expectation` confusion seen elsewhere, independent of whether sizing text was present. **The theory is not confirmed.** The real gap looks like a general judgment weakness on messy, mixed-complaint real reviews — not a specific missing-size-chart-image problem. Cost: ~$0.66, well inside budget.
+
+This is reported the same way every other result on this page is: honestly, whichever way the evidence points.
+
+## Closing
+
 For the full mechanics of the meta-prompt loop, see [Eval-Loop-and-Meta-Prompting](Eval-Loop-and-Meta-Prompting.md). For the complete score history, data-integrity notes, and the v5 rejection in the lead's own words, see [STATUS.md on GitHub](https://github.com/AGIFutureFoundation/Itchathon-tools/blob/main/STATUS.md). To browse the rest of the wiki, start at [Home](Home.md).

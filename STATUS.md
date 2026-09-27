@@ -43,4 +43,21 @@ Judge/persona note: both calibration runs sampled from `evals/returns/results/v3
 
 Loop record: v1 → failure report (garment↔size_chart confusion, double-object output) → meta-prompt → v2. One loop closed the gap.
 
-Run: `node app/server.js` → http://localhost:3141 · Evals: `python3 evals/run.py --prompt prompts/returns/v2.md`, `python3 evals/prep/backtest.py`, `python3 evals/ads/run.py` · Demo: `node tools/record.js && zsh tools/make-demo.sh`
+Run: `node app/server.js` → http://localhost:3141 (serves whatever `prompts/returns/SERVED` names, currently v6) · Evals: `python3 evals/run.py --prompt prompts/returns/v6.md`, `python3 evals/prep/backtest.py`, `python3 evals/ads/run.py` · Demo: `node tools/record.js && zsh tools/make-demo.sh` · Judging video: `node tools/record-judging.js && zsh tools/make-judging-video.sh`
+
+**Real-data round 3 (targeted probe, 9 cases, ~$0.66 spend):** round 2 found Amazon's size chart is almost always an
+image, never text, and the working theory was that this — not a general reasoning gap — is the main reason v3 scores
+56.7% on real cases vs. 90%+ on synthetic ones. This round tested that theory directly by hunting for real listings
+(shapewear, waist trainers, nursing/maternity bras) where the seller wrote sizing guidance out as plain **text** in
+the bullets or description ("if between sizes, size up", full inline measurement tables, spelled-out "SIZE CHART: M
+fits 34B…" text) instead of only in an image, then re-ran the served-for-this-task prompt (`prompts/returns/v3.md`) on
+just those 9 cases. Result: cause accuracy was **33.3% (3/9)** and grounded_rate **55.6%** — both *lower* than the
+56.7%/83.3% round 1–2 baseline, not higher. **Finding: "the chart is an image, not absent" is not confirmed as the
+main driver of the synthetic-vs-real gap** — giving the model the sizing information in text form the theory said it
+was missing did not recover accuracy; the model still misread several `garment` cases as `expectation` (ad-copy vs.
+delivered-fit confusion) independent of whether the size guidance was text or image. The real gap looks more like a
+general cause-classification/plurality-judgment weakness on messy, mixed-complaint real reviews than specifically a
+missing-size-chart-image problem. See `evals/returns/real/README.md` (round 3 section) for the per-case breakdown,
+and `evals/returns/results/v3_real_round3_textsizing.json`/`.failures.md` for the raw eval output. Also noted in
+passing: `prompts/returns/SERVED` currently reads `v6`, not `v3` as this round's task brief assumed — a discrepancy
+from this document's own "v3 stays served" line, left unresolved since reconciling it was out of this round's scope.

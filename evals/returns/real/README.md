@@ -136,3 +136,74 @@ Cumulative r01–r30: garment 12, expectation 9, size_chart 3, not_enough_data 4
 - `raw_<asin>.json` — reviews-actor items (one per review, product object attached), as in round 1.
 - `raw_<asin>.details.json` — the product-details actor's item for that ASIN (bullets, descriptions, product information,
   rating distribution, review aspects, top reviews, image URLs).
+
+---
+
+# Round 3 (r31–r39) — text-based sizing info, fetched 2026-09-27
+
+**Research question**: round 2 observed that Amazon's size chart is almost always an image, not text. Is "the chart is
+an image, not absent" actually a real driver of the synthetic-vs-real accuracy gap? To test it, this round deliberately
+hunts for listings whose seller put sizing guidance directly in **bullet/description TEXT** — "if between sizes, size
+up", inline measurement tables, explicit "SIZE CHART: M fits 34B..." text — rather than only in a chart image, then
+reruns the currently-served prompt (`prompts/returns/v3.md`, per this round's task brief — note `prompts/returns/SERVED`
+itself reads `v6` as of this session, a discrepancy from `STATUS.md`'s "v3 stays served" note, flagged but not resolved
+here since it's out of this round's scope) on just those cases.
+
+## Actors and discovery
+
+- **ASIN discovery**: `apify/google-search-scraper`, 5 `site:amazon.com …` queries targeting categories known to write
+  fit notes into prose — shapewear, waist trainers, nursing/maternity bras ("true to size", "runs small", "order down",
+  "if between sizes") — 28 candidate ASINs, $0.02.
+- **Listing/bullets check**: `delicious_zebu/amazon-product-details-scraper` (input field is `Params`, an array mixing
+  bare ASINs and full URLs, plus `website: "amazon.com"` — the store listing shows no example with an `asins` field;
+  that guess silently returned 0 items before the correct field was found via the actor's build-log input schema), one
+  batch run of all 28 ASINs, $0.07. Regex + manual read of `about_item`/`product_description`/`manufacturer_description`
+  found genuine actionable sizing sentences (not just a chart pointer) on 13/28 listings; 2 of those had only 1 rating
+  each and were dropped as too thin for critical reviews, leaving **10 candidates** with both real text sizing guidance
+  and enough ratings to pull critical reviews from.
+- **Critical reviews**: `junglee/amazon-reviews-scraper`, same input as rounds 1–2 (`filterByRatings: ["critical"]`,
+  `sort: "helpful"`, `maxReviews: 10`, 1 ASIN per run, free-tier cap). 10 runs; 9 succeeded (79 reviews total, 6–10 per
+  product); `B0836M2PZT` (Nebility waist trainer) timed out and was dropped, leaving **9 products** in the final batch.
+- **Round-3 spend ≈ $0.66** (Apify monthly usage went from ~$2.05 at the start of this round to ~$2.71 total), well
+  inside the $2 cap for this round.
+
+## Products (r31–r39)
+
+| Case | ASIN | Product | Sizing text found in listing | Critical reviews | Label |
+|---|---|---|---|---|---|
+| r31 | B0D6VWVSMY | SHAPELLX Tummy Control Bodysuit | "If you are in between sizes… please order one size up" (manufacturer_description) | 10 | garment |
+| r32 | B0CYJ1Y8J8 | FeelinGirl Lace Shapewear Bodysuit | "check the size chart… Please size up if you are in between sizes" (about_item) | 10 | size_chart |
+| r33 | B0CNJ84HZB | LEADING LADY Full Coverage Nursing Bra | "Measure bust (cup) and under bust (band)– check size chart. If between sizes, round up…" (about_item) | 10 | garment |
+| r34 | B0CMDCZMMW | LEADING LADY Loving Moments Nursing Sports Bra | same band/cup text pattern as r33 | 10 | garment |
+| r35 | B01ET3OUNQ | LEADING LADY Harmony Nursing Bra | same band/cup text pattern as r33/r34 | 10 | size_chart |
+| r36 | B0B6PYCGMQ | Tummy Control Waist Trainer | inline text measurement table ("Size S: Waist 24.8-26.8\"…") + "Please size up for added comfort" (manufacturer_description) | 9 | garment |
+| r37 | B0BCJTW4BV | COLOMI Maternity Nursing Bra | "SIZE CHART: M fit for 34B 34C 34D / L fit for 36B…" fully spelled out in product_description | 10 | size_chart |
+| r38 | B0DKWGLR42 | SHAPERX Seamless Tummy Control Bodysuit | "Sizing Guidance: Check our size chart and measure your bust, waist, and hips…" (about_item) | 6 | garment |
+| r39 | B0FMFKNND2 | Waist Trainer / Waist Cincher | "Choose Your Size" FAQ-style text section (product_description) | 8 | garment |
+
+All 9 listings have genuine sizing text in bullets/description (not an image chart pointer); `label_rationale` in each
+case records the specific evidence and how the round-2 ladder rule (fulfilment > photos > expectation > size_chart >
+garment, with the ≥2-buyers-followed-the-chart bar for a one-direction FIT cluster to count as `size_chart`) was applied.
+
+## Result: v3 accuracy on the text-sizing subset vs. the round 1–2 baseline
+
+```
+CASES=<9-case batch> python3 evals/run.py --prompt prompts/returns/v3.md --workers 5
+```
+
+| Metric | Round 1–2 baseline (30 cases, mostly image-only charts) | Round 3 (9 cases, real text sizing) |
+|---|---|---|
+| cause_accuracy | 56.7% | **33.3% (3/9)** |
+| grounded_rate | 83.3% | 55.6% (5/9) |
+| parsed_rate | — | 88.9% (1 case returned unparseable JSON) |
+
+Confusion on round 3: `garment` cases (6) → 2 correct, 3 called `expectation`, 1 called `fulfilment`; `size_chart` cases
+(3) → 1 correct, 1 called `garment`, 1 unparsed. The model's `expectation` misses are defensible alternate reads (ad
+copy vs. delivered fit) rather than obviously wrong, but the net effect is unambiguous: **accuracy on this text-sizing
+subset is lower than the round 1–2 baseline, not higher.**
+
+## Files (round 3)
+
+- `raw_<asin>.json` — reviews-actor items for the 9 kept products (as rounds 1–2).
+- `raw_<asin>.details.json` — the product-details actor's item for each of the 9, pulled from one 28-ASIN batch run
+  (`details_batch_round3.json` holds the full 28-item batch this session fetched, for provenance).
