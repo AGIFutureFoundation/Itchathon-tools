@@ -1,0 +1,95 @@
+{
+  "naive_pinball": 4.1372,
+  "model_pinball": 2.8815,
+  "improvement_pct": 30.35,
+  "gate_met": true,
+  "gate_threshold_pct": 15.0,
+  "by_quantile": {
+    "run_out": {
+      "tau": 0.65,
+      "naive_pinball": 4.2327,
+      "model_pinball": 2.8524,
+      "improvement_pct": 32.6114
+    },
+    "neutral": {
+      "tau": 0.5,
+      "naive_pinball": 4.0417,
+      "model_pinball": 2.9107,
+      "improvement_pct": 27.9823
+    }
+  },
+  "by_item": {
+    "Croissant": {
+      "run_out": {
+        "naive": 9.3036,
+        "model": 4.9821
+      },
+      "neutral": {
+        "naive": 8.1786,
+        "model": 4.8214
+      }
+    },
+    "Sourdough loaf": {
+      "run_out": {
+        "naive": 2.425,
+        "model": 1.6357
+      },
+      "neutral": {
+        "naive": 2.6071,
+        "model": 1.7143
+      }
+    },
+    "Cinnamon roll": {
+      "run_out": {
+        "naive": 5.75,
+        "model": 4.6571
+      },
+      "neutral": {
+        "naive": 5.8571,
+        "model": 5.0
+      }
+    },
+    "Quiche slice": {
+      "run_out": {
+        "naive": 2.8286,
+        "model": 2.1571
+      },
+      "neutral": {
+        "naive": 2.7857,
+        "model": 2.1786
+      }
+    },
+    "Soup (portions)": {
+      "run_out": {
+        "naive": 2.2107,
+        "model": 2.0143
+      },
+      "neutral": {
+        "naive": 2.1786,
+        "model": 2.0714
+      }
+    },
+    "Baguette": {
+      "run_out": {
+        "naive": 2.8786,
+        "model": 1.6679
+      },
+      "neutral": {
+        "naive": 2.6429,
+        "model": 1.6786
+      }
+    }
+  },
+  "setup": {
+    "items": 6,
+    "days": 84,
+    "holdout_days": 14,
+    "start": "2026-07-05",
+    "end": "2026-09-26",
+    "event_day": "2026-08-14",
+    "seed": 7,
+    "baseline": "same weekday last week",
+    "model": "same-weekday quantile over last 8 weeks x clamped(0.8..1.25) 2-week trend"
+  },
+  "node_parity": "ok (18 item x preference forecasts identical)"
+}

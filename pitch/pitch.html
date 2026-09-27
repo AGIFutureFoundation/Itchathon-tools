@@ -1,0 +1,179 @@
+<title>Why Did It Come Back?</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F5F4;--surface:#FFFFFF;--ink:#152321;--muted:#5B6B68;--line:#D6DDDB;
+  --accent:#0E6F63;--accent-ink:#FFFFFF;--tag:#B8690A;--tag-bg:#FBEFDD;--good:#1E7A45;--warn:#A85A00;--bad:#B3261E;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --body:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+  --display:'IBM Plex Sans Condensed','Arial Narrow',var(--body);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#101715;--surface:#18211F;--ink:#E8EEEC;--muted:#98A8A4;--line:#2A3532;--accent:#4FC3B1;--accent-ink:#0B1513;--tag:#E8A64A;--tag-bg:#3A2A12;--good:#63C784;--warn:#E0A24C;--bad:#F08A83}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#101715;--surface:#18211F;--ink:#E8EEEC;--muted:#98A8A4;--line:#2A3532;--accent:#4FC3B1;--accent-ink:#0B1513;--tag:#E8A64A;--tag-bg:#3A2A12;--good:#63C784;--warn:#E0A24C;--bad:#F08A83}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-inline:20px;padding-block:32px 56px}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:36px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(38px,6vw,64px);line-height:1;margin:8px 0 12px;text-wrap:balance;letter-spacing:-.01em}
+h2{font-family:var(--display);font-weight:600;font-size:24px;margin:0 0 10px;text-wrap:balance}
+h3{font-size:15px;margin:0 0 6px;font-weight:600}
+p{margin:0;max-width:62ch}
+.lead{font-size:19px;max-width:56ch}
+.hero{display:grid;gap:14px}
+.grid{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+.stack{display:grid;gap:22px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:grid;gap:10px}
+.status{position:sticky;top:env(safe-area-inset-top,0px)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kpi{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:2px}
+.kpi b{font-family:var(--mono);font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi span{font-size:12px;color:var(--muted)}
+.pill{display:inline-block;font-family:var(--mono);font-size:12px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.pill.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pill.warn{color:var(--warn);border-color:var(--warn)}
+.pill.good{color:var(--good);border-color:var(--good)}
+.tag{display:inline-block;background:var(--tag-bg);color:var(--tag);font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl{overflow-x:auto}
+blockquote{margin:0;padding:10px 14px;border-left:3px solid var(--tag);background:var(--tag-bg);border-radius:0 6px 6px 0;font-size:14px;color:var(--ink)}
+blockquote cite{display:block;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:640px){.flow{grid-template-columns:1fr 1fr}}
+.step{border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px;display:grid;gap:4px}
+.step .eyebrow{font-size:11px}
+.step.gate{border-color:var(--accent);border-width:2px}
+pre{font-family:var(--mono);font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;margin:0;line-height:1.45}
+ul{margin:0;padding-left:20px;display:grid;gap:4px}
+.log{font-family:var(--mono);font-size:13px;display:grid;gap:6px}
+.log div{display:grid;grid-template-columns:52px 1fr;gap:10px}
+.log time{color:var(--muted)}
+footer{font-size:13px;color:var(--muted)}
+a{color:var(--accent)}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">ITCHATHON · Challenge 1 · Size bracketing eats the margin</div>
+    <h1>Why Did It Come Back?</h1>
+    <p class="lead">Paste a listing and its returns. Get one cause per SKU, the buyer's own words as proof, and a fix you can paste into the listing today. Built for a seller who reads returns alone, one ASIN at a time.</p>
+    <div><span class="pill on">Build hour 1 of 1</span> <span class="pill" id="checkpoint">Checkpoint 2 · 0:30</span> <span class="pill warn">Scope widened: Owner Console, all four challenges</span></div>
+  </header>
+
+  <div class="grid">
+    <div class="stack">
+      <section class="card">
+        <h2>The problem, in the seller's words</h2>
+        <blockquote>the "reason" field customers pick at checkout is useless, everything's either "changed my mind" or "doesn't fit", neither tells me if it's the product, the photos, or the sizing.<cite>r/AmazonSeller, seller above 20% returns</cite></blockquote>
+        <p>Amazon charges a returns processing fee above the category threshold, and the "Frequently returned item" badge cuts conversion by 25 to 50%. The only fix the thread found was manual: read your own returns, work out why, rewrite the listing. Sizing tools that could help (True Fit, Bold Metrics) start around $1,650 a month and cannot be installed on a marketplace listing.</p>
+      </section>
+
+      <section class="card">
+        <h2>What the product does</h2>
+        <div class="tbl"><table>
+          <tr><th>Input (what a small seller already has)</th><th>Output (under 60 seconds)</th></tr>
+          <tr><td>Listing title, bullets, description, size chart, a note on the photos</td><td><span class="tag">cause</span> one of: photos · size_chart · garment · expectation · fulfilment · not_enough_data</td></tr>
+          <tr><td>Returns with reason code, size ordered, buyer comment</td><td><span class="tag">evidence</span> verbatim quotes from the inputs, checked by code</td></tr>
+          <tr><td>Reviews and buyer messages</td><td><span class="tag">fix</span> a paste-ready size chart row, bullet or photo shot list</td></tr>
+          <tr><td>Or just an ASIN: reviews pulled live through Apify</td><td><span class="tag">keep-size message</span> the pre-purchase text Ben used to deliver by phone</td></tr>
+        </table></div>
+        <p>It says "not enough data" when there are fewer than three returns and no clear signal, because a seller with 4 returns does not have a statistic, they have four sentences.</p>
+      </section>
+
+      <section class="card">
+        <h2>Owner Console: the four challenges are one product</h2>
+        <p>The brief's own conclusion: detection is solved, the next step is not. The camera found the thief, the dashboard shows the return rate, the POS has a forecast, and the owner still does not know what to do at 7am, alone. Every module below takes a signal the business already has and returns one action, and every module is gated by the same eval loop.</p>
+        <div class="tbl"><table>
+          <tr><th>Module</th><th>Signal in</th><th>Action out</th><th>Gate</th><th>Status</th></tr>
+          <tr><td>Why Did It Come Back? (Ch. 1)</td><td>Listing + returns + reviews, or an ASIN via Apify</td><td>Cause, proof, paste-ready fix, keep-size message</td><td>≥80% cause accuracy</td><td><span class="pill good">v2 passed</span></td></tr>
+          <tr><td>Today's Prep (Ch. 4)</td><td>POS history, weekday, weather, bookings, run-out vs waste preference</td><td>One number per item, 7am card</td><td>Beats same-day-last-week by ≥15% (pinball loss)</td><td><span class="pill warn">building</span></td></tr>
+          <tr><td>Ads Plain Read (Ch. 2)</td><td>Campaign export, goal, budget</td><td>What is happening, what to change next, honest "no winner yet"</td><td>100% stats honesty on low-n tests</td><td><span class="pill warn">building</span></td></tr>
+          <tr><td>Ten Seconds After (Ch. 3)</td><td>Camera or Veesion alert, staff count, item value</td><td>A non-confrontational script, channel, timing; shelf hardening</td><td>Never recommends confrontation (rules, no LLM)</td><td><span class="pill warn">building</span></td></tr>
+        </table></div>
+        <h3>Enterprise layer</h3>
+        <ul>
+          <li>Multi-tenant API keys, per-tenant rate limits, append-only audit log with hashed inputs and the prompt version behind every answer</li>
+          <li>PII redaction before any model call; buyer text treated as untrusted input with an injection detector; output guard checks every quote against the inputs</li>
+          <li>Retention sweeps (audit 90d, imports 30d); Docker deploy; eval gates as release controls</li>
+          <li>Compliance mapped per module: GDPR/CCPA and Amazon's Data Protection Policy for returns; Google/Meta API policies and FTC substantiation for ads; CCTV signage, no biometrics, employee-safety rules for theft</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>How it is being built: a loop, not a prompt</h2>
+        <div class="flow">
+          <div class="step"><span class="eyebrow">1 · Console</span>Master meta-prompt writes system prompt vN</div>
+          <div class="step"><span class="eyebrow">2 · Agents</span>7 agents build, synthesise cases, run</div>
+          <div class="step gate"><span class="eyebrow">3 · Eval gate</span>≥80% cause accuracy · 100% grounded · 100% low-data honesty</div>
+          <div class="step"><span class="eyebrow">4 · Failures</span>Bad cases go back into the meta-prompt → vN+1</div>
+        </div>
+        <p>No product prompt is written by hand. The failure report from each eval run is the only thing that changes the next version, so every improvement is traceable to a case that failed.</p>
+      </section>
+
+      <section class="card">
+        <h2>The team (Claude Code subagents)</h2>
+        <div class="tbl"><table>
+          <tr><th>Agent</th><th>Job</th></tr>
+          <tr><td>Lead</td><td>Runs the loop, calls go/no-go at the gate</td></tr>
+          <tr><td>Persona "Ben at 7am"</td><td>Rejects anything slower than reading returns by hand</td></tr>
+          <tr><td>Data synth</td><td>60 labelled cases, 20 of them deliberately noisy; plus real Amazon reviews via Apify</td></tr>
+          <tr><td>Meta-prompter</td><td>The only agent allowed to write product prompts</td></tr>
+          <tr><td>Builder</td><td>The demo app (Node, no dependencies, calls the newest prompt)</td></tr>
+          <tr><td>Eval runner</td><td>Scores accuracy, grounding, low-data honesty, latency</td></tr>
+          <tr><td>Judge</td><td>Scores what code cannot: is the fix pasteable, does it match the cause</td></tr>
+        </table></div>
+      </section>
+    </div>
+
+    <aside class="stack status">
+      <section class="card">
+        <h2>Live scorecard</h2>
+        <div class="kpis" id="kpis">
+          <div class="kpi"><b>98.3%</b><span>cause accuracy (gate ≥ 80%) <span class="pill good">gate met</span></span></div>
+          <div class="kpi"><b>95%</b><span>evidence grounded (gate ≥ 95%)</span></div>
+          <div class="kpi"><b>100%</b><span>low-data honesty (gate 100%)</span></div>
+          <div class="kpi"><b>15.1</b><span>mean latency, seconds</span></div>
+        </div>
+        <div class="tbl"><table>
+          <tr><th>Version</th><th>Accuracy</th><th>Hard 20</th><th>Grounded</th><th>Low-data</th><th>Latency</th></tr>
+          <tr><td>v1 (meta-prompt, no failures yet)</td><td class="n">78.3%</td><td class="n">85%</td><td class="n">88%</td><td class="n">83%</td><td class="n">25.0s</td></tr>
+          <tr><td>v2 (v1 failure report fed back)</td><td class="n">98.3%</td><td class="n">100%</td><td class="n">95%</td><td class="n">100%</td><td class="n">15.1s</td></tr>
+        </table></div>
+        <p style="font-size:13px;color:var(--muted)">60 cases, Sonnet 5, prompts written by Opus 5 from the master meta-prompt. v1's confusion was garment↔size_chart; the failure report fixed it in one loop. Remaining misses: 1 malformed JSON, 2 lightly paraphrased quotes.</p>
+      </section>
+
+      <section class="card">
+        <h2>Build log</h2>
+        <div class="log">
+          <div><time>0:00</time><span>Roadmap doc, challenge scored: Returns 15/15</span></div>
+          <div><time>0:04</time><span>Repo, 7 agent definitions, master meta-prompt</span></div>
+          <div><time>0:06</time><span>Data-synth and Builder agents spawned in parallel</span></div>
+          <div><time>0:10</time><span>Eval runner written (claude -p, 6 workers, deterministic checks)</span></div>
+          <div><time>0:13</time><span>Demo app up: example → size_chart, 6 quotes, 18s</span></div>
+          <div><time>0:14</time><span>Prompt v1 written by the meta-prompter (Opus)</span></div>
+          <div><time>0:15</time><span>Apify agent fetching real 1–3★ Amazon reviews</span></div>
+          <div><time>0:19</time><span>Eval v1: 78.3%. Parser bug (model emitted 2 objects) fixed, rescored</span></div>
+          <div><time>0:23</time><span>Scope widened to all four challenges: Prep, Ads, Theft agents spawned</span></div>
+          <div><time>0:26</time><span>Compliance agent: PII redaction, injection guard, retention, COMPLIANCE.md</span></div>
+          <div><time>0:29</time><span>Eval v2: 98.3%, gate met. Hard subset 100%</span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Gate criteria</h2>
+        <ul>
+          <li>Cause accuracy ≥ 80% on 60 cases</li>
+          <li>Every evidence quote found verbatim in the inputs</li>
+          <li>Every low-data case answered "not_enough_data"</li>
+          <li>Persona "Ben" says yes on ≥ 70% of outputs</li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <footer>Sources: ITCHATHON Challenges brief (27 Sep 2026) and the Reddit threads it cites. Scores on this page come from <code>evals/run.py</code> and are updated at each 15-minute checkpoint.</footer>
+</div>

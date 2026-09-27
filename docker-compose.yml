@@ -1,0 +1,16 @@
+services:
+  owner-console:
+    build: .
+    image: owner-console:local
+    ports:
+      - "3141:3141"
+    env_file:
+      - .env
+    environment:
+      PORT: "3141"
+    volumes:
+      # Logs, theft_log.jsonl and data/audit/<day>.jsonl live here and survive rebuilds.
+      - ./data:/srv/data
+      # Prompts are versioned files; mount them so a new vN.md ships without a rebuild.
+      - ./prompts:/srv/prompts:ro
+    restart: unless-stopped

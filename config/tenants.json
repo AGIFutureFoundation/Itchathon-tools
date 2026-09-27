@@ -1,0 +1,21 @@
+{
+  "_comment": "EXAMPLE tenants for the demo. The keys below are placeholders, not secrets. Replace them before any real deployment; rotate by editing this file (auth.js reloads it on change).",
+  "tenants": [
+    {
+      "tenant": "ben",
+      "name": "Ben's apparel shop (example)",
+      "key": "demo-key-ben",
+      "plan": "starter",
+      "modules": ["returns", "prep", "ads", "theft"],
+      "rate_limit_per_min": 60
+    },
+    {
+      "tenant": "kitchen",
+      "name": "Kitchenware seller (example)",
+      "key": "demo-key-kitchen",
+      "plan": "standard",
+      "modules": ["returns", "ads"],
+      "rate_limit_per_min": 120
+    }
+  ]
+}

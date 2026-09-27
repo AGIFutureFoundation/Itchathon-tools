@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ten Seconds After</title>
+<style>
+  :root {
+    --bg: #f7f6f2; --panel: #ffffff; --ink: #1c1c1a; --muted: #6b6a66; --line: #dedcd5;
+    --accent: #2f5d50; --accent-ink: #ffffff; --quote-bg: #f1efe8; --err: #b3261e;
+    --ring-track: #e4e2da; --ring: #2f5d50; --warn: #b85c00; --ok: #3d7a3a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141413; --panel: #1e1e1c; --ink: #ecebe6; --muted: #a09f99; --line: #33332f;
+      --accent: #7fc0ad; --accent-ink: #0f1a16; --quote-bg: #262624; --err: #ff8a80;
+      --ring-track: #2c2c29; --ring: #7fc0ad; --warn: #f0a34a; --ok: #8fd18a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif; }
+  header { padding: 20px 16px 8px; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+  h1 { margin: 0; font-size: 22px; }
+  h2 { margin: 0 0 10px; font-size: 16px; }
+  header p { margin: 4px 0 0; color: var(--muted); }
+  header a { color: var(--accent); font-size: 13px; }
+  main { display: grid; grid-template-columns: 1fr; gap: 16px; padding: 12px 16px 40px; max-width: 1200px; margin: 0 auto; }
+  @media (min-width: 900px) { main { grid-template-columns: 1fr 1fr; } .wide { grid-column: 1 / -1; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin: 12px 0 4px; text-transform: uppercase; letter-spacing: .04em; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  input, select, textarea { width: 100%; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px; }
+  .check { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+  .check input { width: auto; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+  button { font: inherit; font-weight: 600; padding: 9px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  button:disabled { opacity: .5; cursor: wait; }
+  button.chosen { outline: 2px solid var(--accent); }
+  .hint { color: var(--muted); font-size: 12px; }
+  .empty { color: var(--muted); }
+  .err { color: var(--err); }
+
+  /* result */
+  .say { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center; }
+  @media (max-width: 520px) { .say { grid-template-columns: 1fr; } }
+  .ring { position: relative; width: 120px; height: 120px; }
+  .ring svg { transform: rotate(-90deg); }
+  .ring circle { fill: none; stroke-width: 10; }
+  .ring .track { stroke: var(--ring-track); }
+  .ring .bar { stroke: var(--ring); stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+  .ring .num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 38px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .ring.done .bar { stroke: var(--ok); }
+  .script { font-size: clamp(26px, 4vw, 42px); font-weight: 800; line-height: 1.15; letter-spacing: -.01em; }
+  .channel { margin-top: 8px; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+  .actions { margin: 16px 0 0; padding: 0; list-style: none; }
+  .actions li { padding: 8px 10px; border-left: 3px solid var(--accent); background: var(--quote-bg); border-radius: 4px; margin-top: 6px; }
+  .actions li.dont { border-left-color: var(--err); }
+  .actions li.follow { border-left-color: var(--warn); }
+  .actions .k { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); display: block; }
+  .outcome { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .kpis { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .kpi { background: var(--quote-bg); border-radius: 8px; padding: 8px 12px; min-width: 110px; }
+  .kpi b { display: block; font-size: 22px; }
+  .kpi span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .decision { margin-top: 10px; padding: 10px 12px; border-radius: 6px; background: var(--quote-bg); }
+  .measure { font-weight: 600; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Ten Seconds After</h1>
+    <p>The camera already saw it. This is what one person on the floor does next, without confrontation.</p>
+  </div>
+  <a href="/">Back to the Owner Console</a>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Simulate alert</h2>
+    <form id="alertForm">
+      <div class="grid2">
+        <div>
+          <label for="source">Source</label>
+          <select id="source" name="source">
+            <option value="veesion" selected>veesion</option>
+            <option value="camera">camera</option>
+            <option value="manual">manual</option>
+          </select>
+        </div>
+        <div>
+          <label for="zone">Zone</label>
+          <input id="zone" name="zone" value="beauty aisle">
+        </div>
+        <div>
+          <label for="value">Item value estimate ($)</label>
+          <input id="value" name="item_value_estimate" type="number" min="0" step="0.5" value="10">
+        </div>
+        <div>
+          <label for="staff">Staff on floor</label>
+          <input id="staff" name="staff_on_floor" type="number" min="0" step="1" value="1">
+        </div>
+      </div>
+      <label for="desc">Person description (not stored)</label>
+      <input id="desc" name="person_description" placeholder="optional, e.g. grey hoodie, tote bag">
+      <div class="check">
+        <input id="repeat" name="repeat_visitor" type="checkbox" checked>
+        <label for="repeat" style="margin:0">Repeat visitor</label>
+      </div>
+      <div class="row">
+        <button class="primary" type="submit" id="go">Fire alert</button>
+        <span class="hint">Deterministic rules, no model call. The answer is instant because the ten seconds are yours.</span>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel" id="result">
+    <h2>What to do now</h2>
+    <p class="empty">Fire an alert to see the script and the countdown.</p>
+  </section>
+
+  <section class="panel">
+    <h2>This month, by zone and week</h2>
+    <div id="summary"><p class="empty">Loading...</p></div>
+    <div class="row"><button type="button" id="refresh">Refresh</button><span class="hint">From <code>data/theft_log.jsonl</code>. This is the "is it worth moving the shelf" number.</span></div>
+  </section>
+
+  <section class="panel">
+    <h2>Harden the shelf</h2>
+    <p class="hint">Sample list. One cheap measure per item, ranked by thefts x price. Edit the JSON and re-run.</p>
+    <textarea id="hardenInput" rows="7">[
+  {"name":"Lip gloss set","price":12,"zone":"beauty aisle","thefts_30d":7},
+  {"name":"Mascara","price":14,"zone":"beauty aisle","thefts_30d":4},
+  {"name":"Phone cable","price":9,"zone":"front rack","thefts_30d":3},
+  {"name":"Hand cream","price":8,"zone":"till end","thefts_30d":1},
+  {"name":"Perfume tester 30ml","price":38,"zone":"beauty aisle","thefts_30d":2}
+]</textarea>
+    <div class="row"><button type="button" class="primary" id="hardenGo">Rank measures</button></div>
+    <div id="harden"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const money = (n) => '$' + Number(n || 0).toFixed(2);
+  let timer = null;
+  let current = null;
+
+  async function api(method, path, body) {
+    const r = await fetch(path, { method, headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+    const j = await r.json().catch(() => ({ error: 'bad response' }));
+    if (!r.ok) throw new Error(j.error || r.statusText);
+    return j;
+  }
+
+  // ---------- alert ----------
+  $('#alertForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $('#go'); btn.disabled = true;
+    const body = {
+      source: $('#source').value,
+      zone: $('#zone').value.trim(),
+      item_value_estimate: Number($('#value').value),
+      staff_on_floor: Number($('#staff').value),
+      repeat_visitor: $('#repeat').checked,
+    };
+    if ($('#desc').value.trim()) body.person_description = $('#desc').value.trim();
+    try {
+      current = await api('POST', '/api/theft/alert', body);
+      renderPlaybook(current);
+      loadSummary();
+    } catch (err) {
+      $('#result').innerHTML = '<h2>What to do now</h2><p class="err">' + esc(err.message) + '</p>';
+    } finally { btn.disabled = false; }
+  });
+
+  function renderPlaybook(p) {
+    const R = 52, C = 2 * Math.PI * R;
+    const acts = [];
+    acts.push('<li><span class="k">First</span>' + esc(p.action.primary) + '</li>');
+    if (p.action.secondary) acts.push('<li><span class="k">Then</span>' + esc(p.action.secondary) + '</li>');
+    for (const f of (p.action.followups || [])) acts.push('<li class="follow"><span class="k">Also</span>' + esc(f) + '</li>');
+    for (const d of (p.action.do_not || [])) acts.push('<li class="dont"><span class="k">Never</span>' + esc(d) + '</li>');
+    $('#result').innerHTML =
+      '<h2>What to do now</h2>' +
+      '<div class="say">' +
+        '<div class="ring" id="ring"><svg width="120" height="120" viewBox="0 0 120 120">' +
+          '<circle class="track" cx="60" cy="60" r="' + R + '"></circle>' +
+          '<circle class="bar" id="bar" cx="60" cy="60" r="' + R + '" stroke-dasharray="' + C + '" stroke-dashoffset="0"></circle>' +
+        '</svg><div class="num" id="num">' + p.timing_seconds + '</div></div>' +
+        '<div><div class="script">&ldquo;' + esc(p.script) + '&rdquo;</div>' +
+        '<div class="channel">Say it: ' + esc(p.channel) + ' &middot; ' + esc(p.context.zone) + ' &middot; ' + money(p.context.item_value_estimate) + '</div></div>' +
+      '</div>' +
+      '<ul class="actions">' + acts.join('') + '</ul>' +
+      '<div class="outcome"><label style="margin-top:0">Log outcome</label><div class="row" style="margin-top:6px">' +
+        '<button type="button" data-outcome="deterred">Deterred</button>' +
+        '<button type="button" data-outcome="took_it">Took it</button>' +
+        '<button type="button" data-outcome="unsure">Unsure</button>' +
+        '<span class="hint" id="logged"></span></div></div>';
+    startCountdown(p.timing_seconds, C);
+    document.querySelectorAll('[data-outcome]').forEach(b => b.addEventListener('click', () => logOutcome(b)));
+  }
+
+  function startCountdown(seconds, C) {
+    clearInterval(timer);
+    const bar = $('#bar'), num = $('#num'), ring = $('#ring');
+    let left = seconds;
+    // Kick the transition on the next frame so the first second animates too.
+    requestAnimationFrame(() => { bar.style.strokeDashoffset = (C * (1 / seconds)).toFixed(2); });
+    timer = setInterval(() => {
+      left -= 1;
+      num.textContent = Math.max(0, left);
+      bar.style.strokeDashoffset = (C * ((seconds - left + 1) / seconds)).toFixed(2);
+      if (left <= 0) { clearInterval(timer); ring.classList.add('done'); num.textContent = 'go'; bar.style.strokeDashoffset = C; }
+    }, 1000);
+  }
+
+  async function logOutcome(btn) {
+    if (!current) return;
+    document.querySelectorAll('[data-outcome]').forEach(b => { b.disabled = true; b.classList.remove('chosen'); });
+    try {
+      await api('POST', '/api/theft/log', {
+        log_id: current.log_id, zone: current.context.zone, value: current.context.item_value_estimate,
+        action_taken: current.action.primary, outcome: btn.dataset.outcome,
+      });
+      btn.classList.add('chosen');
+      $('#logged').textContent = 'Logged. It counts toward the monthly layout decision.';
+      loadSummary();
+    } catch (err) {
+      $('#logged').textContent = err.message; $('#logged').className = 'err';
+    } finally { document.querySelectorAll('[data-outcome]').forEach(b => { b.disabled = false; }); }
+  }
+
+  // ---------- summary ----------
+  async function loadSummary() {
+    const el = $('#summary');
+    try {
+      const s = await api('GET', '/api/theft/summary');
+      if (!s.outcomes_logged) { el.innerHTML = '<p class="empty">No outcomes logged yet. Fire an alert and log what happened.</p>'; return; }
+      const zoneRows = Object.entries(s.by_zone).sort((a, b) => b[1].loss - a[1].loss).map(([z, v]) =>
+        '<tr><td>' + esc(z) + '</td><td class="n">' + v.events + '</td><td class="n">' + v.deterred + '</td><td class="n">' + v.took_it + '</td><td class="n">' + v.unsure + '</td><td class="n">' + money(v.loss) + '</td></tr>').join('');
+      const weekRows = Object.entries(s.by_week).sort((a, b) => a[0] < b[0] ? 1 : -1).map(([w, v]) =>
+        '<tr><td>' + esc(w) + '</td><td class="n">' + v.events + '</td><td class="n">' + v.deterred + '</td><td class="n">' + v.took_it + '</td><td class="n">' + v.unsure + '</td><td class="n">' + money(v.loss) + '</td></tr>').join('');
+      const head = '<tr><th>__</th><th class="n">Events</th><th class="n">Deterred</th><th class="n">Took it</th><th class="n">Unsure</th><th class="n">Est. loss</th></tr>';
+      el.innerHTML =
+        '<div class="kpis">' +
+          '<div class="kpi"><b>' + s.outcomes_logged + '</b><span>events</span></div>' +
+          '<div class="kpi"><b>' + (s.deterrence_rate == null ? '-' : Math.round(s.deterrence_rate * 100) + '%') + '</b><span>deterred</span></div>' +
+          '<div class="kpi"><b>' + money(s.estimated_loss) + '</b><span>est. loss</span></div>' +
+          '<div class="kpi"><b>' + esc(s.top_zone ? s.top_zone.zone : '-') + '</b><span>top zone</span></div>' +
+        '</div>' +
+        '<table>' + head.replace('__', 'Zone') + zoneRows + '</table><br>' +
+        '<table>' + head.replace('__', 'Week') + weekRows + '</table>' +
+        '<div class="decision">' + esc(s.decision_hint) + '</div>';
+    } catch (err) { el.innerHTML = '<p class="err">' + esc(err.message) + '</p>'; }
+  }
+  $('#refresh').addEventListener('click', loadSummary);
+
+  // ---------- harden ----------
+  $('#hardenGo').addEventListener('click', async () => {
+    const out = $('#harden');
+    let items;
+    try { items = JSON.parse($('#hardenInput').value); } catch (e) { out.innerHTML = '<p class="err">Invalid JSON: ' + esc(e.message) + '</p>'; return; }
+    try {
+      const h = await api('POST', '/api/theft/harden', { items });
+      out.innerHTML = '<table><tr><th>Item</th><th>Zone</th><th class="n">Price</th><th class="n">Thefts 30d</th><th class="n">Loss 30d</th><th>Measure</th></tr>' +
+        h.items.map(it => '<tr><td>' + esc(it.name) + '</td><td>' + esc(it.zone) + '</td><td class="n">' + money(it.price) + '</td><td class="n">' + it.thefts_30d +
+          '</td><td class="n">' + money(it.loss_30d) + '</td><td><span class="measure">' + esc(it.measure) + '</span>' + (it.note ? '<br><span class="hint">' + esc(it.note) + '</span>' : '') + '</td></tr>').join('') +
+        '</table><p class="hint">Total 30-day loss on this list: ' + money(h.total_loss_30d) + '.</p>';
+    } catch (err) { out.innerHTML = '<p class="err">' + esc(err.message) + '</p>'; }
+  });
+
+  loadSummary();
+})();
+</script>
+</body>
+</html>
