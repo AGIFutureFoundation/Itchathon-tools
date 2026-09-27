@@ -1,0 +1,59 @@
+<!-- "Import from ASIN" widget. Self-contained: include this snippet at the top of the
+     left column in index.html. It POSTs {asin} to /api/import-asin and fills the form
+     fields (#title #bullets #description #size_chart #photos_note #returns #reviews #messages).
+     Uses the page's existing CSS variables/classes (label, input, button, .hint, .error, .spinner). -->
+<div id="asin-import" style="margin:0 0 14px; padding:12px; border:1px dashed var(--line); border-radius:8px;">
+  <label for="asin" style="margin-top:0">Import from Amazon ASIN <span class="hint">(pulls 1–3 star reviews via Apify, ~15–60s)</span></label>
+  <div style="display:flex; gap:8px; align-items:center;">
+    <input id="asin" placeholder="e.g. B0DJXRHWJH or a /dp/ URL" spellcheck="false" style="flex:1; min-width:0; resize:none">
+    <button id="asin-go" type="button">Import</button>
+  </div>
+  <p id="asin-status" class="hint" style="margin:6px 0 0; min-height:1.2em"></p>
+</div>
+<script>
+(() => {
+  const g = id => document.getElementById(id);
+  const oneLine = s => String(s ?? '').replace(/\s*\n\s*/g, ' ').replace(/\|/g, '/').trim();
+  const input = g('asin'), btn = g('asin-go'), status = g('asin-status');
+  if (!input || !btn || !status) return;
+
+  function fill(d) {
+    const L = d.listing || {};
+    const set = (id, v) => { const el = g(id); if (el) el.value = v; };
+    set('title', L.title || '');
+    set('bullets', (L.bullets || []).join('\n'));
+    set('description', L.description || '');
+    set('size_chart', L.size_chart || '');
+    set('photos_note', L.photos_note || '');
+    set('returns', (d.returns || []).map(r => `${r.reason_code || ''} | ${r.size_ordered || ''} | ${oneLine(r.comment)}`).join('\n'));
+    set('reviews', (d.reviews || []).map(oneLine).filter(Boolean).join('\n'));
+    set('messages', (d.messages || []).map(oneLine).filter(Boolean).join('\n'));
+  }
+
+  async function run() {
+    const asin = input.value.trim();
+    if (!asin) { status.textContent = 'Enter an ASIN first.'; return; }
+    btn.disabled = true; input.disabled = true;
+    status.className = 'hint';
+    status.innerHTML = '<span class="spinner"></span>Importing reviews from Amazon via Apify… usually 15–60s';
+    const t0 = performance.now();
+    try {
+      const res = await fetch('/api/import-asin', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ asin }) });
+      let data = {};
+      try { data = await res.json(); } catch { /* non-JSON error body */ }
+      if (!res.ok) throw new Error(data.error || `${res.status} ${res.statusText}`);
+      fill(data);
+      const m = data._meta || {};
+      status.textContent = `Imported ${m.review_count ?? (data.returns || []).length} critical reviews for ${m.resolved_asin || asin} in ${((performance.now() - t0) / 1000).toFixed(1)}s. No size chart on Amazon — paste yours if you have one, then Diagnose.`;
+    } catch (e) {
+      status.className = 'error';
+      status.textContent = 'Import failed: ' + e.message + ' — you can still paste the listing and returns by hand.';
+    } finally {
+      btn.disabled = false; input.disabled = false;
+    }
+  }
+
+  btn.addEventListener('click', run);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); run(); } });
+})();
+</script>

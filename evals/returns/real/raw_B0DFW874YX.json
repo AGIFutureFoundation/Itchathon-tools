@@ -1,0 +1,352 @@
+[
+ {
+  "error": "no_relevant_reviews_found",
+  "errorDescription": "No relevant reviews found, saving only review category data...",
+  "input": "https://www.amazon.com/dp/B0DFW874YX",
+  "totalCategoryRatings": 0,
+  "totalCategoryReviews": 0,
+  "reviewCategoryUrl": "https://www.amazon.com/product-reviews/B0DFW7617S?pageNumber=1&filterByStar=critical&sortBy=helpful&formatType=all_formats&asin=B0DFW7617S&reftag=cm_cr_arp_d_paging_btm_next_1&scope=reviewsAjax0",
+  "filterByRating": "critical",
+  "filterByKeyword": null,
+  "productAsin": "B0DFW7617S",
+  "productOriginalAsin": "B0DFW874YX",
+  "variantAsin": "B0DFW7617S",
+  "product": {
+   "title": "Sweater Dress for Women Fall Winter Knit V Neck Collared Button Down Casual Fitted Sexy Bodycon Long Fishtail Dresses",
+   "url": "https://www.amazon.com/dp/B0DFW7617S",
+   "asin": "B0DFW7617S",
+   "originalAsin": "B0DFW874YX",
+   "price": {
+    "value": 40.59,
+    "currency": "$"
+   },
+   "inStock": true,
+   "inStockText": "In Stock",
+   "listPrice": null,
+   "brand": "Generic",
+   "author": null,
+   "shippingPrice": {
+    "value": 4.99,
+    "currency": "$"
+   },
+   "stars": null,
+   "starsBreakdown": {
+    "5star": 0,
+    "4star": 0,
+    "3star": 0,
+    "2star": 0,
+    "1star": 0
+   },
+   "reviewsCount": null,
+   "answeredQuestions": null,
+   "breadCrumbs": "Clothing, Shoes & Jewelry > Women > Clothing > Dresses > Club & Night Out",
+   "videosCount": 0,
+   "visitStoreLink": {
+    "text": "Brand: Generic",
+    "url": "https://www.amazon.com/s/ref=bl_sl_s_ap_web_7141123011?ie=UTF8&node=7141123011&field-brandtextbin=Generic"
+   },
+   "thumbnailImage": "https://m.media-amazon.com/images/I/61QbAsvSwiL._AC_SX342_SY445_QL70_FMwebp_.jpg",
+   "galleryThumbnails": [
+    "https://m.media-amazon.com/images/I/31H6Ebd6MIL._AC_SR38.jpg",
+    "https://m.media-amazon.com/images/I/41-mjD-k6EL._AC_SR38.jpg",
+    "https://m.media-amazon.com/images/I/31KZln+2kRL._AC_SR38.jpg",
+    "https://m.media-amazon.com/images/I/51bSXEP+kTL._AC_SR38.jpg",
+    "https://m.media-amazon.com/images/I/51PFT2qKgDL._AC_SR38.jpg",
+    "https://m.media-amazon.com/images/I/51NR7TwjWmL._AC_SR38.jpg",
+    "https://m.media-amazon.com/images/I/41mMRQmsH9L._AC_SR38.jpg"
+   ],
+   "highResolutionImages": [
+    "https://m.media-amazon.com/images/I/61QbAsvSwiL._AC_SL1500_.jpg",
+    "https://m.media-amazon.com/images/I/61X2xdUks1L._AC_SL1500_.jpg",
+    "https://m.media-amazon.com/images/I/61iR2XnRxlL._AC_SL1500_.jpg",
+    "https://m.media-amazon.com/images/I/817iI9FyiCL._AC_SL1500_.jpg",
+    "https://m.media-amazon.com/images/I/81qatBF3+yL._AC_SL1500_.jpg",
+    "https://m.media-amazon.com/images/I/81KvL2vq4NL._AC_SL1500_.jpg",
+    "https://m.media-amazon.com/images/I/61bInZaa97L._AC_SL1500_.jpg"
+   ],
+   "importantInformation": null,
+   "sustainabilityFeatures": null,
+   "description": "fall dresses for women 2024 fall dress sweatshirt dress winter dresses for women 2024 fall dresses sweater dress fall dresses for women womens fall dresses 2024 patchwork dress women's fall dresses long sleeve dress for women sweatshirt dress women winter dress for women winter dress winter dresses tennis dress long sleeve dresses for women 2024 casual fall dresses for women fall dresses for women 2024 casual womens fall dress sweater dress for women long sleeve dress fall womens dresses long sleeve mini dress athletic dress for women womens fall dresses womens winter dresses casual dresses for women ladies dresses tennis dresses for women womens long sleeve dresses womens dresses fall winter dresses for women mini dresses for women 2024 sweatshirt dresses for women 2024 cute dresses for women mini dress women fall dresses women's casual dresses mini dresses for women fall dress for women 2024 autumn dresses for women 2024 dresses for fall casual fall dresses for women 2024 sports dress for women long sleeve short dress sweater dresses long sleeve tennis dress workout dress casual dresses for women 2024 pleated dress knit dress long sleeve short dress for women women fall dresses 2024 dresses for women 2024 fall casual dresses for women 2024 long sleeve mini dress for women casual dress for women navy blue dresses fall work dresses for women 2024 fall dresses for women 2024 trendy long sleeve fall dresses for women 2024 ruffled dress for women ladies fall dresses athletic dress tennis dress long sleeve casual dress for women cute fall dresses for women pleated dress for women fall dress for women workout dresses for women long sleeve fall dress long sleeve dresses womens dresses for fall white fall dress patchwork womens jumper dress dress sweaters for women white dress womens winter dress knit dresses for women fall mini dress long sleeve black dress cute dresses cute fall dresses dresses for women 2024 casual fall sweater dresses for women 2024",
+   "features": [],
+   "attributes": [
+    {
+     "key": "Color",
+     "value": "Beige"
+    },
+    {
+     "key": "Occasion Type",
+     "value": "sweater dress"
+    },
+    {
+     "key": "Neck Style",
+     "value": "Turtle Neck"
+    },
+    {
+     "key": "Sleeve Type",
+     "value": "Long Sleeve"
+    },
+    {
+     "key": "Apparel Occasion and Lifestyle",
+     "value": "Casual"
+    },
+    {
+     "key": "Style Name",
+     "value": "Classic"
+    },
+    {
+     "key": "Apparel Closure Type",
+     "value": "Button"
+    },
+    {
+     "key": "Pattern",
+     "value": "knit dresses for women"
+    },
+    {
+     "key": "collar-type",
+     "value": "Spread Collar"
+    },
+    {
+     "key": "Theme",
+     "value": "Religious"
+    },
+    {
+     "key": "Collection Name",
+     "value": "winter dress for women"
+    },
+    {
+     "key": "Embellishment Feature",
+     "value": "Ruffle"
+    },
+    {
+     "key": "Pocket Description",
+     "value": "Basic 5 Pckt"
+    },
+    {
+     "key": "Additional Features",
+     "value": "Carry-On"
+    },
+    {
+     "key": "Fit Type",
+     "value": "Regular, Slim"
+    },
+    {
+     "key": "Brand Name",
+     "value": "Generic"
+    },
+    {
+     "key": "Age Range Description",
+     "value": "Adult"
+    },
+    {
+     "key": "Style Number",
+     "value": "long sleeve sweater dress"
+    },
+    {
+     "key": "Import Designation",
+     "value": "Imported"
+    },
+    {
+     "key": "Item Type Name",
+     "value": "sweater dress"
+    },
+    {
+     "key": "Item Weight",
+     "value": "496 g"
+    },
+    {
+     "key": "Manufacturer",
+     "value": "Generic"
+    },
+    {
+     "key": "Manufacturer Part Number",
+     "value": "sweater dress for women"
+    },
+    {
+     "key": "ASIN",
+     "value": "B0DFW7617S"
+    },
+    {
+     "key": "Material Type",
+     "value": "Polyester, winter dress for women"
+    },
+    {
+     "key": "Product Care Instructions",
+     "value": "Machine Wash"
+    },
+    {
+     "key": "Fabric Type",
+     "value": "100% Polyester"
+    },
+    {
+     "key": "Fur Description",
+     "value": "sweater dress sweater dress for women fall dresses women dresses fall dress long sleeve dress for women long sleeve dress collared dress for women sexy dresses for women fall sweaters v neck sweaters for women womens fall dresses fall dresses for women striped sweater women striped dress for women long sleeve midi dress striped sweater sweatshirt dress knit dress women's fall dresses sweaters for women chunky sweater fall womens dresses knit dresses for women sweater dresses knitted dress dresses for women womens sweater dress women fall dresses chunky knit sweater womens fall sweaters knitted sweater womens fall dress knit sweater for women fall sweaters for women long sleeve midi dress for women striped dress chunky sweater women dress with slit sweater knitted sweaters for women women's sweater dresses fall sweater green midi dress knit sweater knitted dresses for women slit dress for women dresses for women sexy fall dresses for women 2024 women's dresses sexy sweaters for women long sleeve sweater dress sweater dresses for women v neck sweater collared sweaters for women chunky knit sweaters for women green sweater fall sweater dress dresses for fall midi dress with slit fall midi dress collared dress sexy midi dress sexy green dress women sexy dresses midi sweater dress dress sweaters for women knit midi dress sexy long sleeve dress dresses for women long sleeve womens sexy dresses long sleeve dress for women sexy army green dresses for women midi dress green long sleeve dress sexy dresses dresses for women fall womens v neck sweater loose dress green sweater women womens chunky sweater women sweater dress dark green dress for women loose dress for women womens knit sweater ladies chunky sweaters striped womens fall sweater womens sweaters fall dresses for women womens dresses fall dresses for women 2024 womens dress womens fall dresses fall dresses womens fall fashion 2024 dress dresses flowy dresses for women empire waist dress for women fall dress"
+    },
+    {
+     "key": "Item model number",
+     "value": "long sleeve sweater dress"
+    },
+    {
+     "key": "Department",
+     "value": "womens"
+    },
+    {
+     "key": "Date First Available",
+     "value": "September 2, 2024"
+    }
+   ],
+   "productOverview": [
+    {
+     "key": "",
+     "value": ""
+    }
+   ],
+   "variantAsins": [
+    "B0DFW8NCT5",
+    "B0DFW8YRBT",
+    "B0DFW8739K",
+    "B0DFW8J615",
+    "B0DFW6YPT3",
+    "B0DFW9M1NJ",
+    "B0DFW899JC",
+    "B0DFW876VJ",
+    "B0DFW7617S",
+    "B0DFW89D61",
+    "B0DFW8DWWP",
+    "B0DFW9PFFW"
+   ],
+   "variantDetails": [
+    {
+     "name": "Black Medium",
+     "thumbnail": "https://m.media-amazon.com/images/I/31fmc3LRaOL._AC_SR38.jpg",
+     "images": [
+      "https://m.media-amazon.com/images/I/51el4Jq9PiL._AC_SL1500_.jpg"
+     ],
+     "asin": "B0DFW8NCT5",
+     "price": null
+    },
+    {
+     "name": "Purple Small",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFW8YRBT",
+     "price": null
+    },
+    {
+     "name": "Purple Medium",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFW8739K",
+     "price": null
+    },
+    {
+     "name": "Coffee Large",
+     "thumbnail": "https://m.media-amazon.com/images/I/31AyA3S-8OL._AC_SR38.jpg",
+     "images": [
+      "https://m.media-amazon.com/images/I/61nUR2F3IWL._AC_SL1500_.jpg"
+     ],
+     "asin": "B0DFW8J615",
+     "price": null
+    },
+    {
+     "name": "Coffee Small",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFW6YPT3",
+     "price": null
+    },
+    {
+     "name": "Beige Large",
+     "thumbnail": "https://m.media-amazon.com/images/I/31H6Ebd6MIL._AC_SR38.jpg",
+     "images": [
+      "https://m.media-amazon.com/images/I/61QbAsvSwiL._AC_SL1500_.jpg"
+     ],
+     "asin": "B0DFW9M1NJ",
+     "price": null
+    },
+    {
+     "name": "Coffee Medium",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFW899JC",
+     "price": null
+    },
+    {
+     "name": "Black Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFW876VJ",
+     "price": null
+    },
+    {
+     "name": "Beige Small",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFW7617S",
+     "price": null
+    },
+    {
+     "name": "Beige Medium",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFW89D61",
+     "price": null
+    },
+    {
+     "name": "Black Small",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFW8DWWP",
+     "price": null
+    },
+    {
+     "name": "Purple Large",
+     "thumbnail": "https://m.media-amazon.com/images/I/31agYDyu9rL._AC_SR38.jpg",
+     "images": [
+      "https://m.media-amazon.com/images/I/61oSh22rSrL._AC_SL1500_.jpg"
+     ],
+     "asin": "B0DFW9PFFW",
+     "price": null
+    }
+   ],
+   "reviewsLink": "https://www.amazon.com/product-reviews/B0DFW7617S",
+   "hasReviews": true,
+   "delivery": "October 14 - 28",
+   "fastestDelivery": "October 2 - 6",
+   "condition": null,
+   "returnPolicy": null,
+   "support": null,
+   "variantAttributes": [
+    {
+     "key": "Color",
+     "value": "Beige"
+    },
+    {
+     "key": "Size",
+     "value": "Small"
+    }
+   ],
+   "manufacturerAttributes": [],
+   "seller": {
+    "name": "Nagub",
+    "id": "A21E2TOGNODCOQ",
+    "url": "https://www.amazon.com/sp?seller=A21E2TOGNODCOQ",
+    "reviewsCount": null,
+    "averageRating": null
+   },
+   "bestsellerRanks": null,
+   "isAmazonChoice": false,
+   "amazonChoiceText": null,
+   "bookDescription": null,
+   "priceRange": null,
+   "aPlusContent": null,
+   "brandStory": null,
+   "productComparison": null,
+   "aiReviewsSummary": null,
+   "monthlyPurchaseVolume": null,
+   "locationText": "Delivering to Ashburn 20146 Update location",
+   "loadedCountryCode": "US",
+   "offers": [],
+   "unNormalizedProductUrl": "https://www.amazon.com/dp/B0DFW874YX"
+  }
+ }
+]

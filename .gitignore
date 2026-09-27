@@ -1,3 +1,6 @@
 .env
 node_modules/
 evals/returns/results/*.json
+media/raw/
+tools/node_modules/
+data/

@@ -1,0 +1,424 @@
+[
+ {
+  "error": "no_relevant_reviews_found",
+  "errorDescription": "No relevant reviews found, saving only review category data...",
+  "input": "https://www.amazon.com/dp/B0DFMD72VP",
+  "totalCategoryRatings": 0,
+  "totalCategoryReviews": 0,
+  "reviewCategoryUrl": "https://www.amazon.com/product-reviews/B0DFMCLSF8?pageNumber=1&filterByStar=critical&sortBy=helpful&formatType=all_formats&asin=B0DFMCLSF8&reftag=cm_cr_arp_d_paging_btm_next_1&scope=reviewsAjax0",
+  "filterByRating": "critical",
+  "filterByKeyword": null,
+  "productAsin": "B0DFMCLSF8",
+  "productOriginalAsin": "B0DFMD72VP",
+  "variantAsin": "B0DFMCLSF8",
+  "product": {
+   "title": "Women Sweater Bodycon Dress Fall Casual Mock Neck Long Sleeve Slim Fit Ribbed Knit Mini Dresses",
+   "url": "https://www.amazon.com/dp/B0DFMCLSF8",
+   "asin": "B0DFMCLSF8",
+   "originalAsin": "B0DFMD72VP",
+   "price": {
+    "value": 14.66,
+    "currency": "$"
+   },
+   "inStock": true,
+   "inStockText": "In stock",
+   "listPrice": null,
+   "brand": "Generic",
+   "author": null,
+   "shippingPrice": {
+    "value": 5.99,
+    "currency": "$"
+   },
+   "stars": null,
+   "starsBreakdown": {
+    "5star": 0,
+    "4star": 0,
+    "3star": 0,
+    "2star": 0,
+    "1star": 0
+   },
+   "reviewsCount": null,
+   "answeredQuestions": null,
+   "breadCrumbs": "Clothing, Shoes & Jewelry > Women > Clothing > Dresses > Casual",
+   "videosCount": 0,
+   "visitStoreLink": {
+    "text": "Brand: Generic",
+    "url": "https://www.amazon.com/s/ref=bl_sl_s_ap_web_7141123011?ie=UTF8&node=7141123011&field-brandtextbin=Generic"
+   },
+   "thumbnailImage": "https://m.media-amazon.com/images/I/61XExJxqLsL._AC_SX342_SY445_QL70_FMwebp_.jpg",
+   "galleryThumbnails": [
+    "https://m.media-amazon.com/images/I/41bS55ypO5L._AC_SR38.jpg",
+    "https://m.media-amazon.com/images/I/410HUtb6LrL._AC_SR38.jpg",
+    "https://m.media-amazon.com/images/I/41gXNA63b2L._AC_SR38.jpg"
+   ],
+   "highResolutionImages": [
+    "https://m.media-amazon.com/images/I/61XExJxqLsL._AC_SL1500_.jpg",
+    "https://m.media-amazon.com/images/I/61GeDYlQEoL._AC_SL1500_.jpg",
+    "https://m.media-amazon.com/images/I/61rJX3f2ZbL._AC_SL1500_.jpg"
+   ],
+   "importantInformation": null,
+   "sustainabilityFeatures": null,
+   "description": "Women Sweater Bodycon Dress Fall Casual Mock Neck Long Sleeve Slim Fit Ribbed Knit Mini Dresses Advantages: 1. High quality fabrics are comfortable. 2. Comfortable and attractive garments. 3. Say goodbye to restrictive garments and say hello to effortless fashion and comfort. Specifications: Name: Women's Sweater Dress Skirt Length: Midi Skirt Sleeve Length: Long Sleeve Collar Type: Turtleneck Material: 95% Polyester 5% Spandex Size: S/M/L/XL/2XL/3XL/4XL/5XL Color: White, Pink, Blue Features: Classic, Comfortable, Fashionable, Casual Suitable Season: Spring, Autumn, Winter Package Included: 1 Pcs x Women's Sweater Dress Note: 1. Gentle hand wash or machine wash; hang or line dry. 2. Please allow 1-3cm difference due to manual measurement. 3. Due to different monitors and different light, the picture may not reflect the actual color of the item. Thank you for your understanding.",
+   "features": [],
+   "attributes": [
+    {
+     "key": "Color",
+     "value": "Blue"
+    },
+    {
+     "key": "Apparel Silhouette",
+     "value": "Jumper"
+    },
+    {
+     "key": "Sleeve Type",
+     "value": "Long Sleeve"
+    },
+    {
+     "key": "Pattern",
+     "value": "Solid"
+    },
+    {
+     "key": "Brand Name",
+     "value": "Generic"
+    },
+    {
+     "key": "Age Range Description",
+     "value": "Adult"
+    },
+    {
+     "key": "Manufacturer",
+     "value": "Generic"
+    },
+    {
+     "key": "ASIN",
+     "value": "B0DFMCLSF8"
+    },
+    {
+     "key": "Fabric Type",
+     "value": "95% Polyester, 5% Spandex"
+    },
+    {
+     "key": "Department",
+     "value": "womens"
+    },
+    {
+     "key": "Date First Available",
+     "value": "August 29, 2024"
+    }
+   ],
+   "productOverview": [
+    {
+     "key": "",
+     "value": ""
+    }
+   ],
+   "variantAsins": [
+    "B0DFMFSQM2",
+    "B0DFM9J8FM",
+    "B0DFMCFTSY",
+    "B0DFMCRZRG",
+    "B0DFMFKK48",
+    "B0DFMDKG39",
+    "B0DFMFG91V",
+    "B0DFMDMCQZ",
+    "B0DFMDKSYN",
+    "B0DFMCKMP4",
+    "B0DFMCZH2H",
+    "B0DFMD8KGV",
+    "B0DFMDTVZR",
+    "B0DFMD6D83",
+    "B0DFMC58RJ",
+    "B0DFMFJZZ4",
+    "B0DFMC8LHF",
+    "B0DFMCW3SQ",
+    "B0DFMBYP9Z",
+    "B0DFMFRR9X",
+    "B0DFMBPF4L",
+    "B0DFMFF728",
+    "B0DFMD13PQ",
+    "B0DFMC7781",
+    "B0DFMD61H3",
+    "B0DFMB3P8L",
+    "B0DFMD4BCD",
+    "B0DFMCS4XH",
+    "B0DFMCYT4D",
+    "B0DFM9TZWC",
+    "B0DFMCLSF8",
+    "B0DFM9G4RW"
+   ],
+   "variantDetails": [
+    {
+     "name": "Green Small",
+     "thumbnail": "https://m.media-amazon.com/images/I/41Fz0Xv9DIL._AC_SR38.jpg",
+     "images": [
+      "https://m.media-amazon.com/images/I/615lHcW9iPL._AC_SL1500_.jpg"
+     ],
+     "asin": "B0DFMFSQM2",
+     "price": null
+    },
+    {
+     "name": "Pink X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFM9J8FM",
+     "price": null
+    },
+    {
+     "name": "Green XX-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMCFTSY",
+     "price": null
+    },
+    {
+     "name": "Green Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMCRZRG",
+     "price": null
+    },
+    {
+     "name": "Pink Large",
+     "thumbnail": "https://m.media-amazon.com/images/I/41gfyqwJC3L._AC_SR38.jpg",
+     "images": [
+      "https://m.media-amazon.com/images/I/61kVDZf2V8L._AC_SL1500_.jpg"
+     ],
+     "asin": "B0DFMFKK48",
+     "price": null
+    },
+    {
+     "name": "White Medium",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMDKG39",
+     "price": null
+    },
+    {
+     "name": "Blue XX-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMFG91V",
+     "price": null
+    },
+    {
+     "name": "White Small",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMDMCQZ",
+     "price": null
+    },
+    {
+     "name": "Green 4X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMDKSYN",
+     "price": null
+    },
+    {
+     "name": "Green X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMCKMP4",
+     "price": null
+    },
+    {
+     "name": "White Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMCZH2H",
+     "price": null
+    },
+    {
+     "name": "White 4X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMD8KGV",
+     "price": null
+    },
+    {
+     "name": "White X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMDTVZR",
+     "price": null
+    },
+    {
+     "name": "Blue X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMD6D83",
+     "price": null
+    },
+    {
+     "name": "Pink Medium",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMC58RJ",
+     "price": null
+    },
+    {
+     "name": "White XX-Large",
+     "thumbnail": "https://m.media-amazon.com/images/I/31Ma0l0Ok5L._AC_SR38.jpg",
+     "images": [
+      "https://m.media-amazon.com/images/I/61vuFArQ2VL._AC_SL1500_.jpg"
+     ],
+     "asin": "B0DFMFJZZ4",
+     "price": null
+    },
+    {
+     "name": "Pink 4X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMC8LHF",
+     "price": null
+    },
+    {
+     "name": "Blue Medium",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMCW3SQ",
+     "price": null
+    },
+    {
+     "name": "Pink 5X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMBYP9Z",
+     "price": null
+    },
+    {
+     "name": "Blue 4X-Large",
+     "thumbnail": "https://m.media-amazon.com/images/I/41bS55ypO5L._AC_SR38.jpg",
+     "images": [
+      "https://m.media-amazon.com/images/I/61XExJxqLsL._AC_SL1500_.jpg"
+     ],
+     "asin": "B0DFMFRR9X",
+     "price": null
+    },
+    {
+     "name": "Green 5X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMBPF4L",
+     "price": null
+    },
+    {
+     "name": "Blue 3X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMFF728",
+     "price": null
+    },
+    {
+     "name": "Blue 5X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMD13PQ",
+     "price": null
+    },
+    {
+     "name": "Pink Small",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMC7781",
+     "price": null
+    },
+    {
+     "name": "Green Medium",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMD61H3",
+     "price": null
+    },
+    {
+     "name": "Blue Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMB3P8L",
+     "price": null
+    },
+    {
+     "name": "Pink XX-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMD4BCD",
+     "price": null
+    },
+    {
+     "name": "White 5X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMCS4XH",
+     "price": null
+    },
+    {
+     "name": "Green 3X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMCYT4D",
+     "price": null
+    },
+    {
+     "name": "White 3X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFM9TZWC",
+     "price": null
+    },
+    {
+     "name": "Blue Small",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFMCLSF8",
+     "price": null
+    },
+    {
+     "name": "Pink 3X-Large",
+     "images": [],
+     "thumbnail": null,
+     "asin": "B0DFM9G4RW",
+     "price": null
+    }
+   ],
+   "reviewsLink": "https://www.amazon.com/product-reviews/B0DFMCLSF8",
+   "hasReviews": true,
+   "delivery": "October 14 - 23",
+   "fastestDelivery": null,
+   "condition": null,
+   "returnPolicy": null,
+   "support": null,
+   "variantAttributes": [
+    {
+     "key": "Color",
+     "value": "Blue"
+    },
+    {
+     "key": "Size",
+     "value": "Small"
+    }
+   ],
+   "manufacturerAttributes": [],
+   "seller": {
+    "name": "BINGXIAO-US",
+    "id": "AHPW09QU1JYQO",
+    "url": "https://www.amazon.com/sp?seller=AHPW09QU1JYQO",
+    "reviewsCount": null,
+    "averageRating": null
+   },
+   "bestsellerRanks": null,
+   "isAmazonChoice": false,
+   "amazonChoiceText": null,
+   "bookDescription": null,
+   "priceRange": null,
+   "aPlusContent": null,
+   "brandStory": null,
+   "productComparison": null,
+   "aiReviewsSummary": null,
+   "monthlyPurchaseVolume": null,
+   "locationText": "Delivering to Katy 77449 Update location",
+   "loadedCountryCode": "US",
+   "offers": [],
+   "unNormalizedProductUrl": "https://www.amazon.com/dp/B0DFMD72VP"
+  }
+ }
+]

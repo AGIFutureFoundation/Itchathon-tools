@@ -26,7 +26,11 @@ if not m:
     sys.exit("no <system_prompt> in output:\n" + text[:2000])
 edge = re.search(r"<edge_cases>(.*?)</edge_cases>", text, re.S)
 fixes = "initial" if not fails else "fixes from " + os.path.basename(fails[-1])
-out = f"---\nversion: {n}\nbased_on: {n-1}\nfixes: {fixes}\nmodel_used: opus\n---\n{m.group(1).strip()}\n"
+body = m.group(1).strip()
+if compliance not in body:  # release control: the clause is mandatory, so append it rather than ship without it
+    print("warning: model did not copy the compliance clause verbatim; appending it", file=sys.stderr)
+    body += "\n\n" + compliance
+out = f"---\nversion: {n}\nbased_on: {n-1}\nfixes: {fixes}\nmodel_used: opus\ncompliance_clause: prompts/meta/compliance_clause.md\n---\n{body}\n"
 open(P(f"prompts/returns/v{n}.md"), "w").write(out)
 if edge:
     open(P(f"prompts/returns/v{n}.edge_cases.md"), "w").write(edge.group(1).strip())

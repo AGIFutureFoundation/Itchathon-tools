@@ -284,9 +284,16 @@ function derive(camps, goal, monthlyBudget) {
   const totalSpend = camps.reduce((s, c) => s + c.spend, 0);
   const totalConv = camps.reduce((s, c) => s + c.conversions, 0);
   const totalMonthlyConv = camps.reduce((s, c) => s + c.monthly_conversions, 0);
-  const withConv = camps.filter(c => c.conversions > 0).sort((a, b) => a.cost_per_conversion - b.cost_per_conversion);
-  const best = withConv[0] || null;
+  // Brand campaigns are cheap but capped: people already searching your name. They cannot absorb more money,
+  // so they are never the "workhorse" that extra budget should flow to.
+  const isBrand = c => /brand/i.test(c.name) || /brand/.test(c.type);
+  const withConv = camps.filter(c => c.conversions > 0 && !isBrand(c)).sort((a, b) => a.cost_per_conversion - b.cost_per_conversion);
+  const best = withConv[0] || camps.filter(c => c.conversions > 0).sort((a, b) => a.cost_per_conversion - b.cost_per_conversion)[0] || null;
   for (const c of camps) {
+    if (isBrand(c) && c.conversions > 0) {
+      flags.push({ campaign: c.name, flag: 'brand', detail: `${c.name} is people already searching for your name: cheap (${money(c.cost_per_conversion)} per result) but it cannot grow by adding budget.` });
+      continue;
+    }
     const share = totalSpend > 0 ? c.spend / totalSpend : 0;
     if (/pmax|performance/.test(c.type) && c.monthly_conversions < PMAX_FLOOR) {
       flags.push({ campaign: c.name, flag: 'pmax_underfed', detail: `Performance Max has ${c.monthly_conversions} conversions a month; below ${PMAX_FLOOR} it cannot learn and will spend erratically.` });
@@ -308,18 +315,30 @@ function money(x) { return '$' + Number(x).toLocaleString('en-US', { maximumFrac
 
 function fallbackRead(camps, derived, stats, goal) {
   const change_next = [];
-  const burning = derived.flags.filter(f => f.flag === 'burning' || f.flag === 'wrong_tool' || f.flag === 'expensive');
+  const order = { burning: 0, wrong_tool: 1, expensive: 2 };
+  const burning = derived.flags.filter(f => f.flag in order).sort((a, b) => order[a.flag] - order[b.flag]);
   const under = derived.flags.find(f => f.flag === 'pmax_underfed');
   const best = camps.find(c => c.name === derived.best_campaign);
+  const handled = new Set();
   for (const f of burning.slice(0, 2)) {
     const c = camps.find(x => x.name === f.campaign);
+    handled.add(c.name);
+    if (f.flag === 'expensive') {
+      const half = Math.round(c.monthly_spend / 2);
+      change_next.push({
+        action: best ? `Cut ${c.name} to half its budget and move ${money(half)} a month to ${best.name}.` : `Cut ${c.name} to half its budget.`,
+        why: f.detail,
+        expected_effect: best && best.cost_per_conversion ? `Roughly ${Math.floor(half / best.cost_per_conversion)} more ${goal} a month at ${best.name}'s current cost, for the same total spend.` : `Halves the money going to the most expensive results.`,
+      });
+      continue;
+    }
     change_next.push({
       action: best ? `Pause ${c.name} and move its ${money(c.monthly_spend)} a month to ${best.name}.` : `Pause ${c.name}.`,
       why: f.detail,
       expected_effect: best && best.cost_per_conversion ? `Roughly ${Math.floor(c.monthly_spend / best.cost_per_conversion)} more ${goal} a month at ${best.name}'s current cost, instead of none.` : `Stops ${money(c.monthly_spend)} a month leaking with nothing to show.`,
     });
   }
-  if (under && change_next.length < 3) {
+  if (under && change_next.length < 3 && !handled.has(under.campaign)) {
     const c = camps.find(x => x.name === under.campaign);
     change_next.push({
       action: `Do not add budget to ${c.name} yet; if it cannot reach ${PMAX_FLOOR} ${goal} a month on its own, fold its budget into ${best ? best.name : 'your search campaign'}.`,
@@ -486,4 +505,4 @@ function register(add) {
   add('POST', '/api/ads/ownership', async body => ownership(body));
 }
 
-module.exports = { register, computeStats, readAccounts, ownership, fallbackRead, derive, cleanCampaigns, _internal: { erfc, normCdf, fisherTwoSided, impressionsForLift } };
+module.exports = { register, computeStats, readAccounts, ownership, fallbackRead, derive, cleanCampaigns, enforceContract, _internal: { erfc, normCdf, fisherTwoSided, impressionsForLift } };

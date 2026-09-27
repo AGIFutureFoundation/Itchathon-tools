@@ -182,7 +182,7 @@
     if (r.error) { $('#readOut').innerHTML = `<div class="verdict bad"><p>${esc(r.error)}</p></div>`; return; }
     const camps = (r.derived && r.derived.flags) || [];
     const flagFor = name => camps.filter(f => f.campaign === name).map(f => f.flag);
-    const pill = f => ({ workhorse: '<span class="pill good">doing the work</span>', burning: '<span class="pill bad">burning spend</span>', wrong_tool: '<span class="pill bad">wrong tool for goal</span>', expensive: '<span class="pill warn">expensive</span>', pmax_underfed: '<span class="pill warn">too little data to learn</span>' }[f] || '');
+    const pill = f => ({ workhorse: '<span class="pill good">doing the work</span>', burning: '<span class="pill bad">burning spend</span>', wrong_tool: '<span class="pill bad">wrong tool for goal</span>', expensive: '<span class="pill warn">expensive</span>', pmax_underfed: '<span class="pill warn">too little data to learn</span>', brand: '<span class="pill warn">brand: cheap, cannot grow</span>' }[f] || '');
     const rows = (r.stats && Array.isArray(campaigns) ? campaigns : []).map(c => {
       const conv = Number(c.conversions) || 0, spend = Number(c.spend) || 0;
       return `<tr><td>${esc(c.name)} ${flagFor(c.name).map(pill).join('')}</td><td>${esc(c.type || '')}</td><td class="num">${money(spend)}</td><td class="num">${conv}</td><td class="num">${conv ? money(spend / conv) : '-'}</td></tr>`;
