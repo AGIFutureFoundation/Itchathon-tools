@@ -41,17 +41,18 @@
   .empty { color: var(--muted); }
   .err { color: var(--err); }
 
-  /* result */
-  .say { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center; }
-  @media (max-width: 520px) { .say { grid-template-columns: 1fr; } }
-  .ring { position: relative; width: 120px; height: 120px; }
-  .ring svg { transform: rotate(-90deg); }
-  .ring circle { fill: none; stroke-width: 10; }
+  /* result: this is the panel a solo employee reads in a hurry, so it dominates the page */
+  #result.panel { border: 2px solid var(--accent); box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+  .say { display: grid; grid-template-columns: 220px 1fr; gap: 24px; align-items: center; text-align: left; }
+  @media (max-width: 640px) { .say { grid-template-columns: 1fr; text-align: center; } }
+  .ring { position: relative; width: 220px; height: 220px; margin: 0 auto; }
+  .ring svg { transform: rotate(-90deg); width: 220px; height: 220px; }
+  .ring circle { fill: none; stroke-width: 14; }
   .ring .track { stroke: var(--ring-track); }
   .ring .bar { stroke: var(--ring); stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
-  .ring .num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 38px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .ring .num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 72px; font-weight: 800; font-variant-numeric: tabular-nums; }
   .ring.done .bar { stroke: var(--ok); }
-  .script { font-size: clamp(26px, 4vw, 42px); font-weight: 800; line-height: 1.15; letter-spacing: -.01em; }
+  .script { font-size: clamp(32px, 5.5vw, 56px); font-weight: 800; line-height: 1.15; letter-spacing: -.01em; }
   .channel { margin-top: 8px; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
   .actions { margin: 16px 0 0; padding: 0; list-style: none; }
   .actions li { padding: 8px 10px; border-left: 3px solid var(--accent); background: var(--quote-bg); border-radius: 4px; margin-top: 6px; }
@@ -70,6 +71,9 @@
   .kpi span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
   .decision { margin-top: 10px; padding: 10px 12px; border-radius: 6px; background: var(--quote-bg); }
   .measure { font-weight: 600; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
 </style>
 <link rel="stylesheet" href="console.css">
 </head>
@@ -78,11 +82,11 @@
   <div class="oc-nav-inner">
     <a class="oc-brand" href="/dashboard.html">Owner Console</a>
     <div class="oc-links">
-      <a href="/dashboard.html" aria-current="page">Dashboard</a>
+      <a href="/dashboard.html">Dashboard</a>
       <a href="/index.html">Returns</a>
       <a href="/prep.html">Prep</a>
       <a href="/ads.html">Ads</a>
-      <a href="/theft.html">Theft</a>
+      <a href="/theft.html" aria-current="page">Theft</a>
     </div>
   </div>
 </nav>
@@ -133,7 +137,7 @@
     </form>
   </section>
 
-  <section class="panel" id="result">
+  <section class="panel wide" id="result">
     <h2>What to do now</h2>
     <p class="empty">Fire an alert to see the script and the countdown.</p>
   </section>
@@ -177,7 +181,7 @@
   // ---------- alert ----------
   $('#alertForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn = $('#go'); btn.disabled = true;
+    const btn = $('#go'); btn.disabled = true; const prevLabel = btn.textContent; btn.textContent = 'Working…';
     const body = {
       source: $('#source').value,
       zone: $('#zone').value.trim(),
@@ -191,8 +195,8 @@
       renderPlaybook(current);
       loadSummary();
     } catch (err) {
-      $('#result').innerHTML = '<h2>What to do now</h2><p class="err">' + esc(err.message) + '</p>';
-    } finally { btn.disabled = false; }
+      $('#result').innerHTML = '<h2>What to do now</h2><p class="err">Could not get a playbook for this alert. Please try again.</p>';
+    } finally { btn.disabled = false; btn.textContent = prevLabel; }
   });
 
   function renderPlaybook(p) {
@@ -239,6 +243,7 @@
   async function logOutcome(btn) {
     if (!current) return;
     document.querySelectorAll('[data-outcome]').forEach(b => { b.disabled = true; b.classList.remove('chosen'); });
+    $('#logged').textContent = 'Saving…'; $('#logged').className = 'hint';
     try {
       await api('POST', '/api/theft/log', {
         log_id: current.log_id, zone: current.context.zone, value: current.context.item_value_estimate,
@@ -248,13 +253,14 @@
       $('#logged').textContent = 'Logged. It counts toward the monthly layout decision.';
       loadSummary();
     } catch (err) {
-      $('#logged').textContent = err.message; $('#logged').className = 'err';
+      $('#logged').textContent = 'Could not save that outcome. Please try again.'; $('#logged').className = 'err';
     } finally { document.querySelectorAll('[data-outcome]').forEach(b => { b.disabled = false; }); }
   }
 
   // ---------- summary ----------
   async function loadSummary() {
     const el = $('#summary');
+    el.innerHTML = '<p class="empty">Loading…</p>';
     try {
       const s = await api('GET', '/api/theft/summary');
       if (!s.outcomes_logged) { el.innerHTML = '<p class="empty">No outcomes logged yet. Fire an alert and log what happened.</p>'; return; }
@@ -273,22 +279,25 @@
         '<table>' + head.replace('__', 'Zone') + zoneRows + '</table><br>' +
         '<table>' + head.replace('__', 'Week') + weekRows + '</table>' +
         '<div class="decision">' + esc(s.decision_hint) + '</div>';
-    } catch (err) { el.innerHTML = '<p class="err">' + esc(err.message) + '</p>'; }
+    } catch (err) { el.innerHTML = '<p class="err">Could not load this month\'s numbers. Please try again.</p>'; }
   }
   $('#refresh').addEventListener('click', loadSummary);
 
   // ---------- harden ----------
   $('#hardenGo').addEventListener('click', async () => {
-    const out = $('#harden');
+    const out = $('#harden'); const btn = $('#hardenGo');
     let items;
-    try { items = JSON.parse($('#hardenInput').value); } catch (e) { out.innerHTML = '<p class="err">Invalid JSON: ' + esc(e.message) + '</p>'; return; }
+    try { items = JSON.parse($('#hardenInput').value); } catch (e) { out.innerHTML = '<p class="err">That doesn\'t look like valid item data. Check the JSON and try again.</p>'; return; }
+    btn.disabled = true; const prevLabel = btn.textContent; btn.textContent = 'Working…';
+    out.innerHTML = '<p class="hint">Working…</p>';
     try {
       const h = await api('POST', '/api/theft/harden', { items });
       out.innerHTML = '<table><tr><th>Item</th><th>Zone</th><th class="n">Price</th><th class="n">Thefts 30d</th><th class="n">Loss 30d</th><th>Measure</th></tr>' +
         h.items.map(it => '<tr><td>' + esc(it.name) + '</td><td>' + esc(it.zone) + '</td><td class="n">' + money(it.price) + '</td><td class="n">' + it.thefts_30d +
           '</td><td class="n">' + money(it.loss_30d) + '</td><td><span class="measure">' + esc(it.measure) + '</span>' + (it.note ? '<br><span class="hint">' + esc(it.note) + '</span>' : '') + '</td></tr>').join('') +
         '</table><p class="hint">Total 30-day loss on this list: ' + money(h.total_loss_30d) + '.</p>';
-    } catch (err) { out.innerHTML = '<p class="err">' + esc(err.message) + '</p>'; }
+    } catch (err) { out.innerHTML = '<p class="err">Could not rank these measures. Please try again.</p>'; }
+    finally { btn.disabled = false; btn.textContent = prevLabel; }
   });
 
   loadSummary();

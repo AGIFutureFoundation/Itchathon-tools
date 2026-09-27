@@ -6,15 +6,16 @@
 <title>Ads Plain Read</title>
 <style>
   :root {
-    --bg: #f6f5f1; --card: #ffffff; --ink: #1c1b18; --muted: #6b675e; --line: #e2dfd7;
+    --bg: #f6f5f1; --card: #ffffff; --ink: #1c1b18; --muted: #605c53; --line: #e2dfd7;
     --accent: #2b5fd9; --good: #1f7a4d; --good-bg: #e6f4ec; --bad: #b3261e; --bad-bg: #fbe9e7;
-    --warn: #8a5a00; --warn-bg: #fff4d6; --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+    --warn: #8a5a00; --warn-bg: #fff4d6; --neutral: #2b5fd9; --neutral-bg: #e9f0fd;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #15161a; --card: #1e2026; --ink: #ecebe6; --muted: #a09d94; --line: #34363e;
+      --bg: #15161a; --card: #1e2026; --ink: #ecebe6; --muted: #b2afa6; --line: #34363e;
       --accent: #7ea2ff; --good: #5ccf8e; --good-bg: #163326; --bad: #ff7b72; --bad-bg: #3a1c1a;
-      --warn: #ffc966; --warn-bg: #3a2e12;
+      --warn: #ffc966; --warn-bg: #3a2e12; --neutral: #8fb4ff; --neutral-bg: #1b2740;
     }
   }
   * { box-sizing: border-box; }
@@ -39,8 +40,9 @@
   .verdict.bad { background: var(--bad-bg); border-color: var(--bad); }
   .verdict.good { background: var(--good-bg); border-color: var(--good); }
   .verdict.warn { background: var(--warn-bg); border-color: var(--warn); }
+  .verdict.neutral { background: var(--neutral-bg); border-color: var(--neutral); }
   .verdict .big { font-size: 28px; font-weight: 800; margin: 0 0 6px; }
-  .verdict.bad .big { color: var(--bad); } .verdict.good .big { color: var(--good); } .verdict.warn .big { color: var(--warn); }
+  .verdict.bad .big { color: var(--bad); } .verdict.good .big { color: var(--good); } .verdict.warn .big { color: var(--warn); } .verdict.neutral .big { color: var(--neutral); }
   .verdict p { margin: 4px 0; }
   .facts { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: var(--muted); }
   .facts b { color: var(--ink); }
@@ -59,6 +61,10 @@
   td.num { font-variant-numeric: tabular-nums; text-align: right; } th.num { text-align: right; }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   @media (max-width: 640px) { .row { grid-template-columns: 1fr; } .two { grid-template-columns: 1fr; } }
+  .explainer { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
 </style>
 <link rel="stylesheet" href="console.css">
 </head>
@@ -67,10 +73,10 @@
   <div class="oc-nav-inner">
     <a class="oc-brand" href="/dashboard.html">Owner Console</a>
     <div class="oc-links">
-      <a href="/dashboard.html" aria-current="page">Dashboard</a>
+      <a href="/dashboard.html">Dashboard</a>
       <a href="/index.html">Returns</a>
       <a href="/prep.html">Prep</a>
-      <a href="/ads.html">Ads</a>
+      <a href="/ads.html" aria-current="page">Ads</a>
       <a href="/theft.html">Theft</a>
     </div>
   </div>
@@ -96,6 +102,7 @@
       <span class="muted">Try 5000 / 100 vs 5000 / 140 to see what a real winner looks like.</span>
     </div>
     <div id="abOut"></div>
+    <p class="explainer">We check this so a bad ad decision never rides on too little data.</p>
   </section>
 
   <!-- (b) Plain read -->
@@ -134,10 +141,16 @@
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const money = x => '$' + Math.round(Number(x)).toLocaleString('en-US');
+  const FRIENDLY_ERR = 'Something went wrong on our end. Please try again in a moment.';
   const post = async (url, body) => {
-    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    const j = await r.json().catch(() => ({ error: 'server returned non-JSON' }));
-    if (!r.ok && !j.error) j.error = 'HTTP ' + r.status;
+    let r;
+    try {
+      r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    } catch (e) {
+      return { error: 'Could not reach the server. Check your connection and try again.' };
+    }
+    const j = await r.json().catch(() => ({ error: FRIENDLY_ERR }));
+    if (!r.ok && !j.error) j.error = FRIENDLY_ERR;
     return j;
   };
 
@@ -156,12 +169,14 @@
     $('#variants').appendChild(div);
   };
   $('#abRun').onclick = async () => {
-    const btn = $('#abRun'); btn.disabled = true;
-    const r = await post('/api/ads/stats', { variants: readVariants() });
-    btn.disabled = false;
-    if (r.error) { $('#abOut').innerHTML = `<div class="verdict bad"><p class="big">Something went wrong</p><p>${esc(r.error)}</p></div>`; return; }
+    const btn = $('#abRun'); btn.disabled = true; const prevLabel = btn.textContent; btn.textContent = 'Checking…';
+    let r;
+    try {
+      r = await post('/api/ads/stats', { variants: readVariants() });
+    } finally { btn.disabled = false; btn.textContent = prevLabel; }
+    if (r.error) { $('#abOut').innerHTML = `<div class="verdict bad"><p class="big">Couldn't check this test</p><p>${esc(r.error)}</p></div>`; return; }
     const isWinner = r.verdict.startsWith('winner');
-    const cls = isWinner ? 'good' : (r.test_is_valid ? 'warn' : 'bad');
+    const cls = isWinner ? 'good' : (r.test_is_valid ? 'neutral' : 'bad');
     const headline = isWinner ? r.verdict.replace('winner: ', 'Real winner: ') : (r.test_is_valid ? 'No winner yet' : 'Not a real test yet');
     $('#abOut').innerHTML = `
       <div class="verdict ${cls}">
@@ -188,10 +203,12 @@
   $('#loadSample').onclick = () => { $('#campaigns').value = JSON.stringify(SAMPLE, null, 2); $('#goal').value = 'leads'; $('#budget').value = 3500; };
   $('#readRun').onclick = async () => {
     let campaigns;
-    try { campaigns = JSON.parse($('#campaigns').value || '[]'); } catch (e) { $('#readOut').innerHTML = `<div class="verdict bad"><p>That is not valid JSON: ${esc(e.message)}</p></div>`; return; }
+    try { campaigns = JSON.parse($('#campaigns').value || '[]'); } catch (e) { $('#readOut').innerHTML = `<div class="verdict bad"><p>That doesn't look like valid campaign data. Check the JSON and try again.</p></div>`; return; }
     const btn = $('#readRun'); btn.disabled = true; $('#readStatus').textContent = 'Reading… this takes up to a minute.';
-    const r = await post('/api/ads/read', { campaigns, goal: $('#goal').value, monthly_budget: Number($('#budget').value) });
-    btn.disabled = false; $('#readStatus').textContent = '';
+    let r;
+    try {
+      r = await post('/api/ads/read', { campaigns, goal: $('#goal').value, monthly_budget: Number($('#budget').value) });
+    } finally { btn.disabled = false; $('#readStatus').textContent = ''; }
     if (r.error) { $('#readOut').innerHTML = `<div class="verdict bad"><p>${esc(r.error)}</p></div>`; return; }
     const camps = (r.derived && r.derived.flags) || [];
     const flagFor = name => camps.filter(f => f.campaign === name).map(f => f.flag);
@@ -222,7 +239,11 @@
 
   // ---------- (c) Ownership ----------
   $('#ownRun').onclick = async () => {
-    const r = await post('/api/ads/ownership', { platform: $('#platform').value, access: $('#access').value });
+    const btn = $('#ownRun'); btn.disabled = true; const prevLabel = btn.textContent; btn.textContent = 'Working…';
+    let r;
+    try {
+      r = await post('/api/ads/ownership', { platform: $('#platform').value, access: $('#access').value });
+    } finally { btn.disabled = false; btn.textContent = prevLabel; }
     if (r.error) { $('#ownOut').innerHTML = `<div class="verdict bad"><p>${esc(r.error)}</p></div>`; return; }
     $('#ownOut').innerHTML = `<div class="card"><h3>${esc(r.headline)}</h3>${r.steps.map((s, i) => `<div class="step"><div class="n">${i + 1}</div><div>${esc(s)}</div></div>`).join('')}</div>`;
   };

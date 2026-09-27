@@ -27,10 +27,16 @@
   button { font: inherit; font-weight: 600; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--chip); color: var(--ink); cursor: pointer; }
   button.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
   button:disabled { opacity: .55; cursor: default; }
-  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-  .seg button { border: 0; border-radius: 0; background: transparent; font-weight: 500; }
-  .seg button + button { border-left: 1px solid var(--line); }
-  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--bg); padding: 2px; gap: 2px; }
+  .seg button { border: 0; border-radius: 999px; background: transparent; font-weight: 600; color: var(--muted); padding: 8px 14px; transition: background .15s ease, color .15s ease; }
+  .seg button + button { border-left: 0; }
+  .seg button:hover:not([aria-pressed="true"]) { background: var(--chip); color: var(--ink); }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+  .seg button:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--ink); }
+  .seg button[aria-pressed="true"]:focus-visible { box-shadow: inset 0 0 0 2px var(--accent-ink); }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
   .hint { font-size: 13px; color: var(--muted); margin-top: 8px; }
   table { width: 100%; border-collapse: collapse; }
   th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
@@ -53,9 +59,9 @@
   <div class="oc-nav-inner">
     <a class="oc-brand" href="/dashboard.html">Owner Console</a>
     <div class="oc-links">
-      <a href="/dashboard.html" aria-current="page">Dashboard</a>
+      <a href="/dashboard.html">Dashboard</a>
       <a href="/index.html">Returns</a>
-      <a href="/prep.html">Prep</a>
+      <a href="/prep.html" aria-current="page">Prep</a>
       <a href="/ads.html">Ads</a>
       <a href="/theft.html">Theft</a>
     </div>
@@ -184,12 +190,12 @@
     $('#run').disabled = true;
     try {
       const res = await fetch('/api/prep/forecast', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload()) });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || res.statusText);
+      const data = await res.json().catch(() => ({ error: 'The server sent back something we could not read.' }));
+      if (!res.ok) throw new Error(data.error || 'Could not compute prep numbers.');
       render(data);
       setStatus($('#status'), `${Math.round(performance.now() - t0)} ms`, 'ok');
     } catch (err) {
-      setStatus($('#status'), 'Forecast failed: ' + err.message, 'err');
+      setStatus($('#status'), 'Could not get prep numbers: ' + (err.message || 'please try again.'), 'err');
     } finally { $('#run').disabled = false; }
   }
 
@@ -219,12 +225,12 @@
     setStatus($('#cardstatus'), 'Asking Claude (up to 60 s)…');
     try {
       const res = await fetch('/api/prep/explain', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lastForecast) });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || res.statusText);
+      const data = await res.json().catch(() => ({ error: 'The server sent back something we could not read.' }));
+      if (!res.ok) throw new Error(data.error || 'Could not polish the card.');
       $('#card').textContent = data.card;
-      setStatus($('#cardstatus'), data.source === 'claude' ? `Written by ${data.model} in ${Math.round(data.latency_ms / 1000)} s.` : 'Claude unavailable, showing the templated card. ' + (data.error || ''), data.source === 'claude' ? 'ok' : '');
+      setStatus($('#cardstatus'), data.source === 'claude' ? `Written by ${data.model} in ${Math.round(data.latency_ms / 1000)} s.` : 'Claude unavailable, showing the templated card.', data.source === 'claude' ? 'ok' : '');
     } catch (err) {
-      setStatus($('#cardstatus'), 'Polish failed: ' + err.message, 'err');
+      setStatus($('#cardstatus'), 'Could not polish the card: ' + (err.message || 'please try again.'), 'err');
     } finally { $('#polish').disabled = false; }
   });
 })();
