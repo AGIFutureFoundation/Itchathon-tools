@@ -25,3 +25,19 @@ Threat model and the control for each. File references are under `app/platform/`
 
 ## Tests
 `node --test tests/redact.test.js` covers redaction (6 sample classes, zero false positives on the 60 golden cases), guard rejection/stripping, injection scoring, and retention (dry-run and live).
+
+## Adversarial testing
+
+An adversarial pass against `redact.js` and `guard.js` (prompt injection, PII
+exfiltration, obfuscated-PII bypass attempts, XSS/HTML injection, and fake
+system-tag injection) is in `tests/security-adversarial.test.js`
+(`node --test tests/security-adversarial.test.js`). **Result: 16/16 pass** (27/27
+across the full test suite). No bug was found in `redact.js` or `guard.js`, so no
+code was changed. One set of known limitations was found and documented rather
+than being fixed silently: `redact()`'s PII regexes are ASCII/contiguous-digit
+oriented and do not catch phone numbers broken up by zero-width characters or
+emails written in fullwidth Unicode homoglyphs. `app/public/index.html` was also
+checked and found to escape all model/buyer-derived fields with `esc()` before
+`innerHTML` insertion — no XSS risk found there. Full writeup, including the
+verified scope of the `wrapUntrusted()` forged-closing-tag claim:
+`docs/SECURITY_TEST_REPORT.md`.

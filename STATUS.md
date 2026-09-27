@@ -23,6 +23,7 @@ Served prompt for Returns: `prompts/returns/v3.md` (synthetic gate met: 90% accu
 | Platform | Judge calibration (15 stratified v3 outputs, human-proxy score vs `claude -p` judge on judge.md's rubric) | **13/15 agree within one point (86.7%)** | ≥ 12/15 | passed |
 | Platform | Persona-Ben acceptance (same 15 outputs, blind to the prompt, role-played via `claude -p`) | **13/15 "yes, I'd use this tomorrow" (86.7%)** | ≥ 70% | passed |
 | Platform | redact / guard / retention tests | 11/11; 0 false positives on golden set | — | passed |
+| Platform | Adversarial security tests (prompt injection, PII exfiltration, obfuscated PII, XSS, forged-tag escape, injection false-positive check) | **27/27** (16 new adversarial + 11 prior). One documented, unpatched limitation: zero-width/Unicode-obfuscated PII (e.g. a phone split by a zero-width space) is not redacted by regex, though `injectionScore()` independently flags the zero-width character as anomalous. index.html verified XSS-safe (every field passed through `esc()` before `innerHTML`). | — | passed, with one documented limitation |
 | Returns | Judge calibration (`evals/returns/judge.py`, 15-case stratified sample across all 6 cause labels, v3 synthetic outputs vs. hand-scored human-proxy baseline) | **13/15** agree within one point (avg of specific/pasteable/fits) | ≥ 12/15 | passed |
 | Returns | Persona-Ben acceptance (`evals/returns/persona_ben.py`, solo-seller role-play shown output only, same 15-case sample) | **13/15 yes = 86.7%** would-use-tomorrow | ≥ 70% | passed |
 
