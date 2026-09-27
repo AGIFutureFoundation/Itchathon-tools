@@ -16,12 +16,13 @@ typeset -A NARR; NARR=(
 ORDER=(dashboard returns prep ads theft)
 
 for s in "${ORDER[@]}"; do
-  say -v Samantha -r 200 -o "$RAW/$s.aiff" "${NARR[$s]}"
+  say -v Samantha -r 215 -o "$RAW/$s.aiff" "${NARR[$s]}"
   ffmpeg -y -loglevel error -i "$RAW/$s.aiff" -ar 44100 -ac 2 "$RAW/$s.m4a"
   vd=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$RAW/$s.webm")
   ad=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$RAW/$s.m4a")
   # Scene length = the longer of clip and narration, so nothing is cut mid-sentence.
-  dur=$(python3 -c "print(max(float('$vd'), float('$ad')+0.4))")
+  case $s in dashboard) cap=14;; returns) cap=26;; prep) cap=14;; ads) cap=15;; theft) cap=18;; esac
+  dur=$(python3 -c "print(min(max(float('$vd'), float('$ad')+0.4), $cap))")
   ffmpeg -y -loglevel error -i "$RAW/$s.webm" -i "$RAW/$s.m4a" \
     -filter_complex "[0:v]scale=1280:800:force_original_aspect_ratio=decrease,pad=1280:800:(ow-iw)/2:(oh-ih)/2,tpad=stop_mode=clone:stop_duration=60,trim=0:$dur,setpts=PTS-STARTPTS[v];[1:a]apad,atrim=0:$dur,asetpts=PTS-STARTPTS[a]" \
     -map "[v]" -map "[a]" -c:v libx264 -preset veryfast -crf 22 -pix_fmt yuv420p -c:a aac -b:a 128k -r 30 "$RAW/$s.scene.mp4"
