@@ -1,7 +1,6 @@
 # Owner Console
 
 **Four small-business problems. One action each. Every answer tested before it is allowed to appear.**
-
 Detection is solved; the next step is not. Every small shop already has data that says what went wrong: the marketplace shows the return rate, the camera fires when someone pockets an item, the ad dashboard has a "winner", the POS has last week's sales. Nobody has told the one person standing there, alone at 7am, what to do next. Owner Console takes a signal the business already has and returns one action: the cause of a SKU's returns with the buyer's own words as proof and a fix to paste; the prep number per item; the one ad change worth making this week; the sentence to say and where to stand in the ten seconds after a theft alert. Where a model is involved, its prompt was written by a meta-prompt, scored on golden cases, and only shipped when it beat the previous version.
 
 Built by [AGI Future Foundation](ABOUT.md) for the ITCHATHON hackathon (27 Sep 2026).

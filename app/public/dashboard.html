@@ -61,6 +61,38 @@
   .chart { width: 100%; height: 320px; }
   .chart.tall { height: 380px; }
   .chart .nochart { color: var(--oc-muted); font-size: 13px; padding: 24px 8px; text-align: center; }
+  .note { margin: 4px 0 2px; color: var(--oc-muted); font-size: 13px; }
+  .note:empty { display: none; }
+
+  /* --- try it with an ASIN (returns card) --- */
+  .asin { position: relative; z-index: 1; margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .asin form { display: flex; gap: 6px; }
+  .asin label { font-size: 12px; font-weight: 600; color: var(--oc-muted); }
+  .asin input { flex: 1; min-width: 0; font: inherit; font-size: 14px; padding: 7px 10px; border-radius: 9px;
+    border: 1px solid var(--oc-line); background: var(--oc-panel-2); color: var(--oc-ink); }
+  .asin .oc-btn { padding: 7px 12px; white-space: nowrap; }
+  .asin .out { font-size: 13px; line-height: 1.4; min-height: 0; }
+  .asin .out .spin { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -2px; margin-right: 6px;
+    border: 2px solid var(--oc-line); border-top-color: var(--hue); animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .asin .badge { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 999px; color: #fff; margin-right: 6px; }
+  .asin .badge.photos { background: #7a4a9c; } .asin .badge.size_chart { background: #b85c00; } .asin .badge.garment { background: #a3262f; }
+  .asin .badge.expectation { background: #1f5fa8; } .asin .badge.fulfilment { background: #3d7a3a; } .asin .badge.not_enough_data { background: #6b6a66; }
+  .asin .out a { color: var(--oc-ink); font-weight: 600; }
+  .asin .out .err { color: var(--oc-err); }
+
+  /* --- focus + contrast --- */
+  .card .go:focus-visible, .asin input:focus-visible, .asin .oc-btn:focus-visible, .asin .out a:focus-visible {
+    outline: 3px solid var(--oc-focus); outline-offset: 2px; box-shadow: 0 0 0 5px color-mix(in srgb, var(--oc-bg) 100%, transparent); }
+  /* chip text on the light theme: the shared hue values fall under 4.5:1 on white, so darken them here */
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .oc-chip.demo { color: #7A4F00; }
+    :root:not([data-theme="dark"]) .oc-chip.live { color: #177040; }
+  }
+  :root[data-theme="light"] .oc-chip.demo { color: #7A4F00; }
+  :root[data-theme="light"] .oc-chip.live { color: #177040; }
+  @media (prefers-reduced-motion: reduce) { .asin .out .spin { animation: none; border-top-color: var(--oc-line); } }
 
   /* --- platform strip --- */
   .strip { margin-top: 22px; }

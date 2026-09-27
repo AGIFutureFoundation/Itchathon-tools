@@ -165,16 +165,23 @@ function returnsSection(audit, sources) {
     });
   }
 
-  const sizeChartCount = byCause.size_chart;
+  const sizeChartCount = causesDemo ? 3 : byCause.size_chart;
+  // Sparse state: under SPARSE_MIN real diagnoses in the audit log -> one plain note under the chart.
+  const note = counted >= SPARSE_MIN ? null
+    : counted === 0 ? 'No diagnoses yet. Diagnose a few SKUs and this fills in.'
+    : `Only ${pl(counted, 'diagnosis', 'diagnoses')} so far. Diagnose a few SKUs and this fills in.`;
   return {
     eval: evalOut,
     diagnoses_total: counted || Object.values(byCause).reduce((a, b) => a + b, 0),
+    diagnoses_live: counted,
     by_cause: byCause,
-    by_cause_week: { causes: CAUSES, weeks, matrix, demo: !weeksLive },
+    by_cause_week: { causes: CAUSES, weeks, matrix, demo: !weeksLive, note },
     demo: causesDemo,
+    note,
     headline: {
-      number: causesDemo ? 3 : sizeChartCount,
-      text: causesDemo ? '3 SKUs need a new size chart' : `${sizeChartCount} SKU${sizeChartCount === 1 ? '' : 's'} need a new size chart`,
+      number: sizeChartCount,
+      text: sizeChartCount === 0 ? 'No SKUs need a fix today'
+        : `${pl(sizeChartCount, 'SKU')} ${pl(sizeChartCount, 'needs', 'need', false)} a new size chart`,
     },
   };
 }
@@ -207,14 +214,37 @@ function prepSection(sources) {
     };
   });
   sources.prep_series = 'demo';
-  const croissant = series.find(s => s.item === 'Croissant') || series[0];
-  const todayPrep = croissant ? croissant.prepared[6] : 42;
+
+  // Headline names the item where our model beats "same weekday last week" by the most
+  // (largest naive - model run-out error), then says what to prep instead of what last week says.
+  const ranked = by_item.filter(i => Number.isFinite(i.naive) && Number.isFinite(i.model))
+    .sort((a, b) => (b.naive - b.model) - (a.naive - a.model));
+  const top = ranked[0] || by_item[0] || { name: 'Croissant' };
+  const s = series.find(x => x.item === top.name) || series[0];
+  const lastWeekQty = s ? s.prepared[6] : 60;            // what same-day-last-week would have you prep
+  const soldRecent = s ? Math.round((s.sold[5] + s.sold[6]) / 2) : 40;
+  const modelQty = Math.min(lastWeekQty - 1, Math.max(1, Math.round(soldRecent * 0.9)));
+  const unit = prepUnit(top.name, modelQty);
   return {
     eval: evalOut,
     by_item,
-    series: { days, items: series, demo: true },
-    headline: { number: 42, text: `Prep 42 ${croissant ? croissant.item.toLowerCase() + 's' : 'croissants'}, not ${Math.max(todayPrep, 55)}` },
+    series: { days, items: series, demo: true, note: 'No sales history uploaded yet. Showing a sample kitchen.' },
+    note: 'No sales history uploaded yet. Showing a sample kitchen.',
+    headline: {
+      number: modelQty, item: top.name, last_week: lastWeekQty,
+      text: `Prep ${pl(modelQty, unit.one, unit.many)}, not ${lastWeekQty}`,
+    },
   };
+}
+// "Sourdough loaf" -> loaves, "Soup (portions)" -> soup portions; default lowercases and adds s.
+function prepUnit(name) {
+  const map = {
+    'Croissant': ['croissant', 'croissants'], 'Sourdough loaf': ['sourdough loaf', 'sourdough loaves'],
+    'Cinnamon roll': ['cinnamon roll', 'cinnamon rolls'], 'Quiche slice': ['quiche slice', 'quiche slices'],
+    'Soup (portions)': ['soup portion', 'soup portions'], 'Baguette': ['baguette', 'baguettes'],
+  };
+  const m = map[name] || [name.toLowerCase(), name.toLowerCase() + 's'];
+  return { one: m[0], many: m[1] };
 }
 
 // ---------- ads ----------
@@ -254,15 +284,29 @@ function adsSection(sources) {
   sources.ads_campaigns = 'demo';
 
   // The hackathon case (a01) verdict, computed live if the module is there.
-  let verdict = 'no winner yet';
+  let stats = null;
   if (ads && cases[0] && typeof ads.computeStats === 'function') {
-    try { verdict = ads.computeStats({ variants: cases[0].variants }).verdict || verdict; } catch { /* keep default */ }
+    try { stats = ads.computeStats({ variants: cases[0].variants }); } catch { /* keep default */ }
   }
   return {
     honesty,
     campaigns: { days, items: campaigns, demo: true },
-    headline: { number: 0, text: `${verdict[0].toUpperCase()}${verdict.slice(1)}: keep both ads running` },
+    headline: adsHeadline(stats, cases[0] && cases[0].variants),
   };
+}
+// Object + action, from the stats result: "No winner yet: keep both ads running"
+// or "Winner: Headline B. Pause Headline A".
+function adsHeadline(stats, variants) {
+  const verdict = (stats && stats.verdict) || 'no winner yet';
+  const m = /^winner:\s*(.+)$/i.exec(verdict);
+  if (m) {
+    const winner = m[1].trim();
+    const compared = (stats.variants_compared || []).filter(v => v !== winner);
+    const others = compared.length ? compared : (variants || []).map(v => v.name).filter(v => v !== winner);
+    const pause = others.length ? `Pause ${others.join(' and ')}` : 'Pause the rest';
+    return { number: 1, verdict, text: `Winner: ${winner}. ${pause}` };
+  }
+  return { number: 0, verdict, text: `${verdict[0].toUpperCase()}${verdict.slice(1)}: keep both ads running` };
 }
 
 // ---------- theft ----------
@@ -348,7 +392,12 @@ async function theftSection(sources) {
     heat,
     decision_hint: (live && live.decision_hint) || 'Not enough losses in one zone yet to justify changing the layout.',
     demo: !hasData,
-    headline: { number: zoneAlerts, text: `${zoneAlerts} alert${zoneAlerts === 1 ? '' : 's'} in ${zoneName} this week` },
+    note: !hasData ? 'No alerts yet. Showing a sample week until the first alert comes in.'
+      : totals.alerts < SPARSE_MIN ? `Only ${pl(totals.alerts, 'alert')} so far. The heatmap fills in as alerts are logged.` : null,
+    headline: {
+      number: zoneAlerts,
+      text: zoneAlerts === 0 ? `No alerts in ${zoneName} this week` : `${pl(zoneAlerts, 'alert')} in ${zoneName} this week`,
+    },
   };
 }
 
