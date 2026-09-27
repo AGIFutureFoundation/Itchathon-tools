@@ -19,6 +19,28 @@ gate: cause_accuracy ≥ 0.80  AND  grounded_rate ≥ 0.95  AND  low_data_ok_rat
    not met → vN+1.failures.md becomes the input to the next generate.py run
 ```
 
+![Meta-prompt loop, agent team, eval gate, platform layer](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/charts/architecture-diagram.png)
+
+## v1 through v4 on the 60-case synthetic gate
+
+![Cause accuracy, grounded rate, low-data honesty across v1-v4](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/charts/eval-progression.png)
+
+v3 (currently served) improved cause accuracy from v1's 78.3% to 90.0% and grounding to 96.7% by fixing the garment↔size_chart confusion the v1 failure report surfaced. Its confusion matrix on the same 60 cases:
+
+![v3 confusion matrix](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/charts/confusion-v3.png)
+
+For comparison, v2's confusion matrix (the version served before v3, 98.3% on this synthetic set):
+
+![v2 confusion matrix](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/charts/confusion-v2.png)
+
+## The gate that matters more: real data
+
+A version passing the synthetic gate is necessary, not sufficient. Every served candidate is also run against 30 real Amazon-review cases (`evals/returns/cases_real.jsonl`, pulled via Apify). The gap is the project's most important number:
+
+![Synthetic vs real-30 accuracy: v2 10.0%, v3 56.7%, v4 46.7%](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/charts/synthetic-vs-real.png)
+
+v4 was generated specifically from v3's real-30 failure report (confusion between `garment` — a quality failure discovered through use — and `fulfilment` — a shipping/logistics failure discovered at unboxing) and from v3's synthetic gate scores. v4 improved grounding (83.3%→96.7%) and JSON parsing (96.7%→100%) on real data but its real cause-accuracy fell to 46.7%, below v3's 56.7%. Per the release rule above, **v4 was archived and v3 stays served** — passing the synthetic gate does not earn a release on its own; the real-data score is checked every time and a regression there blocks the switch even though the synthetic gate passed.
+
 The failure report is the only thing that changes between versions, so every improvement is traceable to a case that failed.
 
 ## The meta-prompt

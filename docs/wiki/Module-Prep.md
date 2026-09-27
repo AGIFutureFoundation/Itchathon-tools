@@ -6,6 +6,8 @@ ITCHATHON Challenge 4. One prep number per item that a shift lead can act on at 
 
 "Same weekday last week." It is what the owner actually does, so it is the baseline the module is scored against. The module has to beat it by at least 15% or it does not ship.
 
+![Naive (same-weekday-last-week) vs model pinball loss, run-out and neutral quantiles](https://raw.githubusercontent.com/AGIFutureFoundation/Itchathon-tools/main/media/charts/prep-backtest.png)
+
 ## Input
 
 ```json
