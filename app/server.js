@@ -176,17 +176,73 @@ function readBody(req, limit = 2 * 1024 * 1024) {
   });
 }
 
+// ---------- .env, platform layer, module registry ----------
+try {
+  for (const line of fs.readFileSync(path.join(__dirname, '..', '.env'), 'utf8').split('\n')) {
+    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '');
+  }
+} catch { /* no .env */ }
+
+function optional(mod) { try { return require(mod); } catch (e) { if (e.code !== 'MODULE_NOT_FOUND') console.error(`[platform] ${mod}: ${e.message}`); return null; } }
+const auth = optional('./platform/auth'), ratelimit = optional('./platform/ratelimit'), audit = optional('./platform/audit');
+const redact = optional('./platform/redact'), guard = optional('./platform/guard');
+
+// Every app/modules/*.js that exports register(add) is mounted automatically.
+const routes = new Map(); // "METHOD /path" -> {handler, module}
+const MODULES_DIR = path.join(__dirname, 'modules');
+if (fs.existsSync(MODULES_DIR)) {
+  for (const f of fs.readdirSync(MODULES_DIR).filter(f => f.endsWith('.js')).sort()) {
+    const name = f.replace(/\.js$/, '');
+    try {
+      const mod = require(path.join(MODULES_DIR, f));
+      if (typeof mod.register === 'function') {
+        mod.register((method, route, handler) => routes.set(`${method.toUpperCase()} ${route}`, { handler, module: name }));
+        console.log(`[modules] mounted ${name}`);
+      }
+    } catch (e) { console.error(`[modules] ${name} failed to load: ${e.message}`); }
+  }
+}
+// The returns module is built in; it gets redaction + output guard + audit like the others.
+routes.set('POST /api/diagnose', {
+  module: 'returns',
+  handler: async (body) => {
+    if (!body.listing || !Array.isArray(body.returns)) {
+      throw Object.assign(new Error('expected {listing:{...}, returns:[...], reviews:[], messages:[]}'), { status: 400 });
+    }
+    const inputs = redact ? redact.redact(body).value : body;
+    const result = await diagnose(inputs);
+    if (guard) {
+      const g = guard.checkOutput(result, inputs);
+      result._guard = { ok: g.ok, issues: g.issues };
+      if (guard.injectionScore) result._guard.injection_score = guard.injectionScore(JSON.stringify(inputs));
+      return g.result || result;
+    }
+    return result;
+  },
+});
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
-  if (req.method === 'POST' && url.pathname === '/api/diagnose') {
-    let body;
-    try { body = JSON.parse(await readBody(req) || '{}'); }
-    catch (e) { return send(res, 400, { error: 'invalid JSON body: ' + e.message }); }
-    if (!body.listing || !Array.isArray(body.returns)) {
-      return send(res, 400, { error: 'expected {listing:{...}, returns:[...], reviews:[], messages:[]}' });
+  const key = `${req.method} ${url.pathname}`;
+  if (routes.has(key)) {
+    const { handler, module } = routes.get(key);
+    let tenant = { tenant: 'default', modules: null };
+    if (auth) {
+      try { tenant = auth.authenticate(req) || tenant; }
+      catch (e) { return send(res, e.status || 401, { error: e.message }); }
     }
+    if (tenant.modules && !tenant.modules.includes(module)) return send(res, 403, { error: `module ${module} not enabled for tenant` });
+    if (ratelimit && !ratelimit.allow(tenant.tenant)) return send(res, 429, { error: 'rate limit: 60 requests/min per tenant' });
+    let body = {};
+    if (req.method !== 'GET') {
+      try { body = JSON.parse(await readBody(req) || '{}'); }
+      catch (e) { return send(res, 400, { error: 'invalid JSON body: ' + e.message }); }
+    }
+    const t0 = Date.now();
     try {
-      const result = await diagnose(body);
+      const result = await handler(body, req);
+      if (audit) { try { audit.record(module, body, result, { tenant: tenant.tenant, module, prompt_version: result?._meta?.prompt_source, model: result?._meta?.model, latency_ms: Date.now() - t0 }); } catch (e) { console.error('[audit]', e.message); } }
       return send(res, 200, result);
     } catch (e) {
       return send(res, e.status || 502, { error: e.message, raw: (e.raw || '').slice(0, 20000) });
@@ -194,10 +250,12 @@ const server = http.createServer(async (req, res) => {
   }
   if (req.method === 'GET' && url.pathname === '/api/health') {
     const { source } = loadSystemPrompt();
-    return send(res, 200, { ok: true, prompt_source: source, model: MODEL });
+    return send(res, 200, { ok: true, prompt_source: source, model: MODEL, modules: [...new Set([...routes.values()].map(r => r.module))],
+      platform: { auth: !!auth, ratelimit: !!ratelimit, audit: !!audit, redact: !!redact, guard: !!guard } });
   }
   if (req.method === 'GET') {
-    let p = url.pathname === '/' ? '/index.html' : url.pathname;
+    const home = fs.existsSync(path.join(PUBLIC_DIR, 'dashboard.html')) ? '/dashboard.html' : '/index.html';
+    let p = url.pathname === '/' ? home : url.pathname;
     const file = path.normalize(path.join(PUBLIC_DIR, p));
     if (!file.startsWith(PUBLIC_DIR)) return send(res, 403, 'forbidden', 'text/plain');
     fs.readFile(file, (err, data) => {

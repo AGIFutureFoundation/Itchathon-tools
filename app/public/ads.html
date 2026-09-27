@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ads Plain Read</title>
+<style>
+  :root {
+    --bg: #f6f5f1; --card: #ffffff; --ink: #1c1b18; --muted: #6b675e; --line: #e2dfd7;
+    --accent: #2b5fd9; --good: #1f7a4d; --good-bg: #e6f4ec; --bad: #b3261e; --bad-bg: #fbe9e7;
+    --warn: #8a5a00; --warn-bg: #fff4d6; --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15161a; --card: #1e2026; --ink: #ecebe6; --muted: #a09d94; --line: #34363e;
+      --accent: #7ea2ff; --good: #5ccf8e; --good-bg: #163326; --bad: #ff7b72; --bad-bg: #3a1c1a;
+      --warn: #ffc966; --warn-bg: #3a2e12;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+  header { padding: 28px 16px 8px; max-width: 980px; margin: 0 auto; }
+  header h1 { margin: 0 0 4px; font-size: 26px; }
+  header p { margin: 0; color: var(--muted); }
+  header a { color: var(--accent); }
+  main { max-width: 980px; margin: 0 auto; padding: 8px 16px 48px; display: grid; gap: 20px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  section h2 { margin: 0 0 4px; font-size: 20px; }
+  section .sub { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: inherit; }
+  textarea { font-family: var(--mono); font-size: 13px; min-height: 160px; }
+  button { padding: 10px 16px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+  button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  button:disabled { opacity: .5; cursor: wait; }
+  .row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
+  .verdict { margin-top: 18px; padding: 18px; border-radius: 10px; border: 1px solid var(--line); }
+  .verdict.bad { background: var(--bad-bg); border-color: var(--bad); }
+  .verdict.good { background: var(--good-bg); border-color: var(--good); }
+  .verdict.warn { background: var(--warn-bg); border-color: var(--warn); }
+  .verdict .big { font-size: 28px; font-weight: 800; margin: 0 0 6px; }
+  .verdict.bad .big { color: var(--bad); } .verdict.good .big { color: var(--good); } .verdict.warn .big { color: var(--warn); }
+  .verdict p { margin: 4px 0; }
+  .facts { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .facts b { color: var(--ink); }
+  .card { margin-top: 16px; border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  .card h3 { margin: 0 0 8px; font-size: 16px; }
+  .step { display: grid; grid-template-columns: 24px 1fr; gap: 8px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .step:first-of-type { border-top: 0; }
+  .step .n { font-weight: 700; color: var(--accent); }
+  .step .why, .step .eff { color: var(--muted); font-size: 14px; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; margin-right: 6px; }
+  .pill.good { background: var(--good-bg); color: var(--good); } .pill.bad { background: var(--bad-bg); color: var(--bad); } .pill.warn { background: var(--warn-bg); color: var(--warn); }
+  .muted { color: var(--muted); font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  th, td { text-align: left; padding: 6px 8px; border-top: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; border-top: 0; }
+  td.num { font-variant-numeric: tabular-nums; text-align: right; } th.num { text-align: right; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr; } .two { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Ads Plain Read</h1>
+  <p>What your ad money is doing, in plain English. Never calls a winner the maths cannot back. <a href="/">Back to console</a></p>
+</header>
+<main>
+
+  <!-- (a) Is my A/B test real? -->
+  <section id="ab">
+    <h2>Is my A/B test real?</h2>
+    <p class="sub">Paste the impressions and conversions for each variant. We run a proper two-proportion test and tell you the truth.</p>
+    <div class="row muted"><div>Variant</div><div>Impressions</div><div>Conversions</div></div>
+    <div id="variants">
+      <div class="row"><input value="Headline A" data-k="name"><input type="number" min="0" value="135" data-k="impressions"><input type="number" min="0" value="0" data-k="conversions"></div>
+      <div class="row"><input value="Headline B" data-k="name"><input type="number" min="0" value="122" data-k="impressions"><input type="number" min="0" value="2" data-k="conversions"></div>
+    </div>
+    <div class="actions">
+      <button id="abRun">Check my test</button>
+      <button class="secondary" id="abAdd">Add a variant</button>
+      <span class="muted">Try 5000 / 100 vs 5000 / 140 to see what a real winner looks like.</span>
+    </div>
+    <div id="abOut"></div>
+  </section>
+
+  <!-- (b) Plain read -->
+  <section id="read">
+    <h2>Plain read of my accounts</h2>
+    <p class="sub">Paste your campaigns (from Google Ads or Meta) for the last 30 days. You get one paragraph on what is happening and up to three things to change next.</p>
+    <div class="two">
+      <div><label>Goal</label><select id="goal"><option value="leads">Leads (enquiries, form fills)</option><option value="sales">Sales</option><option value="calls">Phone calls</option></select></div>
+      <div><label>Monthly budget ($)</label><input id="budget" type="number" min="0" value="3500"></div>
+    </div>
+    <label style="margin-top:10px">Campaigns (JSON)</label>
+    <textarea id="campaigns" placeholder='[{"name":"...","type":"search|pmax|display|video","spend":0,"impressions":0,"clicks":0,"conversions":0,"period_days":30}]'></textarea>
+    <div class="actions">
+      <button class="secondary" id="loadSample">Load sample account</button>
+      <button id="readRun">Read my account</button>
+      <span id="readStatus" class="muted"></span>
+    </div>
+    <div id="readOut"></div>
+  </section>
+
+  <!-- (c) Ownership -->
+  <section id="own">
+    <h2>Get my accounts back</h2>
+    <p class="sub">If the agency set the account up, it is probably in their name. Here is how to move it into yours.</p>
+    <div class="two">
+      <div><label>Platform</label><select id="platform"><option value="google">Google Ads</option><option value="meta">Meta (Facebook / Instagram)</option></select></div>
+      <div><label>Who has access today?</label><select id="access"><option value="agency_owns">The agency owns the account</option><option value="shared">I have a login, not sure I own it</option><option value="owner">I own it, want to keep it safe</option></select></div>
+    </div>
+    <div class="actions"><button id="ownRun">Show me the steps</button></div>
+    <div id="ownOut"></div>
+  </section>
+
+</main>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const money = x => '$' + Math.round(Number(x)).toLocaleString('en-US');
+  const post = async (url, body) => {
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({ error: 'server returned non-JSON' }));
+    if (!r.ok && !j.error) j.error = 'HTTP ' + r.status;
+    return j;
+  };
+
+  // ---------- (a) A/B ----------
+  function readVariants() {
+    return [...document.querySelectorAll('#variants .row')].map(row => {
+      const o = {};
+      row.querySelectorAll('input').forEach(i => { o[i.dataset.k] = i.dataset.k === 'name' ? i.value : Number(i.value); });
+      return o;
+    });
+  }
+  $('#abAdd').onclick = () => {
+    const n = document.querySelectorAll('#variants .row').length;
+    const div = document.createElement('div'); div.className = 'row';
+    div.innerHTML = `<input value="Variant ${String.fromCharCode(65 + n)}" data-k="name"><input type="number" min="0" value="0" data-k="impressions"><input type="number" min="0" value="0" data-k="conversions">`;
+    $('#variants').appendChild(div);
+  };
+  $('#abRun').onclick = async () => {
+    const btn = $('#abRun'); btn.disabled = true;
+    const r = await post('/api/ads/stats', { variants: readVariants() });
+    btn.disabled = false;
+    if (r.error) { $('#abOut').innerHTML = `<div class="verdict bad"><p class="big">Something went wrong</p><p>${esc(r.error)}</p></div>`; return; }
+    const isWinner = r.verdict.startsWith('winner');
+    const cls = isWinner ? 'good' : (r.test_is_valid ? 'warn' : 'bad');
+    const headline = isWinner ? r.verdict.replace('winner: ', 'Real winner: ') : (r.test_is_valid ? 'No winner yet' : 'Not a real test yet');
+    $('#abOut').innerHTML = `
+      <div class="verdict ${cls}">
+        <p class="big">${esc(headline)}</p>
+        <p>${esc(r.plain_read)}</p>
+        <div class="facts">
+          <span>Test valid: <b>${r.test_is_valid ? 'yes' : 'no'}</b></span>
+          <span>Chance this gap is noise: <b>${r.p_value === null ? '-' : (r.p_value * 100).toFixed(1) + '%'}</b></span>
+          <span>Needed per variant: <b>${r.min_conversions_needed_per_variant === null ? '-' : (r.min_conversions_needed_per_variant > 5000 ? 'more than you can buy this quarter' : r.min_conversions_needed_per_variant + ' conversions')}</b></span>
+          <span>Enough for Performance Max: <b>${r.pmax_ready ? 'yes (30+/month)' : 'no (under 30/month)'}</b></span>
+        </div>
+        ${r.reasons && r.reasons.length ? `<p class="muted" style="margin-top:8px">Why: ${esc(r.reasons.join('; '))}</p>` : ''}
+        <p class="muted" style="margin-top:8px">Method: ${esc(r.method)}</p>
+      </div>`;
+  };
+
+  // ---------- (b) Plain read ----------
+  const SAMPLE = [
+    { name: 'Search - Plumber Near Me', type: 'search', spend: 1420, impressions: 9800, clicks: 610, conversions: 41, period_days: 30 },
+    { name: 'Performance Max - All Services', type: 'pmax', spend: 1180, impressions: 88000, clicks: 1900, conversions: 9, period_days: 30 },
+    { name: 'Display Prospecting', type: 'display', spend: 640, impressions: 410000, clicks: 1250, conversions: 0, period_days: 30 },
+    { name: 'Brand Search', type: 'search', spend: 260, impressions: 2100, clicks: 540, conversions: 22, period_days: 30 },
+  ];
+  $('#loadSample').onclick = () => { $('#campaigns').value = JSON.stringify(SAMPLE, null, 2); $('#goal').value = 'leads'; $('#budget').value = 3500; };
+  $('#readRun').onclick = async () => {
+    let campaigns;
+    try { campaigns = JSON.parse($('#campaigns').value || '[]'); } catch (e) { $('#readOut').innerHTML = `<div class="verdict bad"><p>That is not valid JSON: ${esc(e.message)}</p></div>`; return; }
+    const btn = $('#readRun'); btn.disabled = true; $('#readStatus').textContent = 'Reading… this takes up to a minute.';
+    const r = await post('/api/ads/read', { campaigns, goal: $('#goal').value, monthly_budget: Number($('#budget').value) });
+    btn.disabled = false; $('#readStatus').textContent = '';
+    if (r.error) { $('#readOut').innerHTML = `<div class="verdict bad"><p>${esc(r.error)}</p></div>`; return; }
+    const camps = (r.derived && r.derived.flags) || [];
+    const flagFor = name => camps.filter(f => f.campaign === name).map(f => f.flag);
+    const pill = f => ({ workhorse: '<span class="pill good">doing the work</span>', burning: '<span class="pill bad">burning spend</span>', wrong_tool: '<span class="pill bad">wrong tool for goal</span>', expensive: '<span class="pill warn">expensive</span>', pmax_underfed: '<span class="pill warn">too little data to learn</span>' }[f] || '');
+    const rows = (r.stats && Array.isArray(campaigns) ? campaigns : []).map(c => {
+      const conv = Number(c.conversions) || 0, spend = Number(c.spend) || 0;
+      return `<tr><td>${esc(c.name)} ${flagFor(c.name).map(pill).join('')}</td><td>${esc(c.type || '')}</td><td class="num">${money(spend)}</td><td class="num">${conv}</td><td class="num">${conv ? money(spend / conv) : '-'}</td></tr>`;
+    }).join('');
+    $('#readOut').innerHTML = `
+      <div class="card">
+        <h3>What is happening</h3>
+        <p>${esc(r.whats_happening)}</p>
+        <div class="facts">
+          <span>Confidence: <b>${Math.round((r.confidence || 0) * 100)}%</b></span>
+          <span>Any campaign a proven winner: <b>${r.test_is_valid && r.stats.verdict.startsWith('winner') ? 'yes, ' + esc(r.stats.verdict.slice(8)) : 'no'}</b></span>
+          <span>Total: <b>${money(r.derived.total_spend)}</b> for <b>${r.derived.total_conversions}</b> results</span>
+          ${r.corrected ? '<span class="pill warn">model tried to overstate certainty; corrected</span>' : ''}
+          ${r._meta && r._meta.source === 'template' ? '<span class="pill warn">template read (model unavailable)</span>' : ''}
+        </div>
+        <table><thead><tr><th>Campaign</th><th>Type</th><th class="num">Spend</th><th class="num">Results</th><th class="num">Cost each</th></tr></thead><tbody>${rows}</tbody></table>
+      </div>
+      <div class="card">
+        <h3>Change next</h3>
+        ${(r.change_next || []).map((s, i) => `<div class="step"><div class="n">${i + 1}</div><div><div><b>${esc(s.action)}</b></div><div class="why">Why: ${esc(s.why)}</div><div class="eff">Expected: ${esc(s.expected_effect)}</div></div></div>`).join('')}
+        <p class="muted" style="margin-top:10px">${esc(r.stats.plain_read)}</p>
+      </div>`;
+  };
+
+  // ---------- (c) Ownership ----------
+  $('#ownRun').onclick = async () => {
+    const r = await post('/api/ads/ownership', { platform: $('#platform').value, access: $('#access').value });
+    if (r.error) { $('#ownOut').innerHTML = `<div class="verdict bad"><p>${esc(r.error)}</p></div>`; return; }
+    $('#ownOut').innerHTML = `<div class="card"><h3>${esc(r.headline)}</h3>${r.steps.map((s, i) => `<div class="step"><div class="n">${i + 1}</div><div>${esc(s)}</div></div>`).join('')}</div>`;
+  };
+})();
+</script>
+</body>
+</html>

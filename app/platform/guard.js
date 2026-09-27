@@ -152,10 +152,7 @@ function injectionScore(text) {
   if (text == null) return 0;
   const t = typeof text === 'string' ? text : JSON.stringify(text);
   let notHit = 1;
-  const hits = [];
-  for (const [re, w] of INJECTION_PATTERNS) {
-    if (re.test(t)) { notHit *= 1 - w; hits.push(re.source.slice(0, 40)); }
-  }
+  for (const [re, w] of INJECTION_PATTERNS) if (re.test(t)) notHit *= 1 - w;
   return Math.round((1 - notHit) * 1000) / 1000;
 }
 

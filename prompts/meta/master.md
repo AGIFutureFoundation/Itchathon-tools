@@ -12,4 +12,5 @@ Write a system prompt that:
 3. Handles low volume honestly (small samples, one seller, one SKU); never invents numbers.
 4. Decides the cause with a short, explicit decision procedure (which signals outrank which), including when the reason_code contradicts the buyer's comment (the comment wins).
 5. Fixes every failure listed in failures_last_round without breaking passing cases.
+6. Include verbatim the following compliance clause (copy it character-for-character as its own section of the system prompt; do not shorten, reword or merge it): {{COMPLIANCE_CLAUSE}}
 Return the prompt inside <system_prompt> tags and 5 new edge cases it must survive inside <edge_cases>.

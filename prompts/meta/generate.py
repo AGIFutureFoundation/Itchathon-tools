@@ -13,8 +13,10 @@ n = len(existing) + 1
 fails = sorted(glob.glob(P("evals/returns/results/v*.failures.md")), key=lambda p: int(re.search(r"v(\d+)", p).group(1)))
 failure_report = open(fails[-1]).read()[:14000] if fails else "First version: no failures yet."
 prev = ("\n\nPrevious prompt version (improve it, keep what works):\n" + open(existing[-1]).read()) if existing else ""
+compliance = open(P("prompts/meta/compliance_clause.md")).read().strip()  # must appear verbatim in every generated prompt
 filled = (master.replace("{{CHALLENGE_BRIEF}}", brief).replace("{{CURRENT_HABIT}}", vars_["CURRENT_HABIT"])
           .replace("{{INPUT_SCHEMA}}", vars_["INPUT_SCHEMA"]).replace("{{OUTPUT_SCHEMA}}", vars_["OUTPUT_SCHEMA"])
+          .replace("{{COMPLIANCE_CLAUSE}}", "\n" + compliance + "\n")
           .replace("{{FAILURE_REPORT}}", failure_report + prev))
 p = subprocess.run(["claude", "-p", "--model", "opus", "--output-format", "json", "--disallowedTools", "*", "--max-turns", "1", "--exclude-dynamic-system-prompt-sections", "--system-prompt", "You are an expert prompt engineer with no tools and no filesystem. Do not explore anything. Answer only with the <system_prompt> and <edge_cases> tags requested."],
                    input=filled, capture_output=True, text=True, timeout=600)
