@@ -9,7 +9,7 @@ Built by [AGI Future Foundation](ABOUT.md) for the ITCHATHON hackathon (27 Sep 2
 
 ![Sapient.X demo](media/demo.gif)
 
-[Watch the 90-second demo](media/demo.mp4) · [Live pitch page](https://claude.ai/artifact/ChLDi9GPBXPhhjycapP5Mn) · [Whitepaper](docs/WHITEPAPER.md) · [Wiki](docs/wiki/Home.md)
+[Watch the 90-second demo](media/demo.mp4) · [110-second judging video](media/judging-demo.mp4) · [Judging criteria, self-scored](docs/JUDGING.md) · [Live pitch page](https://claude.ai/artifact/ChLDi9GPBXPhhjycapP5Mn) · [Whitepaper](docs/WHITEPAPER.md) · [Wiki](docs/wiki/Home.md)
 
 <details><summary>Gate performance across all four modules (scaling caveats in the image caption — axes are not directly comparable)</summary>
 
