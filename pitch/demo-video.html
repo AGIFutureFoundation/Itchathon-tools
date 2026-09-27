@@ -1,0 +1,74 @@
+<title>Sapient.X Demo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F5F4;--surface:#FFFFFF;--ink:#152321;--muted:#5B6B68;--line:#D6DDDB;
+  --accent:#0E6F63;--accent-ink:#FFFFFF;--tag:#B8690A;--tag-bg:#FBEFDD;
+  --body:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+  --display:'IBM Plex Sans Condensed','Arial Narrow',var(--body);
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#101715;--surface:#18211F;--ink:#E8EEEC;--muted:#98A8A4;--line:#2A3532;--accent:#4FC3B1;--accent-ink:#0B1513;--tag:#E8A64A;--tag-bg:#3A2A12}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#101715;--surface:#18211F;--ink:#E8EEEC;--muted:#98A8A4;--line:#2A3532;--accent:#4FC3B1;--accent-ink:#0B1513;--tag:#E8A64A;--tag-bg:#3A2A12}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-inline:20px;padding-block:32px 56px}
+.wrap{max-width:820px;margin:0 auto;display:grid;gap:24px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,44px);line-height:1.05;margin:8px 0 8px;letter-spacing:-.01em}
+p.lead{font-size:17px;max-width:62ch;color:var(--ink)}
+video{width:100%;border-radius:12px;border:1px solid var(--line);background:#000;display:block}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+a.btn{font-family:var(--mono);font-size:14px;text-decoration:none;padding:10px 16px;border-radius:8px;border:1px solid var(--line);color:var(--ink);background:var(--surface)}
+a.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.meta{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:500}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:8px}
+.card h2{font-size:14px;margin:0;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+ol{margin:0;padding-left:20px;display:grid;gap:4px;font-size:14px}
+.tag{display:inline-block;background:var(--tag-bg);color:var(--tag);font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:4px}
+footer{font-size:13px;color:var(--muted)}
+footer a{color:var(--accent)}
+</style>
+
+<div class="wrap">
+  <div>
+    <div class="eyebrow">Sapient.X · Powered by AGI Corp</div>
+    <h1>Judging demo</h1>
+    <p class="lead">A 110-second walkthrough recorded from the live app, answering the ITCHATHON judging rubric: does it hit a real weekly pain, can a busy owner adopt it next week, and is the cost against the return spelled out.</p>
+  </div>
+
+  <video controls preload="metadata" poster="">
+    <source src="/_blob/ed91c1e5d7b2acbbff016b770629f9b0" type="video/mp4">
+    Your browser can't play this video inline &mdash; use the download link below.
+  </video>
+
+  <div class="actions">
+    <a class="btn primary" href="/_blob/ed91c1e5d7b2acbbff016b770629f9b0" target="_blank" rel="noopener">Open / save the video file</a>
+    <a class="btn" href="https://github.com/AGIFutureFoundation/Itchathon-tools" target="_blank" rel="noopener">View the repo</a>
+    <a class="btn" href="https://github.com/AGIFutureFoundation/Itchathon-tools/blob/main/docs/JUDGING.md" target="_blank" rel="noopener">Read the self-scored rubric</a>
+  </div>
+  <p style="font-size:13px;color:var(--muted);margin:-14px 0 0">The "Open / save" link opens the file directly &mdash; use your browser's own Save / Download action on it (right-click &rarr; Save Video As, or the browser's download icon) to keep a local copy.</p>
+
+  <div class="meta">
+    <span><b>1:24</b> runtime</span>
+    <span><b>MP4, H.264 + AAC</b> format</span>
+    <span><b>3.9 MB</b> file size</span>
+    <span><b>v6</b> served prompt at recording time</span>
+  </div>
+
+  <div class="card">
+    <h2>What's in it</h2>
+    <ol>
+      <li><span class="tag">0:00</span> Title card &mdash; Sapient.X, powered by AGI Corp</li>
+      <li><span class="tag">0:03</span> Criterion 1, pain fit &mdash; four weekly problems, one dashboard</li>
+      <li><span class="tag">0:13</span> Returns module live &mdash; cause, evidence, paste-ready fix, v6 served</li>
+      <li><span class="tag">0:32</span> Criterion 2, ease of adoption &mdash; Prep: paste a POS export you already have</li>
+      <li><span class="tag">0:42</span> Ads module &mdash; the 135-vs-122 case, an honest "no winner yet"</li>
+      <li><span class="tag">0:54</span> Criterion 3, cost &amp; ROI &mdash; pricing vs. incumbents, $640/mo caught live</li>
+      <li><span class="tag">1:08</span> The honest close &mdash; the real-data gap, shown not hidden</li>
+    </ol>
+  </div>
+
+  <footer>Recorded live from the served build (prompt v6, 91.7% synthetic / 66.7% real-data cause accuracy). Full self-scoring against the rubric: <a href="https://github.com/AGIFutureFoundation/Itchathon-tools/blob/main/docs/JUDGING.md">docs/JUDGING.md</a>.</footer>
+</div>
