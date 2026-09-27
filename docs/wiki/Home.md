@@ -14,6 +14,7 @@ Sapient.X is the AGI Future Foundation entry to ITCHATHON (27 Sep 2026): four sm
 - [Architecture](Architecture.md) — one Node process, four modules, one platform layer, one build loop
 - [Agent-Team](Agent-Team.md) — the seven Claude Code subagents and what each owns
 - [Eval-Loop-and-Meta-Prompting](Eval-Loop-and-Meta-Prompting.md) — how prompts are written, scored and gated
+- [Metrics](Metrics.md) — the full evals story in one page, for investors and customers
 
 **Modules**
 - [Module-Returns](Module-Returns.md) — Why Did It Come Back? (Challenge 1, LLM, v2 at 98.3%)

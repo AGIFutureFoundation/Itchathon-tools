@@ -6,6 +6,7 @@
 - [Architecture](Architecture.md)
 - [Agent-Team](Agent-Team.md)
 - [Eval-Loop-and-Meta-Prompting](Eval-Loop-and-Meta-Prompting.md)
+- [Metrics](Metrics.md)
 
 **Modules**
 - [Module-Returns](Module-Returns.md)
