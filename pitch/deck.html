@@ -1,0 +1,280 @@
+<title>Sapient.X Pitch</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0B1220;--surface:#121B2E;--surface-2:#0E1626;--ink:#F3F6F5;--muted:#8DA0B5;--line:#223047;
+  --returns:#FF6B5A;--returns-bg:#3A1E1A;--prep:#FFB020;--prep-bg:#3A2B0E;--ads:#9B6BFF;--ads-bg:#251A3A;--theft:#1FC7B8;--theft-bg:#0E2E2A;
+  --good:#3FD07A;--warn:#F0C47A;
+  --body:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+  --display:'IBM Plex Sans Condensed','Arial Narrow',var(--body);
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);margin:0;height:100%;overflow:hidden;-webkit-tap-highlight-color:transparent}
+html{height:100%}
+.stage{position:fixed;inset:0;display:flex;flex-direction:column;padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)}
+.deck{flex:1;position:relative;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:6vw 7vw;opacity:0;transform:translateX(24px);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto}
+.slide.prev{transform:translateX(-24px)}
+.eyebrow{font-family:var(--mono);font-size:clamp(10px,1.3vw,13px);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 clamp(8px,1.4vw,16px)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,6vw,64px);line-height:1.02;margin:0 0 clamp(10px,1.6vw,18px);letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(24px,4.4vw,44px);line-height:1.05;margin:0 0 clamp(10px,1.6vw,20px);letter-spacing:-.01em;text-wrap:balance}
+p.lead{font-size:clamp(14px,1.7vw,20px);color:var(--ink);max-width:62ch;line-height:1.5;margin:0 0 clamp(10px,1.4vw,18px)}
+p.sub{font-size:clamp(12px,1.3vw,16px);color:var(--muted);max-width:70ch;line-height:1.5}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.4vw,18px);margin-top:clamp(10px,1.6vw,20px)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,28px);align-items:start}
+@media (max-aspect-ratio: 4/3){.grid4{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:clamp(12px,1.6vw,20px);display:grid;gap:6px;position:relative;overflow:hidden}
+.card b.tag{font-family:var(--mono);font-size:clamp(9px,1vw,11px);letter-spacing:.08em;text-transform:uppercase}
+.card .name{font-family:var(--display);font-weight:700;font-size:clamp(15px,1.9vw,22px)}
+.card .desc{font-size:clamp(11px,1.2vw,14px);color:var(--muted);line-height:1.4}
+.card.returns{border-top:3px solid var(--returns)} .card.returns b.tag{color:var(--returns)}
+.card.prep{border-top:3px solid var(--prep)} .card.prep b.tag{color:var(--prep)}
+.card.ads{border-top:3px solid var(--ads)} .card.ads b.tag{color:var(--ads)}
+.card.theft{border-top:3px solid var(--theft)} .card.theft b.tag{color:var(--theft)}
+table{border-collapse:collapse;width:100%;font-size:clamp(10px,1.15vw,14px)}
+th,td{text-align:left;padding:clamp(5px,.8vw,10px) clamp(8px,1vw,14px);border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:clamp(9px,.95vw,11px);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.pill{display:inline-block;font-family:var(--mono);font-size:clamp(9px,1vw,12px);padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.pill.good{color:var(--good);border-color:var(--good)}
+.pill.warn{color:var(--warn);border-color:var(--warn)}
+.pill.bad{color:var(--returns);border-color:var(--returns)}
+.bignum{font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums}
+.stat{display:grid;gap:2px}
+.stat .v{font-size:clamp(28px,5vw,56px);line-height:1}
+.stat .k{font-family:var(--mono);font-size:clamp(10px,1.1vw,13px);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.statrow{display:flex;gap:clamp(20px,4vw,56px);margin-top:clamp(14px,2vw,24px);flex-wrap:wrap}
+.quote{border-left:3px solid var(--muted);padding-left:clamp(10px,1.4vw,18px);font-style:italic;color:var(--ink);font-size:clamp(13px,1.5vw,18px);max-width:60ch}
+.quote cite{display:block;font-style:normal;font-family:var(--mono);font-size:clamp(9px,1vw,11px);color:var(--muted);margin-top:6px}
+.imgcard{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#000}
+.imgcard img{display:block;width:100%;height:auto}
+.chip{font-family:var(--mono);font-size:clamp(9px,1vw,11px);background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:3px 9px;color:var(--muted)}
+.chiprow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.footer-logo{position:absolute;bottom:clamp(14px,2vw,22px);left:7vw;font-family:var(--mono);font-size:clamp(9px,1vw,11px);color:var(--muted);display:flex;align-items:center;gap:8px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--muted)}
+.center{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;height:100%}
+.linklist{display:flex;gap:clamp(8px,1.4vw,14px);flex-wrap:wrap;margin-top:clamp(12px,2vw,22px)}
+a.btn{font-family:var(--mono);font-size:clamp(11px,1.2vw,14px);text-decoration:none;padding:8px 16px;border-radius:8px;border:1px solid var(--line);color:var(--ink);background:var(--surface)}
+a.btn.primary{background:var(--theft);color:#06231F;border-color:var(--theft);font-weight:600}
+/* nav chrome */
+.chrome{display:flex;align-items:center;justify-content:space-between;padding:14px 7vw;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.dots{display:flex;gap:7px}
+.dots button{width:7px;height:7px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0}
+.dots button.on{background:var(--ink);width:20px;border-radius:4px}
+.navbtn{background:var(--surface);border:1px solid var(--line);color:var(--ink);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:grid;place-items:center}
+.navbtn:hover{border-color:var(--muted)}
+.navbtn:focus-visible,.dots button:focus-visible,a.btn:focus-visible{outline:2px solid var(--theft);outline-offset:2px}
+.navpair{display:flex;gap:10px;align-items:center}
+@media (prefers-reduced-motion: reduce){.slide{transition:none}}
+</style>
+
+<div class="stage">
+  <div class="deck" id="deck" tabindex="0" aria-label="Sapient.X pitch deck, use arrow keys or the buttons below to navigate">
+
+    <section class="slide" data-tag="Sapient.X">
+      <div class="center" style="height:100%">
+        <div class="eyebrow">Powered by AGI Corp</div>
+        <h1 style="font-size:clamp(44px,9vw,110px)">Sapient.X</h1>
+        <p class="lead" style="max-width:46ch;color:var(--muted)">Detection is solved. The next step is not.</p>
+        <div class="chiprow" style="justify-content:center;margin-top:22px">
+          <span class="chip">4 modules</span><span class="chip">ITCHATHON 2026</span><span class="chip">MIT licensed</span><span class="chip">v6 served, 91.7% synthetic accuracy</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-tag="The problem">
+      <div class="eyebrow">01 &middot; The problem</div>
+      <h2>Every small business already knows what went wrong</h2>
+      <p class="sub">The camera fires. The dashboard shows the return rate. The ad tool says "winner." The POS has last week's sales. Nobody tells the one person standing there what to do next.</p>
+      <div class="grid4">
+        <div class="card returns"><b class="tag">Returns</b><div class="desc">A seller above 20% returns reads every one by hand, and phones buyers before they order to say which size to keep.</div></div>
+        <div class="card prep"><b class="tag">Prep</b><div class="desc">A shift lead guesses how much to make from memory, every single morning, with no time to check anything else.</div></div>
+        <div class="card ads"><b class="tag">Ads</b><div class="desc">An owner pays an agency and can't tell what it bought, or trusts a "winner" the sample size can't actually support.</div></div>
+        <div class="card theft"><b class="tag">Theft</b><div class="desc">A $10&ndash;20 item walks out with no one in the shop knowing what to do in the ten seconds after the alert.</div></div>
+      </div>
+      <div class="quote" style="margin-top:24px">the "reason" field customers pick at checkout is useless&hellip; neither tells me if it's the product, the photos, or the sizing.<cite>r/AmazonSeller, a seller above 20% returns</cite></div>
+    </section>
+
+    <section class="slide" data-tag="The insight">
+      <div class="eyebrow">02 &middot; The insight</div>
+      <h2>The real competitor is the habit, not the incumbent tool</h2>
+      <p class="lead">Existing tools were built for a business with more volume, more budget or more staff than the one that has the problem.</p>
+      <div class="tablewrap" style="margin-top:8px">
+        <table>
+          <tr><th>Tool class</th><th>Built for</th><th>What the small business lacks</th></tr>
+          <tr><td>Sizing tools (True Fit, Bold Metrics)</td><td>Brand storefronts, ~$1,650/mo entry</td><td>Cannot be installed on a marketplace listing</td></tr>
+          <tr><td>Marketing agencies</td><td>~$3,500/mo, accounts big enough to test</td><td>Enough conversions for a clean A/B test</td></tr>
+          <tr><td>Performance Max</td><td>30&ndash;50+ conversions a month</td><td>The volume that keeps the automation stable</td></tr>
+          <tr><td>AI video analytics</td><td>Multi-staff stores, $8&ndash;35K installed</td><td>A second person to act on the alert</td></tr>
+        </table>
+      </div>
+      <p class="sub" style="margin-top:14px">So each module is scored against the habit it replaces, not against a vendor &mdash; Prep must beat "same weekday last week" or it doesn't ship.</p>
+    </section>
+
+    <section class="slide" data-tag="Product">
+      <div class="eyebrow">03 &middot; Product</div>
+      <h2>One platform, four modules, one action each</h2>
+      <div class="tablewrap">
+        <table>
+          <tr><th>Module</th><th>Signal in</th><th>Action out</th><th>Measured result</th></tr>
+          <tr><td><b style="color:var(--returns)">Returns</b></td><td>Listing, size chart, returns, reviews &mdash; or an ASIN via Apify</td><td>One cause, verbatim evidence, paste-ready fix</td><td class="n">91.7% synth / 66.7% real</td></tr>
+          <tr><td><b style="color:var(--prep)">Prep</b></td><td>POS history, weather, bookings, run-out/waste preference</td><td>One prep number per item, 7am card</td><td class="n">+30.4% vs. habit</td></tr>
+          <tr><td><b style="color:var(--ads)">Ads</b></td><td>Campaign export, goal, budget</td><td>Plain-English read, or honest "no winner yet"</td><td class="n">20/20 stats-honest</td></tr>
+          <tr><td><b style="color:var(--theft)">Theft</b></td><td>Camera/Veesion alert, staff count, item value</td><td>A script, a timer, no confrontation</td><td class="n">rules only, tested</td></tr>
+        </table>
+      </div>
+      <p class="sub" style="margin-top:14px">Every response is redacted before the model, guarded after, audited with its prompt version, and gated by evals before an owner ever sees it.</p>
+    </section>
+
+    <section class="slide" data-tag="How it's built">
+      <div class="eyebrow">04 &middot; How it's built</div>
+      <h2>No product prompt was written by hand</h2>
+      <div class="grid2">
+        <div>
+          <p class="lead">A meta-prompt writes every version. A team of seven agents builds, tests, and scores it. It ships only when it beats the version it replaces &mdash; on real data, not just a clean test set.</p>
+          <div class="chiprow">
+            <span class="chip">lead</span><span class="chip">meta-prompter</span><span class="chip">builder</span><span class="chip">data-synth</span><span class="chip">eval-runner</span><span class="chip">judge</span><span class="chip">persona-ben</span>
+          </div>
+        </div>
+        <div class="imgcard"><img id="img-arch" alt="Meta-prompt loop: writes a prompt, evals score it, a gate decides serve or feed back" src="/_blob/48ea742fe45809cda1645eb54a098665"></div>
+      </div>
+    </section>
+
+    <section class="slide" data-tag="Evidence">
+      <div class="eyebrow">05 &middot; Evidence, reported honestly</div>
+      <h2>Six prompt versions. Three were rejected on purpose.</h2>
+      <div class="grid2">
+        <div class="imgcard"><img id="img-gap" alt="Synthetic vs real-30 accuracy across v2, v3, v4" src="/_blob/2dfb38fe44b288e698302266db609371"></div>
+        <div>
+          <p class="sub">v4 regressed on real data. v5 broke evidence grounding. v6 failed once on a single malformed-JSON output &mdash; which turned out to be a bug in our own eval runner, not the prompt. Fixing that bug let the exact same v6 prompt pass cleanly.</p>
+          <div class="statrow">
+            <div class="stat"><div class="bignum v" style="color:var(--good)">66.7%</div><div class="k">v6 real accuracy</div></div>
+            <div class="stat"><div class="bignum v" style="color:var(--muted)">56.7%</div><div class="k">v3 real accuracy</div></div>
+            <div class="stat"><div class="bignum v" style="color:var(--muted)">40%</div><div class="k">real-world gap, v1</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-tag="Judging criteria">
+      <div class="eyebrow">06 &middot; Self-scored against your rubric</div>
+      <h2>We didn't give ourselves a 5 everywhere</h2>
+      <div class="grid4" style="grid-template-columns:repeat(3,1fr)">
+        <div class="card returns"><b class="tag">Pain fit</b><div class="stat"><div class="bignum v" style="font-size:36px">5<span style="color:var(--muted);font-size:20px">/5</span></div></div><div class="desc">A weekly pain, removed, not just touched. Reading returns, guessing prep, trusting a "winner", freezing after an alert.</div></div>
+        <div class="card prep"><b class="tag">Ease of adoption</b><div class="stat"><div class="bignum v" style="font-size:36px">4<span style="color:var(--muted);font-size:20px">/5</span></div></div><div class="desc">Paste a file you already have, result in seconds. No hosted sign-up yet &mdash; the honest gap.</div></div>
+        <div class="card ads"><b class="tag">Cost &amp; ROI</b><div class="stat"><div class="bignum v" style="font-size:36px">4<span style="color:var(--muted);font-size:20px">/5</span></div></div><div class="desc">Priced under incumbents by an order of magnitude, with the saving shown live &mdash; not yet pilot-verified in dollars.</div></div>
+      </div>
+      <p class="sub" style="margin-top:18px">Full self-scoring with cited evidence: <span class="chip">docs/JUDGING.md</span></p>
+    </section>
+
+    <section class="slide" data-tag="Go-to-market">
+      <div class="eyebrow">07 &middot; Go-to-market</div>
+      <h2>Priced to undercut the incumbents by an order of magnitude</h2>
+      <div class="tablewrap">
+        <table>
+          <tr><th>Module</th><th>Price hypothesis</th><th>Replaces</th><th>Named saving</th></tr>
+          <tr><td>Returns</td><td class="n">$49/mo</td><td>Sizing tools, ~$1,650/mo</td><td>Avoids the returns-processing fee and badge conversion hit</td></tr>
+          <tr><td>Ads</td><td class="n">$39/mo</td><td>Agency retainer, ~$3,500/mo</td><td>Caught $640/mo burning on a zero-lead campaign, live</td></tr>
+          <tr><td>Prep</td><td class="n">$29/mo</td><td>Guesswork</td><td>+30.4% pinball-loss improvement</td></tr>
+          <tr><td>Theft</td><td class="n">$29/mo</td><td>Nothing, today</td><td>Deterrence on repeated small losses</td></tr>
+        </table>
+      </div>
+      <p class="sub" style="margin-top:14px"><span class="pill warn">hypothesis</span>&nbsp; pricing is stated, not yet pilot-validated &mdash; that's what the 90-day pilot is for.</p>
+    </section>
+
+    <section class="slide" data-tag="Roadmap">
+      <div class="eyebrow">08 &middot; Roadmap</div>
+      <h2>What's next, in order</h2>
+      <div class="tablewrap">
+        <table>
+          <tr><th>Step</th><th>What</th></tr>
+          <tr><td class="n">Now</td><td>90-day pilot: 5 marketplace sellers, 3 kitchens &mdash; real cases feed the same eval loop</td></tr>
+          <tr><td class="n">Next</td><td>Close the real-data gap: round 3 ruled out "size chart is an image" as the cause &mdash; the real fix is a general judgment upgrade, not a data-format fix</td></tr>
+          <tr><td class="n">Then</td><td>Hosted onboarding &mdash; OAuth into ad accounts and POS instead of a paste, removing the one adoption gap we scored ourselves down on</td></tr>
+          <tr><td class="n">Later</td><td>Judge-calibration and persona-Ben acceptance added as release gates alongside accuracy and grounding</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="slide" data-tag="Get in touch">
+      <div class="center" style="height:100%">
+        <div class="eyebrow">Powered by AGI Corp</div>
+        <h2>Real pain, removed weekly.<br>A clear price, a clear saving.</h2>
+        <div class="linklist" style="justify-content:center">
+          <a class="btn primary" href="https://github.com/AGIFutureFoundation/Itchathon-tools" target="_blank" rel="noopener">View the repo</a>
+          <a class="btn" href="https://github.com/AGIFutureFoundation/Itchathon-tools/wiki" target="_blank" rel="noopener">Read the wiki</a>
+          <a class="btn" href="https://github.com/AGIFutureFoundation/Itchathon-tools/blob/main/docs/JUDGING.md" target="_blank" rel="noopener">Judging self-score</a>
+        </div>
+        <p class="sub" style="margin-top:18px">github.com/AGIFutureFoundation/Itchathon-tools &middot; MIT licence</p>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="chrome">
+    <div class="navpair"><button class="navbtn" id="prev" aria-label="Previous slide">&larr;</button><span id="tagname" style="min-width:9ch">Sapient.X</span></div>
+    <div class="dots" id="dots" role="tablist" aria-label="Slides"></div>
+    <div class="navpair"><span id="counter">1 / 10</span><button class="navbtn" id="next" aria-label="Next slide">&rarr;</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dotsEl = document.getElementById('dots');
+  var counterEl = document.getElementById('counter');
+  var tagEl = document.getElementById('tagname');
+  var i = 0;
+  slides.forEach(function(s, idx){
+    var b = document.createElement('button');
+    b.setAttribute('role','tab');
+    b.setAttribute('aria-label','Go to slide ' + (idx+1));
+    b.addEventListener('click', function(){ go(idx); });
+    dotsEl.appendChild(b);
+  });
+  function render(){
+    slides.forEach(function(s, idx){
+      s.classList.toggle('active', idx === i);
+      s.classList.toggle('prev', idx < i);
+    });
+    Array.prototype.forEach.call(dotsEl.children, function(d, idx){ d.classList.toggle('on', idx === i); });
+    counterEl.textContent = (i+1) + ' / ' + slides.length;
+    tagEl.textContent = slides[i].getAttribute('data-tag') || '';
+    try { localStorage.setItem('sapientx-deck-slide', String(i)); } catch(e){}
+  }
+  function go(n){ i = Math.max(0, Math.min(slides.length - 1, n)); render(); }
+  document.getElementById('prev').addEventListener('click', function(){ go(i-1); });
+  document.getElementById('next').addEventListener('click', function(){ go(i+1); });
+  document.getElementById('deck').addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ') { go(i+1); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft') { go(i-1); e.preventDefault(); }
+    else if (e.key === 'Home') { go(0); }
+    else if (e.key === 'End') { go(slides.length-1); }
+  });
+  window.addEventListener('keydown', function(e){
+    if (document.activeElement === document.body) {
+      if (e.key === 'ArrowRight' || e.key === ' ') { go(i+1); }
+      else if (e.key === 'ArrowLeft') { go(i-1); }
+    }
+  });
+  var touchX = null;
+  var deckEl = document.getElementById('deck');
+  deckEl.addEventListener('touchstart', function(e){ touchX = e.touches[0].clientX; }, {passive:true});
+  deckEl.addEventListener('touchend', function(e){
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) { go(dx < 0 ? i+1 : i-1); }
+    touchX = null;
+  }, {passive:true});
+  try {
+    var saved = parseInt(localStorage.getItem('sapientx-deck-slide'), 10);
+    if (!isNaN(saved)) i = Math.max(0, Math.min(slides.length-1, saved));
+  } catch(e){}
+  render();
+  deckEl.focus();
+})();
+</script>
