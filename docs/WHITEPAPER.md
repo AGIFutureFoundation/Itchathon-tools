@@ -63,23 +63,23 @@ One Node process, no framework, no npm dependencies. Four modules behind one pla
 
 | Module | Signal in | Action out | Measured result | Model? |
 |---|---|---|---|---|
-| Why Did It Come Back? (Ch. 1) | Listing, size chart, returns with reason codes and comments, reviews, messages; or an ASIN via Apify | One cause, verbatim quotes checked by code, paste-ready fix, keep-size message | 98.3% cause accuracy on 60 cases; 100% on the hard 20; 15.1 s mean latency | Yes, gated |
-| Today's Prep (Ch. 4) | POS history, run-out/neutral/waste preference, bookings, events, weather | One prep number per item with a range and a one-sentence reason; optional 7am card | Pinball loss 2.88 vs 4.14 for the habit: +30.4% | No (pure math) |
-| Ads Plain Read (Ch. 2) | Campaign export, goal, budget | Plain-English read; one to three changes; `test_is_valid` from a real z-test the model cannot flip | 20/20 stats honesty; 135/0 vs 122/2 = "no winner yet" | Yes, contract enforced |
-| Ten Seconds After (Ch. 3) | Alert: zone, item value, staff on floor, repeat visitor | Primary and secondary action, customer-service script, channel, ten-second timer; monthly "move that shelf?" table | Rules table; same alert, same answer, under a second | No |
+| Why Did It Come Back? (Ch. 1) | Listing, size chart, returns with comments, reviews, messages; or an ASIN via Apify | One cause, verbatim quotes checked by code, paste-ready fix, keep-size message | 98.3% cause accuracy on 60 cases; 100% on the hard 20; 15.1 s | Yes, gated |
+| Today's Prep (Ch. 4) | POS history, run-out/neutral/waste preference, bookings, events, weather | One prep number per item with a range and a reason; optional 7am card | Pinball loss 2.88 vs 4.14 for the habit: +30.4% | No |
+| Ads Plain Read (Ch. 2) | Campaign export, goal, budget | Plain-English read; one to three changes; `test_is_valid` from a z-test the model cannot flip | 20/20 stats honesty; 135/0 vs 122/2 = "no winner yet" | Yes, contract enforced |
+| Ten Seconds After (Ch. 3) | Alert: zone, item value, staff on floor, repeat visitor | Primary and secondary action, script, channel, ten-second timer; monthly "move that shelf?" table | Rules table; same alert, same answer, under a second | No |
 
-Theft is deliberately model-free. The answer must arrive in under a second, be identical every time, and never contain a sentence a lawyer would not sign. Every response carries the same four lines: do not confront or accuse, do not chase, do not touch, do not block the exit.
+Theft is deliberately model-free: the answer must arrive in under a second, be identical every time, and never contain a sentence a lawyer would not sign. Every response carries the same four lines: do not confront or accuse, do not chase, do not touch, do not block the exit.
 
 ## 6. How it is built
 
 No product prompt in the repository was written by hand.
 
-1. **Meta-prompt.** `prompts/meta/master.md` is filled with the brief, the habit to beat, the input and output contracts, the compliance clause and the last failure report. It writes `prompts/<module>/vN.md`.
-2. **Agent team.** Seven Claude Code subagents: lead (runs the loop, go/no-go), meta-prompter (the only agent allowed to write product prompts), builder, data-synth (60 labelled cases, 20 deliberately noisy), eval-runner, judge, and persona-ben, the owner who reads the output and says yes or no.
-3. **Eval gate.** `evals/run.py` replays every case through the new prompt and scores deterministic checks only. Returns gate: cause accuracy ≥ 0.80, grounded ≥ 0.95, low-data honesty ≥ 0.99. A failing version produces a failure report; that report is the only input that changes the next version.
-4. **Release.** The server loads only the newest version, committed only when it beats the previous one on the same cases. Every response carries `_meta.prompt_source`, the model and the latency.
+1. **Meta-prompt.** `prompts/meta/master.md` takes the brief, the habit to beat, the input and output contracts, the compliance clause and the last failure report, and writes `prompts/<module>/vN.md`.
+2. **Agent team.** Seven Claude Code subagents: lead (go/no-go), meta-prompter (the only agent allowed to write product prompts), builder, data-synth (60 labelled cases, 20 deliberately noisy), eval-runner, judge, and persona-ben, the owner who reads the output and says yes or no.
+3. **Eval gate.** `evals/run.py` replays every case through the new prompt and scores deterministic checks only. Returns gate: cause accuracy ≥ 0.80, grounded ≥ 0.95, low-data honesty ≥ 0.99. A failing version produces a failure report, the only input that changes the next version.
+4. **Release.** The server loads only the newest version, committed only when it beats the previous one. Every response carries `_meta.prompt_source`, the model and the latency.
 
-Before any model output reaches an owner, code checks it: JSON shape, allowed enum values, and that every evidence quote is a character-for-character substring of the input. If the check fails the owner sees an error, not a plausible guess. Each prompt file carries a header with its version, parent, the failures it fixes, and the model that wrote it.
+Before any model output reaches an owner, code checks JSON shape, allowed enum values, and that every evidence quote is a character-for-character substring of the input. If the check fails the owner sees an error, not a plausible guess. Each prompt file has a header with version, parent, the failures it fixes, and the model that wrote it.
 
 ## 7. Evidence
 
@@ -108,9 +108,9 @@ v1 confused garment with size_chart (4 of 12 garment cases) and expectation with
 
 The data agent pulled 54 critical Amazon reviews for 7 products through Apify (about $0.42) and built 10 cases. On the free tier the scraper returned no bullet points and no size chart for any product, so every case has a title, sometimes a description, and `size_chart: null`.
 
-v2 scored **4/10 (40%)**. Grounding stayed at 100% and every output parsed. The misses were garment ↔ size_chart and expectation → size_chart: with no chart present, the rule "chart is null with two or more fit complaints" fires too readily, and complaints about thin fabric get read as fit. Mean latency rose to 48.9 s on the longer reviews.
+v2 scored **4/10 (40%)**. Grounding stayed at 100% and every output parsed. The misses were garment ↔ size_chart and expectation → size_chart: with no chart present, the rule "chart is null with two or more fit complaints" fires too readily, and complaints about thin fabric get read as fit. Mean latency rose to 48.9 s.
 
-Next loop: `v2_real.failures.md` becomes the input to `generate.py`. v3 must weigh review text over chart signals, treat a missing chart as a weaker cue when the listing has no structured data at all, and keep the two `not_enough_data` cases honest. The synthetic score stays the release gate; the real score is reported beside it for every version so the two cannot be confused.
+Next loop: `v2_real.failures.md` becomes the input to `generate.py`. v3 must weigh review text over chart signals, treat a missing chart as a weaker cue when the listing has no structured data at all, and keep the two `not_enough_data` cases honest. The synthetic score stays the release gate; the real score is reported beside it for every version.
 
 ### 7.5 Platform
 
@@ -157,9 +157,9 @@ From the repository's roadmap; nothing here has a date.
 
 - **90-day pilots** with real owners, their cases driving the loop.
 - **Real-data loops.** v3 for returns from `v2_real.failures.md`; synthetic and real scores reported side by side.
-- **Marketplace and platform integrations.** ASIN-only input via Apify; a POS export importer; Google Ads and Meta connections with read-only, encrypted OAuth tokens; a camera-vendor webhook into `/api/theft/alert`.
+- **Marketplace and platform integrations.** ASIN-only input via Apify; a POS importer; Google Ads and Meta connections with read-only, encrypted OAuth tokens; a camera-vendor webhook into `/api/theft/alert`.
 - **Gate hardening.** Judge calibration (within one point on ≥ 12 of 15 hand-scored outputs) and the persona-Ben yes-rate added to the gate; the ads prompt routed through the same redact, guard and generate path as returns.
-- **Platform.** Tenants from a table; hash-chained audit lines; DSAR tooling; zero-data-retention with the model provider.
+- **Platform.** Tenants from a table; hash-chained audit lines; DSAR tooling.
 
 Not planned: any detector, any biometrics, any cross-tenant pooling, any hand-edited prompt.
 
@@ -167,7 +167,7 @@ Not planned: any detector, any biometrics, any cross-tenant pooling, any hand-ed
 
 - **Synthetic-to-real gap.** 98.3% synthetic, 40% on ten real cases with no size charts and labels from one agent. The number will move; the direction is the point of the next loop.
 - **Prep is backtested on synthetic POS data.** A real feed may behave differently.
-- **Model dependence.** Latency (15.1 s synthetic, 48.9 s on long real reviews) and output format depend on the provider. Prep and ads fall back to templates; returns fails closed.
+- **Model dependence.** Latency (15.1 s synthetic, 48.9 s on real reviews) and output format depend on the provider. Prep and ads fall back to templates; returns fails closed.
 - **Marketplace terms.** The ASIN path via a scraper needs a terms review before production.
 - **Theft liability.** The module never tells staff to intervene, but signage, lawful basis and training remain the store's.
 - **One build, one hour.** Tests and demo have run. Production has not.
@@ -180,15 +180,7 @@ Contact: open an issue at https://github.com/AGIFutureFoundation/Itchathon-tools
 
 ## Appendix A. Eval methodology
 
-`evals/run.py` sends each case to `claude -p` with the prompt under test, `--disallowedTools '*'` and `--max-turns 1`, extracts the first complete JSON object, and scores:
-
-| Check | How |
-|---|---|
-| `cause_ok` | `parsed.cause == expected.cause` |
-| `grounded` | every `evidence` string is a non-empty exact substring of the JSON of the inputs |
-| `low_data_ok` | cases with < 3 returns and expected `not_enough_data` must say so |
-| `has_fix` | `fix.paste_ready` non-empty, or cause is `not_enough_data` |
-| `hard_subset_accuracy` | `cause_ok` over ids ≥ c41 |
+`evals/run.py` sends each case to `claude -p` with the prompt under test (`--disallowedTools '*'`, `--max-turns 1`), extracts the first complete JSON object, and scores: `cause_ok` (cause matches the label), `grounded` (every evidence string is an exact substring of the inputs), `low_data_ok` (cases with under 3 returns say `not_enough_data`), `has_fix` (`paste_ready` non-empty), and `hard_subset_accuracy` (ids ≥ c41).
 
 Case mix (60): photos 12, size_chart 12, garment 12, expectation 10, fulfilment 8, not_enough_data 6. Real cases (10): garment 3, expectation 3, not_enough_data 2, size_chart 1, fulfilment 1. Prep: pinball loss at tau 0.65 and 0.5 versus same-weekday-last-week, Node/Python parity required. Ads: 100% agreement on `test_is_valid`; a verdict starting "winner" never appears when it is false.
 
