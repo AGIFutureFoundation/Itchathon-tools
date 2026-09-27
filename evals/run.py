@@ -45,20 +45,46 @@ def extract_json(text):
         return None
 
 
-def call(system_prompt, case):
-    inputs = {k: case[k] for k in ("sku", "listing", "returns", "reviews", "messages")}
+MAX_PARSE_RETRIES = int(os.environ.get("EVAL_PARSE_RETRIES", "2"))
+RETRY_NUDGE = ("\n\nIMPORTANT: your last response could not be parsed as JSON. "
+               "Return ONLY one syntactically valid JSON object, exactly the contract above, "
+               "with no stray characters before or after it.")
+
+
+def _one_call(system_prompt, inputs):
     cmd = ["claude", "-p", "--model", MODEL, "--output-format", "json",
            "--system-prompt", system_prompt, "--disallowedTools", "*",
            "--exclude-dynamic-system-prompt-sections", "--max-turns", "1"]
+    p = subprocess.run(cmd, input=json.dumps(inputs), capture_output=True, text=True, timeout=240)
+    out = json.loads(p.stdout)
+    return out.get("result", "")
+
+
+def call(system_prompt, case):
+    # A malformed-JSON output is often transient model noise on an otherwise-correct
+    # judgment (e.g. the model said the right cause but a stray brace broke the parser).
+    # Retry the call itself (not just re-parse the same text) up to MAX_PARSE_RETRIES times,
+    # nudging the model to fix its own formatting, before counting it as unparsed.
+    inputs = {k: case[k] for k in ("sku", "listing", "returns", "reviews", "messages")}
     t0 = time.time()
-    try:
-        p = subprocess.run(cmd, input=json.dumps(inputs), capture_output=True, text=True, timeout=240)
-        out = json.loads(p.stdout)
-        result_text = out.get("result", "")
-    except Exception as e:  # timeout / bad json
-        return {"id": case["id"], "error": str(e)[:200], "latency": time.time() - t0}
-    parsed = extract_json(result_text)
-    return {"id": case["id"], "raw": result_text, "parsed": parsed, "latency": round(time.time() - t0, 1)}
+    attempts = []
+    prompt = system_prompt
+    for attempt in range(MAX_PARSE_RETRIES + 1):
+        try:
+            result_text = _one_call(prompt, inputs)
+        except Exception as e:  # timeout / bad CLI json
+            return {"id": case["id"], "error": str(e)[:200], "latency": time.time() - t0,
+                     "parse_retries_used": attempt}
+        parsed = extract_json(result_text)
+        attempts.append(result_text)
+        if parsed is not None:
+            return {"id": case["id"], "raw": result_text, "parsed": parsed,
+                     "latency": round(time.time() - t0, 1), "parse_retries_used": attempt}
+        prompt = system_prompt + RETRY_NUDGE
+    # exhausted retries: report the LAST attempt's raw text (most informative for failures.md)
+    return {"id": case["id"], "raw": attempts[-1], "parsed": None,
+             "latency": round(time.time() - t0, 1), "parse_retries_used": MAX_PARSE_RETRIES,
+             "all_attempts": attempts}
 
 
 def score(case, r):
@@ -116,6 +142,8 @@ def main():
         "owner_line_rate": round(sum(s["has_owner_line"] for s in scores) / n, 3),
         "mean_latency_s": round(sum((s["latency"] or 0) for s in scores) / n, 1),
         "hard_subset_accuracy": round(sum(s["cause_ok"] for s in scores if s["id"] >= "c41") / max(1, sum(1 for s in scores if s["id"] >= "c41")), 3),
+        "cases_needing_parse_retry": sum(1 for r in raws if r.get("parse_retries_used", 0) > 0),
+        "cases_unparsed_after_retries": sum(1 for r in raws if r.get("parsed") is None and "error" not in r),
     }
     agg["gate_met"] = agg["cause_accuracy"] >= 0.80 and agg["grounded_rate"] >= 0.95 and agg["low_data_ok_rate"] >= 0.99
     # confusion
