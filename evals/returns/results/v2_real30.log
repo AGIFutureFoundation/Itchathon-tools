@@ -1,0 +1,16 @@
+v2: 30 cases, model sonnet, 6 workers
+{
+ "version": "v2",
+ "model": "sonnet",
+ "n": 30,
+ "cause_accuracy": 0.1,
+ "parsed_rate": 0.9,
+ "grounded_rate": 0.767,
+ "low_data_ok_rate": 0.0,
+ "fix_rate": 0.9,
+ "owner_line_rate": 0.867,
+ "mean_latency_s": 31.1,
+ "hard_subset_accuracy": 0.1,
+ "gate_met": false
+}
+confusion: {"garment": {"garment": 2, "size_chart": 9, "photos": 1}, "not_enough_data": {"fulfilment": 1, "size_chart": 3}, "size_chart": {"None": 2, "garment": 1}, "expectation": {"size_chart": 4, "garment": 1, "None": 1, "photos": 2, "expectation": 1}, "fulfilment": {"garment": 1, "size_chart": 1}}
