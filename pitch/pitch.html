@@ -62,7 +62,7 @@ a{color:var(--accent)}
     <div class="eyebrow">ITCHATHON · Challenge 1 · Size bracketing eats the margin</div>
     <h1>Why Did It Come Back?</h1>
     <p class="lead">Paste a listing and its returns. Get one cause per SKU, the buyer's own words as proof, and a fix you can paste into the listing today. Built for a seller who reads returns alone, one ASIN at a time.</p>
-    <div><span class="pill on">Build hour 1 of 1</span> <span class="pill" id="checkpoint">Checkpoint 3 · 0:45</span> <span class="pill good">4 modules live · demo video cut</span></div>
+    <div><span class="pill on">Build hour 1 of 1</span> <span class="pill" id="checkpoint">Checkpoint 4 · Final</span> <span class="pill good">Live on GitHub · real-data tested · v3 served</span></div>
   </header>
 
   <div class="grid">
@@ -90,7 +90,7 @@ a{color:var(--accent)}
         <p>The brief's own conclusion: detection is solved, the next step is not. The camera found the thief, the dashboard shows the return rate, the POS has a forecast, and the owner still does not know what to do at 7am, alone. Every module below takes a signal the business already has and returns one action, and every module is gated by the same eval loop.</p>
         <div class="tbl"><table>
           <tr><th>Module</th><th>Signal in</th><th>Action out</th><th>Gate</th><th>Status</th></tr>
-          <tr><td>Why Did It Come Back? (Ch. 1)</td><td>Listing + returns + reviews, or an ASIN via Apify</td><td>Cause, proof, paste-ready fix, keep-size message</td><td>≥80% cause accuracy</td><td><span class="pill good">v2 passed</span></td></tr>
+          <tr><td>Why Did It Come Back? (Ch. 1)</td><td>Listing + returns + reviews, or an ASIN via Apify</td><td>Cause, proof, paste-ready fix, keep-size message</td><td>≥80% cause accuracy</td><td><span class="pill good">v3 served: 90% synth / 56.7% real</span></td></tr>
           <tr><td>Today's Prep (Ch. 4)</td><td>POS history, weekday, weather, bookings, run-out vs waste preference</td><td>One number per item, 7am card</td><td>Beats same-day-last-week by ≥15% (pinball loss)</td><td><span class="pill good">+30.4%, passed</span></td></tr>
           <tr><td>Ads Plain Read (Ch. 2)</td><td>Campaign export, goal, budget</td><td>What is happening, what to change next, honest "no winner yet"</td><td>100% stats honesty on low-n tests</td><td><span class="pill good">20/20, passed</span></td></tr>
           <tr><td>Ten Seconds After (Ch. 3)</td><td>Camera or Veesion alert, staff count, item value</td><td>A non-confrontational script, channel, timing; shelf hardening</td><td>Never recommends confrontation (rules, no LLM)</td><td><span class="pill good">built, tested</span></td></tr>
@@ -156,7 +156,13 @@ a{color:var(--accent)}
           <tr><td>v1 (meta-prompt, no failures yet)</td><td class="n">78.3%</td><td class="n">85%</td><td class="n">88%</td><td class="n">83%</td><td class="n">25.0s</td></tr>
           <tr><td>v2 (v1 failure report fed back)</td><td class="n">98.3%</td><td class="n">100%</td><td class="n">95%</td><td class="n">100%</td><td class="n">15.1s</td></tr>
         </table></div>
-        <p style="font-size:13px;color:var(--muted)">60 cases, Sonnet 5, prompts written by Opus 5 from the master meta-prompt. v1's confusion was garment↔size_chart; the failure report fixed it in one loop. Remaining misses: 1 malformed JSON, 2 lightly paraphrased quotes.</p>
+        <p style="font-size:13px;color:var(--muted)">60 cases, Sonnet 5, prompts written by Opus 5 from the master meta-prompt. v1's confusion was garment↔size_chart; the failure report fixed it in one loop.</p>
+        <div class="tbl"><table>
+          <tr><th>Real-data check</th><th>Cases</th><th>v2</th><th>v3</th><th>v4 (archived)</th></tr>
+          <tr><td>Cause accuracy on real Amazon reviews via Apify</td><td class="n">30</td><td class="n">10%</td><td class="n">56.7%</td><td class="n">46.7%</td></tr>
+          <tr><td>Evidence grounded</td><td class="n">30</td><td class="n">76.7%</td><td class="n">83.3%</td><td class="n">96.7%</td></tr>
+        </table></div>
+        <p style="font-size:13px;color:var(--muted)">v4 improved grounding and JSON parsing but regressed real-world accuracy, so v3 stays served — a synthetic-gate pass alone doesn't earn a release. Real cases (~$2 spent via Apify) are reported beside synthetic scores, not hidden.</p>
       </section>
 
       <section class="card">
